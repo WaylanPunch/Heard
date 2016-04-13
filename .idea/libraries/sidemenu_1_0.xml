@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="sidemenu-1.0">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.yalantis/sidemenu/1.0/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.yalantis/sidemenu/1.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.yalantis/sidemenu/1.0/3365fd6f9025fee945c16ace82e635081ff4da54/sidemenu-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
