@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 
+import com.way.heard.utils.LogUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +28,16 @@ import yalantis.com.sidemenu.model.SlideMenuItem;
 import yalantis.com.sidemenu.util.ViewAnimator;
 
 public class MainActivity extends ActionBarActivity {
+    private final static String TAG = MainActivity.class.getName();
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
     private HomeFragment homeFragment;
+    private FindFragment findFragment;
+    private ContactFragment contactFragment;
     private ViewAnimator viewAnimator;
-    private int res = R.drawable.content_music;
+    //private int res = R.drawable.content_music;
     private LinearLayout linearLayout;
     ViewAnimator.ViewAnimatorListener viewAnimatorListener;
 
@@ -49,18 +54,19 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-
     private void setContentFragment() {
-        homeFragment = HomeFragment.newInstance(R.drawable.content_music);
+        LogUtil.d(TAG, "setContentFragment debug");
+        homeFragment = HomeFragment.newInstance(1);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, homeFragment)
+                .replace(R.id.main_content_frame, homeFragment)
                 .commit();
     }
 
     private void setDrawerLayout() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        LogUtil.d(TAG, "setDrawerLayout debug");
+        drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
-        linearLayout = (LinearLayout) findViewById(R.id.left_drawer);
+        linearLayout = (LinearLayout) findViewById(R.id.main_left_drawer);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +76,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        LogUtil.d(TAG, "setToolBar debug");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         //toolbar.setNavigationIcon(R.drawable.ic_menu_home);
         setSupportActionBar(toolbar);
@@ -107,33 +114,46 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setMenuList() {
-        SlideMenuItem menuItem0 = new SlideMenuItem(HomeFragment.CLOSE, R.drawable.icn_close);
-        list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(HomeFragment.BUILDING, R.drawable.icn_1);
-        list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(HomeFragment.BOOK, R.drawable.icn_2);
-        list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(HomeFragment.PAINT, R.drawable.icn_3);
-        list.add(menuItem3);
+        LogUtil.d(TAG, "setMenuList debug");
+        SlideMenuItem menuItemClose = new SlideMenuItem(HomeFragment.CLOSE, R.drawable.icn_close);
+        list.add(menuItemClose);
+        SlideMenuItem menuItemHome = new SlideMenuItem(HomeFragment.HOME, R.drawable.icn_1);
+        list.add(menuItemHome);
+        SlideMenuItem menuItemFind = new SlideMenuItem(FindFragment.FIND, R.drawable.icn_2);
+        list.add(menuItemFind);
+        SlideMenuItem menuItemContact = new SlideMenuItem(ContactFragment.CONTACT, R.drawable.icn_3);
+        list.add(menuItemContact);
         SlideMenuItem menuItem4 = new SlideMenuItem(HomeFragment.CASE, R.drawable.icn_4);
         list.add(menuItem4);
         SlideMenuItem menuItem5 = new SlideMenuItem(HomeFragment.SHOP, R.drawable.icn_5);
         list.add(menuItem5);
         SlideMenuItem menuItem6 = new SlideMenuItem(HomeFragment.PARTY, R.drawable.icn_6);
         list.add(menuItem6);
-        SlideMenuItem menuItem7 = new SlideMenuItem(HomeFragment.MOVIE, R.drawable.icn_7);
-        list.add(menuItem7);
+        //SlideMenuItem menuItem7 = new SlideMenuItem(HomeFragment.MOVIE, R.drawable.icn_7);
+        //list.add(menuItem7);
     }
 
     private void setViewAnimator() {
+        LogUtil.d(TAG, "setViewAnimator debug");
         viewAnimatorListener = new ViewAnimator.ViewAnimatorListener() {
             @Override
             public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
                 switch (slideMenuItem.getName()) {
                     case HomeFragment.CLOSE:
+                        LogUtil.d(TAG, "setViewAnimator debug, CLOSE, Index = 0");
                         return screenShotable;
+                    case HomeFragment.HOME:
+                        LogUtil.d(TAG, "setViewAnimator debug, HOME, Index = 1");
+                        return replaceFragment(screenShotable, 1, position);
+                    case FindFragment.FIND:
+                        LogUtil.d(TAG, "setViewAnimator debug, FIND, Index = 2");
+                        return replaceFragment(screenShotable, 2, position);
+                    case ContactFragment.CONTACT:
+                        LogUtil.d(TAG, "setViewAnimator debug, CONTACT, Index = 3");
+                        return replaceFragment(screenShotable, 3, position);
                     default:
-                        return replaceFragment(screenShotable, position);
+                        LogUtil.d(TAG, "setViewAnimator debug, HOME, Index = 1");
+                        return replaceFragment(screenShotable, 1, position);
                 }
             }
 
@@ -158,24 +178,57 @@ public class MainActivity extends ActionBarActivity {
         viewAnimator = new ViewAnimator<>(this, list, homeFragment, drawerLayout, viewAnimatorListener);
     }
 
-    private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
-        this.res = this.res == R.drawable.content_music ? R.drawable.content_films : R.drawable.content_music;
-        View view = findViewById(R.id.content_frame);
+    private ScreenShotable replaceFragment(ScreenShotable screenShotable, int index, int topPosition) {
+        if(index == 0) {
+            return screenShotable;
+        }
+        //this.res = this.res == R.drawable.content_music ? R.drawable.content_films : R.drawable.content_music;
+
+        if(index == 1){
+            LogUtil.d(TAG, "replaceFragment debug, HOME, Index = " + index);
+            if(homeFragment == null) {
+                homeFragment = HomeFragment.newInstance(1);
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_content_frame, homeFragment).commit();
+            screenShotable = homeFragment;
+        }else if(index == 2){
+            LogUtil.d(TAG, "replaceFragment debug, FIND, Index = " + index);
+            if(findFragment == null) {
+                findFragment = FindFragment.newInstance(2);
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_content_frame, findFragment).commit();
+            screenShotable = findFragment;
+        }else if(index == 3){
+            LogUtil.d(TAG, "replaceFragment debug, CONTACT, Index = " + index);
+            if(contactFragment == null) {
+                contactFragment = ContactFragment.newInstance(3);
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_content_frame, contactFragment).commit();
+            screenShotable = contactFragment;
+        }
+        else {
+            LogUtil.d(TAG, "replaceFragment debug, HOME, Index = " + index);
+            if(homeFragment == null) {
+                homeFragment = HomeFragment.newInstance(1);
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_content_frame, homeFragment).commit();
+            screenShotable = homeFragment;
+        }
+
+        View view = findViewById(R.id.main_content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
         SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
-
-        findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
+        findViewById(R.id.main_content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
         animator.start();
-        HomeFragment homeFragment = HomeFragment.newInstance(this.res);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, homeFragment).commit();
-        return homeFragment;
+
+        return screenShotable;
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
