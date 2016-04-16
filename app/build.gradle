@@ -30,4 +30,5 @@ dependencies {
     compile 'com.way.waylanlibrary:waylanlibrary:1.0.0'
     compile 'com.yalantis:sidemenu:1.0'
     compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.yalantis:contextmenu:1.0.6'
 }

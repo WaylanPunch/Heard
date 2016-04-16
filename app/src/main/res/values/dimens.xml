@@ -7,4 +7,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_normal_vertical_spacing">8dip</dimen>
+    <dimen name="tool_bar_height">56dip</dimen>
 </resources>

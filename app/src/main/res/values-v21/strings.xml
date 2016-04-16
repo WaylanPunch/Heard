@@ -4,4 +4,5 @@
     <string name="action_notification">Notification</string>
     <string name="action_share">Share</string>
     <string name="action_author">Author</string>
+    <string name="context_menu">Context Menu</string>
 </resources>
