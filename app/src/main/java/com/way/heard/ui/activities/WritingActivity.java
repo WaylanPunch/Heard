@@ -11,23 +11,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.target.ImageViewTarget;
 import com.way.heard.R;
 import com.way.heard.adapters.NineGridImageViewAdapter;
 import com.way.heard.ui.views.NineGridImageView;
 import com.way.heard.ui.views.TagCloudView;
+import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.finalteam.galleryfinal.widget.GFImageView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class WritingActivity extends ActionBarActivity {
@@ -86,7 +83,7 @@ public class WritingActivity extends ActionBarActivity {
         imgUrls.addAll(Arrays.asList(IMG_URL_LIST));
         mAdapter = new NineGridImageViewAdapter<String>() {
             @Override
-            public void onDisplayImage(Context context, final ImageView imageView, String s) {
+            public void onDisplayImage(Context context, final GFImageView imageView, String url) {
                 /*
                 Glide.with(context)
                         .load(s)
@@ -95,7 +92,8 @@ public class WritingActivity extends ActionBarActivity {
                         .crossFade()
                         .into(imageView);
                 */
-                LogUtil.d(TAG, "initData debug, onDisplayImage, Image Url = " + s);
+                LogUtil.d(TAG, "initData debug, onDisplayImage, Image Url = " + url);
+                /*
                 Glide.with(context)
                         .load(s)
                         .placeholder(R.drawable.ic_picture_default)
@@ -120,10 +118,12 @@ public class WritingActivity extends ActionBarActivity {
                                 return (Request) imageView.getTag(R.id.adapter_item_tag_key);
                             }
                         });
+                */
+                GlideImageLoader.displayImageFromUrl(context,url,imageView,R.drawable.ic_picture_default,R.drawable.ic_picture_default);
             }
 
             @Override
-            public ImageView generateImageView(Context context) {
+            public GFImageView generateImageView(Context context) {
                 return super.generateImageView(context);
             }
 

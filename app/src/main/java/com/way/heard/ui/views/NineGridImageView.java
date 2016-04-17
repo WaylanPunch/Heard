@@ -14,6 +14,8 @@ import com.way.heard.adapters.NineGridImageViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.finalteam.galleryfinal.widget.GFImageView;
+
 /**
  * Created by pc on 2016/4/18.
  */
@@ -31,7 +33,7 @@ public class NineGridImageView<T> extends ViewGroup {
     private int mSingleImgSize; // 单张图片时的尺寸
     private int mGridSize;   // 宫格大小,即图片大小
 
-    private List<ImageView> mImageViewList = new ArrayList<>();
+    private List<GFImageView> mImageViewList = new ArrayList<>();
     private List<T> mImgDataList;
 
     private NineGridImageViewAdapter<T> mAdapter;
@@ -85,7 +87,7 @@ public class NineGridImageView<T> extends ViewGroup {
         }
         int childrenCount = mImgDataList.size();
         for (int i = 0; i < childrenCount; i++) {
-            ImageView childrenView = (ImageView) getChildAt(i);
+            GFImageView childrenView = (GFImageView) getChildAt(i);
             if (mAdapter != null) {
                 mAdapter.onDisplayImage(getContext(), childrenView, mImgDataList.get(i));
             }
@@ -123,7 +125,7 @@ public class NineGridImageView<T> extends ViewGroup {
         if (mImgDataList == null) {
             int i = 0;
             while (i < lists.size()) {
-                ImageView iv = getImageView(i);
+                GFImageView iv = getImageView(i);
                 if (iv == null) {
                     return;
                 }
@@ -137,7 +139,7 @@ public class NineGridImageView<T> extends ViewGroup {
                 removeViews(newViewCount, oldViewCount - newViewCount);
             } else if (oldViewCount < newViewCount) {
                 for (int i = oldViewCount; i < newViewCount; i++) {
-                    ImageView iv = getImageView(i);
+                    GFImageView iv = getImageView(i);
                     if (iv == null) {
                         return;
                     }
@@ -155,12 +157,12 @@ public class NineGridImageView<T> extends ViewGroup {
      *
      * @param position 位置
      */
-    private ImageView getImageView(final int position) {
+    private GFImageView getImageView(final int position) {
         if (position < mImageViewList.size()) {
             return mImageViewList.get(position);
         } else {
             if (mAdapter != null) {
-                ImageView imageView = mAdapter.generateImageView(getContext());
+                GFImageView imageView = mAdapter.generateImageView(getContext());
                 mImageViewList.add(imageView);
                 imageView.setOnClickListener(new OnClickListener() {
                     @Override
