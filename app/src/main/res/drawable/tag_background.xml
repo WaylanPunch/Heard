@@ -14,5 +14,10 @@
             <solid android:color="@color/colorHintText" />
         </shape>
     </item>
-
+    <item android:state_focused="true">
+        <shape>
+            <corners android:radius="100dip"/>
+            <solid android:color="@color/colorAccent" />
+        </shape>
+    </item>
 </selector>

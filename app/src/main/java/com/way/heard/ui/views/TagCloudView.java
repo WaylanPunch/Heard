@@ -27,6 +27,7 @@ public class TagCloudView extends ViewGroup {
 
     private LayoutInflater mInflater;
     private OnTagClickListener onTagClickListener;
+    private OnTagLongClickListener onTagLongClickListener;
 
     private int sizeWidth;
     private int sizeHeight;
@@ -202,6 +203,15 @@ public class TagCloudView extends ViewGroup {
                     }
                 }
             });
+            endText.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if(onTagLongClickListener != null){
+                        return onTagLongClickListener.onTagLongClick(-1);
+                    }
+                    return false;
+                }
+            });
         }
     }
 
@@ -338,7 +348,7 @@ public class TagCloudView extends ViewGroup {
         this.removeAllViews();
         if (tags != null && tags.size() > 0) {
             for (int i = 0; i < tags.size(); i++) {
-                TextView tagView = (TextView) mInflater.inflate(mTagResId, null);
+                final TextView tagView = (TextView) mInflater.inflate(mTagResId, null);
                 if (mTagResId == DEFAULT_TAG_RESID) {
                     tagView.setBackgroundResource(mBackground);
                     tagView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTagSize);
@@ -355,6 +365,15 @@ public class TagCloudView extends ViewGroup {
                         if (onTagClickListener != null) {
                             onTagClickListener.onTagClick(finalI);
                         }
+                    }
+                });
+                tagView.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if(onTagLongClickListener != null){
+                            return onTagLongClickListener.onTagLongClick(finalI);
+                        }
+                        return false;
                     }
                 });
                 addView(tagView);
@@ -384,7 +403,15 @@ public class TagCloudView extends ViewGroup {
         this.onTagClickListener = onTagClickListener;
     }
 
+    public void setOnTagLongClickListener(OnTagLongClickListener onTagLongClickListener) {
+        this.onTagLongClickListener = onTagLongClickListener;
+    }
+
     public interface OnTagClickListener{
         void onTagClick(int position);
+    }
+
+    public interface OnTagLongClickListener{
+        boolean onTagLongClick(int position);
     }
 }
