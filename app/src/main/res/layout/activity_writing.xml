@@ -28,94 +28,109 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <EditText
-        android:id="@+id/et_writing_title"
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tb_writing_toolbar"
         android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:layout_marginTop="24dip"
-        android:background="@null"
-        android:hint="Input Your Article's Title"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        android:textColorHint="@color/colorHintText" />
+        android:layout_marginRight="8dip">
 
-    <View
-        android:id="@+id/v_writing_divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/et_writing_title"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:layout_marginTop="16dip"
-        android:background="@drawable/ic_divider_dots_vertical" />
-
-    <com.way.heard.ui.views.TagCloudView
-        android:id="@+id/tcv_writing_tags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/v_writing_divider1"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:layout_marginTop="16dip"
-        app:tcvBorder="8dp"
-        app:tcvCanTagClick="true"
-        app:tcvItemBorderHorizontal="8dp"
-        app:tcvItemBorderVertical="6dp"
-        app:tcvShowRightImg="false"
-        app:tcvSingleLine="true"
-        app:tcvTextColor="#123455">
-
-    </com.way.heard.ui.views.TagCloudView>
-
-    <EditText
-        android:id="@+id/et_writing_tags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tcv_writing_tags"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:layout_marginTop="16dip"
-        android:background="@null"
-        android:hint="Input Your Article's Tags"
-        android:singleLine="true"
-        android:textColorHint="@color/colorHintText" />
-
-    <View
-        android:id="@+id/v_writing_divider2"
-        android:layout_width="10dip"
-        android:layout_height="1dip"
-        android:layout_below="@+id/et_writing_tags"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:layout_marginTop="16dip"
-        android:background="@drawable/ic_divider_dots_vertical" />
-
-    <FrameLayout
-        android:id="@+id/fl_writing_images_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/v_writing_divider2"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:layout_marginTop="16dip">
-
-        <com.way.heard.ui.views.NineGridImageView
-            android:id="@+id/ngiv_writing_gallery"
+        <RelativeLayout
+            android:id="@+id/rl_writing_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:imgGap="4dp"
-            app:showStyle="fill"
-            app:singleImgSize="120dp">
+            android:layout_height="match_parent">
 
-        </com.way.heard.ui.views.NineGridImageView>
+            <EditText
+                android:id="@+id/et_writing_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:layout_marginTop="24dip"
+                android:background="@null"
+                android:hint="Input Your Article's Title"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:textColorHint="@color/colorHintText" />
+
+            <View
+                android:id="@+id/v_writing_divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/et_writing_title"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:layout_marginTop="16dip"
+                android:background="@drawable/ic_divider_dots_vertical" />
+
+            <com.way.heard.ui.views.TagCloudView
+                android:id="@+id/tcv_writing_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/v_writing_divider1"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:layout_marginTop="16dip"
+                app:tcvBorder="8dp"
+                app:tcvCanTagClick="true"
+                app:tcvItemBorderHorizontal="8dp"
+                app:tcvItemBorderVertical="6dp"
+                app:tcvShowRightImg="false"
+                app:tcvSingleLine="true"
+                app:tcvTextColor="#123455">
+
+            </com.way.heard.ui.views.TagCloudView>
+
+            <EditText
+                android:id="@+id/et_writing_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tcv_writing_tags"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:layout_marginTop="16dip"
+                android:background="@null"
+                android:hint="Input Your Article's Tags"
+                android:singleLine="true"
+                android:textColorHint="@color/colorHintText" />
+
+            <View
+                android:id="@+id/v_writing_divider2"
+                android:layout_width="10dip"
+                android:layout_height="1dip"
+                android:layout_below="@+id/et_writing_tags"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:layout_marginTop="16dip"
+                android:background="@drawable/ic_divider_dots_vertical" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/v_writing_divider2"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:layout_marginTop="16dip">
+
+                <com.way.heard.ui.views.NineGridImageView
+                    android:id="@+id/ngiv_writing_gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:imgGap="4dp"
+                    app:showStyle="fill"
+                    app:singleImgSize="120dp">
+
+                </com.way.heard.ui.views.NineGridImageView>
+            </ScrollView>
+
+        </RelativeLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_writing_action"

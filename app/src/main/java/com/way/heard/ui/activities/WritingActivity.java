@@ -15,28 +15,40 @@ import android.widget.Toast;
 
 import com.way.heard.R;
 import com.way.heard.adapters.NineGridImageViewAdapter;
+import com.way.heard.internal.GlidePauseOnScrollListener;
 import com.way.heard.ui.views.NineGridImageView;
 import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.utils.GlideImageLoader;
+import com.way.heard.utils.GlideLocalImageLoader;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import cn.finalteam.galleryfinal.CoreConfig;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.PauseOnScrollListener;
+import cn.finalteam.galleryfinal.ThemeConfig;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 import cn.finalteam.galleryfinal.widget.GFImageView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class WritingActivity extends ActionBarActivity {
     private final static String TAG = WritingActivity.class.getName();
 
+    private final int REQUEST_CODE_CAMERA = 1000;
+    private final int REQUEST_CODE_GALLERY = 1001;
+    private final int REQUEST_CODE_CROP = 1002;
+    private final int REQUEST_CODE_EDIT = 1003;
+
     private List<String> tagsData = null;
     private EditText etTitle;
     private TagCloudView tcvTags;
     private EditText etTags;
     private NineGridImageView ngivGallery;
-    private List<String> imgUrls;
-    private NineGridImageViewAdapter<String> mAdapter;
+    private List<PhotoInfo> mPhotoList;
+    private NineGridImageViewAdapter<PhotoInfo> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +80,7 @@ public class WritingActivity extends ActionBarActivity {
     private void initData() {
         LogUtil.d(TAG, "initData debug");
         tagsData = new ArrayList<>();
-        imgUrls = new ArrayList<>();
+        mPhotoList = new ArrayList<>();
         String[] IMG_URL_LIST = {
                 "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
                 "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
@@ -80,46 +92,12 @@ public class WritingActivity extends ActionBarActivity {
                 "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
                 "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
         };
-        imgUrls.addAll(Arrays.asList(IMG_URL_LIST));
-        mAdapter = new NineGridImageViewAdapter<String>() {
+        //imgUrls.addAll(Arrays.asList(IMG_URL_LIST));
+        mAdapter = new NineGridImageViewAdapter<PhotoInfo>() {
             @Override
-            public void onDisplayImage(Context context, final GFImageView imageView, String url) {
-                /*
-                Glide.with(context)
-                        .load(s)
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_picture_default)
-                        .crossFade()
-                        .into(imageView);
-                */
-                LogUtil.d(TAG, "initData debug, onDisplayImage, Image Url = " + url);
-                /*
-                Glide.with(context)
-                        .load(s)
-                        .placeholder(R.drawable.ic_picture_default)
-                        //.error(defaultDrawable)
-                        //.override(width, height)
-                        //.diskCacheStrategy(DiskCacheStrategy.NONE) //不缓存到SD卡
-                        //.skipMemoryCache(true)
-                        //.centerCrop()
-                        .into(new ImageViewTarget<GlideDrawable>(imageView) {
-                            @Override
-                            protected void setResource(GlideDrawable resource) {
-                                imageView.setImageDrawable(resource);
-                            }
-
-                            @Override
-                            public void setRequest(Request request) {
-                                imageView.setTag(R.id.adapter_item_tag_key,request);
-                            }
-
-                            @Override
-                            public Request getRequest() {
-                                return (Request) imageView.getTag(R.id.adapter_item_tag_key);
-                            }
-                        });
-                */
-                GlideImageLoader.displayImageFromUrl(context,url,imageView,R.drawable.ic_picture_default,R.drawable.ic_picture_default);
+            public void onDisplayImage(Context context, final GFImageView imageView, PhotoInfo photoInfo) {
+                LogUtil.d(TAG, "initData debug, onDisplayImage, Image Url = " + photoInfo.getPhotoPath());
+                GlideImageLoader.displayImageFromUrl(context, photoInfo.getPhotoPath(), imageView, R.drawable.ic_picture_default, R.drawable.ic_picture_default);
             }
 
             @Override
@@ -128,8 +106,10 @@ public class WritingActivity extends ActionBarActivity {
             }
 
             @Override
-            public void onItemImageClick(Context context, int index, List<String> list) {
-                Toast.makeText(context, "image position is " + index, Toast.LENGTH_SHORT).show();
+            public void onItemImageClick(Context context, int index, List<PhotoInfo> list) {
+                if (index == 0 && TextUtils.isEmpty(list.get(index).getPhotoPath())) {
+                    openGallery();
+                }
                 //showBigPicture(context, photoList.get(index).getBigUrl());
             }
         };
@@ -253,8 +233,52 @@ public class WritingActivity extends ActionBarActivity {
         });
 
         ngivGallery.setAdapter(mAdapter);
-        ngivGallery.setImagesData(imgUrls);
+        if (mPhotoList.size() == 0) {
+            mPhotoList.add(new PhotoInfo());
+            ngivGallery.setImagesData(mPhotoList);
+        }
     }
+
+    private void openGallery(){
+        //公共配置都可以在application中配置，这里只是为了代码演示而写在此处
+        ThemeConfig themeConfig = null;
+        themeConfig = ThemeConfig.DEFAULT;
+
+        FunctionConfig.Builder functionConfigBuilder = new FunctionConfig.Builder();
+        cn.finalteam.galleryfinal.ImageLoader imageLoader;
+        PauseOnScrollListener pauseOnScrollListener = null;
+
+        imageLoader = new GlideLocalImageLoader();
+        pauseOnScrollListener = new GlidePauseOnScrollListener(false, true);
+        functionConfigBuilder.setMutiSelectMaxSize(9);
+        functionConfigBuilder.setSelected(mPhotoList);//添加过滤集合
+        final FunctionConfig functionConfig = functionConfigBuilder.build();
+
+
+        CoreConfig coreConfig = new CoreConfig.Builder(WritingActivity.this, imageLoader, themeConfig)
+                //.setDebug(BuildConfig.DEBUG)
+                .setFunctionConfig(functionConfig)
+                .setPauseOnScrollListener(pauseOnScrollListener)
+                .setNoAnimcation(false)
+                .build();
+        GalleryFinal.init(coreConfig);
+        GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+    }
+
+    private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
+        @Override
+        public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+            if (resultList != null) {
+                mPhotoList.addAll(resultList);
+                //mChoosePhotoListAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onHanlderFailure(int requestCode, String errorMsg) {
+            Toast.makeText(WritingActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
