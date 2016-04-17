@@ -5,4 +5,5 @@
     <string name="action_share">Share</string>
     <string name="action_author">Author</string>
     <string name="context_menu">Context Menu</string>
+    <string name="action_publish">Publish</string>
 </resources>

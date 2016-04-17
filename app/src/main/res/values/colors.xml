@@ -4,10 +4,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccentDark">#F00050</color>
+    <color name="colorAccentLight">#FF6699</color>
     <color name="colorWhite">@android:color/white</color>
     <color name="colorBlack">@android:color/black</color>
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
+    <color name="colorHintText">#DDDDDD</color>
     <color name="colorDivider">#B6B6B6</color>
 </resources>

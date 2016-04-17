@@ -34,7 +34,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <TextView
-                android:id="@+id/text_view_toolbar_title"
+                android:id="@+id/main_toolbar_title"
                 android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

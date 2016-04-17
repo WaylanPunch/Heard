@@ -22,6 +22,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:elevation="8dip"
+            android:background="@drawable/imageview_ripple_rounded_shape_mask"
             android:src="@drawable/ic_plus" />
     </FrameLayout>
 </io.codetail.widget.RevealFrameLayout>
