@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.way.heard.ui.activities.DraftActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_draft_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--<TextView-->
+        <!--android:id="@+id/tv_draft_toolbar_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Writing"-->
+        <!--android:textColor="@color/colorWhite"-->
+        <!--android:textSize="20dip" />-->
+    </android.support.v7.widget.Toolbar>
+
+    <HorizontalScrollView
+        android:id="@+id/hsv_draft_tool_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tb_draft_toolbar"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/ib_draft_content_bold"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_format_bold"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/ib_draft_content_italic"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_format_italic"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/ib_draft_content_underline"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_format_underline"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/ib_draft_content_strikethrough"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_format_strikethrough"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/ib_draft_content_bullet"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_format_bullet"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/ib_draft_content_quote"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_format_quote"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/ib_draft_content_link"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_insert_link"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/ib_draft_content_clear"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_format_clear"></ImageButton>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <View
+        android:id="@+id/v_draft_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:layout_below="@+id/hsv_draft_tool_container"
+        android:background="@drawable/ic_divider_dots_vertical">
+    </View>
+
+    <FrameLayout
+        android:id="@+id/fl_draft_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/hsv_draft_tool_container"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <io.github.mthli.knife.KnifeText
+            android:id="@+id/kt_draft_content_knife"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:gravity="top|start"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:scrollbars="vertical"
+            app:bulletColor="@color/colorPrimary"
+            app:bulletGapWidth="@dimen/bullet_gap_width"
+            app:bulletRadius="@dimen/bullet_radius"
+            app:historyEnable="true"
+            app:historySize="99"
+            app:linkColor="@color/colorPrimary"
+            app:linkUnderline="true"
+            app:quoteCapWidth="@dimen/quote_gap_width"
+            app:quoteColor="@color/colorPrimary"
+            app:quoteStripeWidth="@dimen/quote_stripe_width"></io.github.mthli.knife.KnifeText>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_draft_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:background="@drawable/imageview_ripple_rounded_shape_mask"
+            android:elevation="8dip"
+            android:src="@drawable/ic_check" />
+    </FrameLayout>
+</RelativeLayout>

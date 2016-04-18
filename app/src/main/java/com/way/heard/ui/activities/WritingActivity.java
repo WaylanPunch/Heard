@@ -1,7 +1,9 @@
 package com.way.heard.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 import com.way.heard.R;
 import com.way.heard.adapters.NineGridImageViewAdapter;
 import com.way.heard.internal.GlidePauseOnScrollListener;
+import com.way.heard.models.Article;
+import com.way.heard.models.ArticlePhoto;
 import com.way.heard.ui.views.NineGridImageView;
 import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.utils.GlideImageLoader;
@@ -42,6 +46,7 @@ public class WritingActivity extends ActionBarActivity {
     private final int REQUEST_CODE_CROP = 1002;
     private final int REQUEST_CODE_EDIT = 1003;
 
+    private String articleContent;
     private List<String> tagsData = null;
     private EditText etTitle;
     private TagCloudView tcvTags;
@@ -49,6 +54,7 @@ public class WritingActivity extends ActionBarActivity {
     private NineGridImageView ngivGallery;
     private List<PhotoInfo> mPhotoList;
     private NineGridImageViewAdapter<PhotoInfo> mAdapter;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,23 +87,14 @@ public class WritingActivity extends ActionBarActivity {
         LogUtil.d(TAG, "initData debug");
         tagsData = new ArrayList<>();
         mPhotoList = new ArrayList<>();
-        String[] IMG_URL_LIST = {
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-                "http://img1.ph.126.net/Vs6djtwAm8UZzS2GWuF8Gg==/4944107966023526737.jpg",
-        };
-        //imgUrls.addAll(Arrays.asList(IMG_URL_LIST));
         mAdapter = new NineGridImageViewAdapter<PhotoInfo>() {
             @Override
             public void onDisplayImage(Context context, final GFImageView imageView, PhotoInfo photoInfo) {
-                LogUtil.d(TAG, "initData debug, onDisplayImage, Image Url = " + photoInfo.getPhotoPath());
-                GlideImageLoader.displayImageFromUrl(context, photoInfo.getPhotoPath(), imageView, R.drawable.ic_picture_default, R.drawable.ic_picture_default);
+                try {
+                    GlideImageLoader.displayImageFromPath(context, photoInfo.getPhotoPath(), imageView, R.drawable.ic_picture_default, R.drawable.ic_picture_default);
+                } catch (Exception e) {
+                    LogUtil.e(TAG, "initData error, onDisplayImage", e);
+                }
             }
 
             @Override
@@ -107,10 +104,7 @@ public class WritingActivity extends ActionBarActivity {
 
             @Override
             public void onItemImageClick(Context context, int index, List<PhotoInfo> list) {
-                if (index == 0 && TextUtils.isEmpty(list.get(index).getPhotoPath())) {
-                    openGallery();
-                }
-                //showBigPicture(context, photoList.get(index).getBigUrl());
+                openGallery();
             }
         };
     }
@@ -120,6 +114,7 @@ public class WritingActivity extends ActionBarActivity {
         tcvTags = (TagCloudView) findViewById(R.id.tcv_writing_tags);
         etTags = (EditText) findViewById(R.id.et_writing_tags);
         ngivGallery = (NineGridImageView) findViewById(R.id.ngiv_writing_gallery);
+        fab = (FloatingActionButton) findViewById(R.id.fab_writing_action);
 
         tcvTags.setVisibility(View.GONE);
         etTags.setOnKeyListener(new View.OnKeyListener() {
@@ -237,40 +232,65 @@ public class WritingActivity extends ActionBarActivity {
             mPhotoList.add(new PhotoInfo());
             ngivGallery.setImagesData(mPhotoList);
         }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WritingActivity.this, DraftActivity.class);
+                if (TextUtils.isEmpty(etTitle.getText())) {
+                    intent.putExtra("TITLE", "");
+                } else {
+                    intent.putExtra("TITLE", etTitle.getText().toString());
+                }
+                startActivity(intent);
+            }
+        });
     }
 
-    private void openGallery(){
-        //公共配置都可以在application中配置，这里只是为了代码演示而写在此处
-        ThemeConfig themeConfig = null;
-        themeConfig = ThemeConfig.DEFAULT;
+    private void openGallery() {
+        try {
+            //公共配置都可以在application中配置，这里只是为了代码演示而写在此处
+            ThemeConfig themeConfig = null;
+            themeConfig = ThemeConfig.DEFAULT;
 
-        FunctionConfig.Builder functionConfigBuilder = new FunctionConfig.Builder();
-        cn.finalteam.galleryfinal.ImageLoader imageLoader;
-        PauseOnScrollListener pauseOnScrollListener = null;
+            FunctionConfig.Builder functionConfigBuilder = new FunctionConfig.Builder();
+            cn.finalteam.galleryfinal.ImageLoader imageLoader;
+            PauseOnScrollListener pauseOnScrollListener = null;
 
-        imageLoader = new GlideLocalImageLoader();
-        pauseOnScrollListener = new GlidePauseOnScrollListener(false, true);
-        functionConfigBuilder.setMutiSelectMaxSize(9);
-        functionConfigBuilder.setSelected(mPhotoList);//添加过滤集合
-        final FunctionConfig functionConfig = functionConfigBuilder.build();
+            imageLoader = new GlideLocalImageLoader();
+            pauseOnScrollListener = new GlidePauseOnScrollListener(false, true);
+            functionConfigBuilder.setMutiSelectMaxSize(9);
+            functionConfigBuilder.setSelected(mPhotoList);//添加过滤集合
+            final FunctionConfig functionConfig = functionConfigBuilder.build();
 
 
-        CoreConfig coreConfig = new CoreConfig.Builder(WritingActivity.this, imageLoader, themeConfig)
-                //.setDebug(BuildConfig.DEBUG)
-                .setFunctionConfig(functionConfig)
-                .setPauseOnScrollListener(pauseOnScrollListener)
-                .setNoAnimcation(false)
-                .build();
-        GalleryFinal.init(coreConfig);
-        GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+            CoreConfig coreConfig = new CoreConfig.Builder(WritingActivity.this, imageLoader, themeConfig)
+                    //.setDebug(BuildConfig.DEBUG)
+                    .setFunctionConfig(functionConfig)
+                    .setPauseOnScrollListener(pauseOnScrollListener)
+                    .setNoAnimcation(false)
+                    .build();
+            GalleryFinal.init(coreConfig);
+            GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, functionConfig, mOnHanlderResultCallback);
+        } catch (Exception e) {
+            LogUtil.e(TAG, "openGallery error", e);
+        }
     }
 
     private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
         @Override
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-            if (resultList != null) {
-                mPhotoList.addAll(resultList);
-                //mChoosePhotoListAdapter.notifyDataSetChanged();
+            try {
+                if (resultList != null) {
+                    //mPhotoList.clear();
+                    //mPhotoList.addAll(resultList);
+                    mPhotoList = resultList;
+                    //ngivGallery.removeAllViewsInLayout();
+                    //ngivGallery.setAdapter(mAdapter);
+                    ngivGallery.setImagesData(mPhotoList);
+                }
+            } catch (Exception e) {
+                LogUtil.e(TAG, "OnHanlderResultCallback error", e);
             }
         }
 
@@ -291,6 +311,46 @@ public class WritingActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_publish:
+                if (TextUtils.isEmpty(etTitle.getText())) {
+                    new SweetAlertDialog(WritingActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Oops...")
+                            .setContentText("Your article has no title!")
+                            .show();
+                } else {
+                    new SweetAlertDialog(WritingActivity.this, SweetAlertDialog.NORMAL_TYPE)
+                            .setTitleText("Do you wish to publish the article?")
+                            .setContentText("You will be able to edit it again!")
+                            .setConfirmText("Yes,delete it!")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    Article article = new Article();
+                                    article.setTitle(etTitle.getText().toString());
+                                    if (tagsData != null && tagsData.size() > 0) {
+                                        article.setTags(tagsData);
+                                    }
+                                    if (mPhotoList == null || mPhotoList.size() == 0 || TextUtils.isEmpty(mPhotoList.get(0).getPhotoPath())) {
+                                        LogUtil.d(TAG, "onOptionsItemSelected debug, action_publish, Photo List = NULL");
+                                    } else {
+                                        List<ArticlePhoto> photos = new ArrayList<ArticlePhoto>();
+                                        for(PhotoInfo photoInfo:mPhotoList){
+                                            ArticlePhoto photo = new ArticlePhoto(null,photoInfo.getPhotoPath());
+                                            photos.add(photo);
+                                        }
+                                        article.setPhotos(photos);
+                                    }
+                                    if(!TextUtils.isEmpty(articleContent)) {
+                                        article.setContent(articleContent);
+                                    }
+                                    sDialog.setTitleText("Published!")
+                                            .setContentText("Your article has been published!")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(null)
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                }
+                            })
+                            .show();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

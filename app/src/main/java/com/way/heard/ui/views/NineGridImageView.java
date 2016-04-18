@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.way.heard.R;
 import com.way.heard.adapters.NineGridImageViewAdapter;
+import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import cn.finalteam.galleryfinal.widget.GFImageView;
  * Created by pc on 2016/4/18.
  */
 public class NineGridImageView<T> extends ViewGroup {
+    private final static String TAG = NineGridImageView.class.getName();
 
     public final static int STYLE_GRID = 0;     // 宫格布局
     public final static int STYLE_FILL = 1;     // 全填充布局
@@ -35,6 +37,7 @@ public class NineGridImageView<T> extends ViewGroup {
 
     private List<GFImageView> mImageViewList = new ArrayList<>();
     private List<T> mImgDataList;
+    private static int IMAGECOUNT = 0;
 
     private NineGridImageViewAdapter<T> mAdapter;
 
@@ -108,37 +111,49 @@ public class NineGridImageView<T> extends ViewGroup {
      * @param lists 图片数据集合
      */
     public void setImagesData(List lists) {
-        if (lists == null || lists.isEmpty()) {
-            this.setVisibility(GONE);
-            return;
-        } else {
-            this.setVisibility(VISIBLE);
-        }
-
-        if (mMaxSize > 0 && lists.size() > mMaxSize) {
-            lists = lists.subList(0, mMaxSize);
-        }
-
-        int[] gridParam = calculateGridParam(lists.size(), mShowStyle);
-        mRowCount = gridParam[0];
-        mColumnCount = gridParam[1];
-        if (mImgDataList == null) {
-            int i = 0;
-            while (i < lists.size()) {
-                GFImageView iv = getImageView(i);
-                if (iv == null) {
-                    return;
-                }
-                addView(iv, generateDefaultLayoutParams());
-                i++;
+        try {
+            if (lists == null || lists.isEmpty()) {
+                this.setVisibility(GONE);
+                return;
+            } else {
+                this.setVisibility(VISIBLE);
             }
-        } else {
-            int oldViewCount = mImgDataList.size();
-            int newViewCount = lists.size();
-            if (oldViewCount > newViewCount) {
-                removeViews(newViewCount, oldViewCount - newViewCount);
-            } else if (oldViewCount < newViewCount) {
-                for (int i = oldViewCount; i < newViewCount; i++) {
+            if (mMaxSize > 0 && lists.size() > mMaxSize) {
+                lists = lists.subList(0, mMaxSize);
+            }
+            int[] gridParam = calculateGridParam(lists.size(), mShowStyle);
+            mRowCount = gridParam[0];
+            mColumnCount = gridParam[1];
+            if (mImgDataList == null) {
+                int i = 0;
+                while (i < lists.size()) {
+                    GFImageView iv = getImageView(i);
+                    if (iv == null) {
+                        return;
+                    }
+                    addView(iv, generateDefaultLayoutParams());
+                    i++;
+                }
+            } else {
+                /*
+                int oldViewCount = mImgDataList.size();
+                int newViewCount = lists.size();
+                if (oldViewCount > newViewCount) {
+                    removeViews(newViewCount, oldViewCount - newViewCount);
+                } else if (oldViewCount < newViewCount) {
+                    for (int i = oldViewCount; i < newViewCount; i++) {
+                        GFImageView iv = getImageView(i);
+                        if (iv == null) {
+                            return;
+                        }
+                        addView(iv, generateDefaultLayoutParams());
+                    }
+                }
+                */
+                int oldViewCount = mImgDataList.size();
+                int newViewCount = lists.size();
+                removeViews(0, IMAGECOUNT);
+                for (int i = 0; i < newViewCount; i++) {
                     GFImageView iv = getImageView(i);
                     if (iv == null) {
                         return;
@@ -146,9 +161,13 @@ public class NineGridImageView<T> extends ViewGroup {
                     addView(iv, generateDefaultLayoutParams());
                 }
             }
+            mImgDataList = lists;
+            IMAGECOUNT = lists.size();
+            LogUtil.d(TAG, "setImagesData debug, IMAGECOUNT = " + IMAGECOUNT);
+            requestLayout();
+        } catch (Exception e) {
+            LogUtil.e(TAG, "setImagesData error", e);
         }
-        mImgDataList = lists;
-        requestLayout();
     }
 
     /**

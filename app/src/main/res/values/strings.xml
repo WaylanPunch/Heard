@@ -16,4 +16,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="context_menu">Context Menu</string>
     <string name="action_publish">Publish</string>
+    <string name="title_activity_draft">DraftActivity</string>
+    <string name="dialog_edit_link_hint">http(s)://</string>
+    <string name="dialog_link_title">Insert Link</string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="action_redo">Redo</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_save">Save</string>
 </resources>

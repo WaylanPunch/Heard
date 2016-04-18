@@ -40,7 +40,9 @@
         <RelativeLayout
             android:id="@+id/rl_writing_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <EditText
                 android:id="@+id/et_writing_title"
@@ -124,6 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:imgGap="4dp"
+                    app:maxSize="9"
                     app:showStyle="fill"
                     app:singleImgSize="120dp">
 
