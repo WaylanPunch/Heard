@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.way.heard.R;
@@ -37,6 +39,7 @@ import cn.finalteam.galleryfinal.ThemeConfig;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import cn.finalteam.galleryfinal.widget.GFImageView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.github.mthli.knife.KnifeParser;
 
 public class WritingActivity extends ActionBarActivity {
     private final static String TAG = WritingActivity.class.getName();
@@ -237,12 +240,23 @@ public class WritingActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WritingActivity.this, DraftActivity.class);
+                Bundle bundle = new Bundle();
                 if (TextUtils.isEmpty(etTitle.getText())) {
-                    intent.putExtra("TITLE", "");
+                    bundle.putString("TITLE", ""); /* 将Bundle对象assign给Intent */
+                    //intent.putExtra("TITLE", "");
                 } else {
-                    intent.putExtra("TITLE", etTitle.getText().toString());
+                    //intent.putExtra("TITLE", etTitle.getText().toString());
+                    bundle.putString("TITLE", etTitle.getText().toString());
                 }
-                startActivity(intent);
+                if (TextUtils.isEmpty(articleContent)) {
+                    bundle.putString("CONTENT", "");
+                } else {
+                    bundle.putString("CONTENT", articleContent);
+                }
+
+                intent.putExtras(bundle); /* 调用Activity EX03_11_1 */
+                //startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
     }
@@ -333,13 +347,13 @@ public class WritingActivity extends ActionBarActivity {
                                         LogUtil.d(TAG, "onOptionsItemSelected debug, action_publish, Photo List = NULL");
                                     } else {
                                         List<ArticlePhoto> photos = new ArrayList<ArticlePhoto>();
-                                        for(PhotoInfo photoInfo:mPhotoList){
-                                            ArticlePhoto photo = new ArticlePhoto(null,photoInfo.getPhotoPath());
+                                        for (PhotoInfo photoInfo : mPhotoList) {
+                                            ArticlePhoto photo = new ArticlePhoto(null, photoInfo.getPhotoPath());
                                             photos.add(photo);
                                         }
                                         article.setPhotos(photos);
                                     }
-                                    if(!TextUtils.isEmpty(articleContent)) {
+                                    if (!TextUtils.isEmpty(articleContent)) {
                                         article.setContent(articleContent);
                                     }
                                     sDialog.setTitleText("Published!")
@@ -354,5 +368,26 @@ public class WritingActivity extends ActionBarActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 0:
+                if (resultCode == RESULT_OK) {
+                    Bundle bunde = data.getExtras();
+                    String title = bunde.getString("TITLE");
+                    String content = bunde.getString("CONTENT");
+                    articleContent = content;
+
+                    SpannableStringBuilder builder = new SpannableStringBuilder();
+                    builder.append(KnifeParser.fromHtml(content));
+                    ((TextView) findViewById(R.id.tv_writing_content)).setText(builder.toString());
+                    LogUtil.d(TAG, "onActivityResult debug, requestCode = 0, Article's Title = " + title + " & Content = " + content);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -114,6 +114,7 @@
                 android:background="@drawable/ic_divider_dots_vertical" />
 
             <ScrollView
+                android:id="@+id/sc_writing_gallery_scroller"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/v_writing_divider2"
@@ -133,6 +134,16 @@
                 </com.way.heard.ui.views.NineGridImageView>
             </ScrollView>
 
+            <TextView
+                android:id="@+id/tv_writing_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sc_writing_gallery_scroller"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:layout_marginTop="16dip"
+                android:ellipsize="end"
+                android:singleLine="true" />
         </RelativeLayout>
 
         <android.support.design.widget.FloatingActionButton

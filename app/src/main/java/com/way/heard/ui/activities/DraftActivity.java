@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -19,12 +18,15 @@ import android.widget.Toast;
 import com.way.heard.R;
 import com.way.heard.utils.LogUtil;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.github.mthli.knife.KnifeText;
 
 public class DraftActivity extends ActionBarActivity {
     private final static String TAG = DraftActivity.class.getName();
 
+    private Intent intent;
     private String title;
+    private String content;
 
     private static final String BOLD = "<b>Bold</b><br><br>";
     private static final String ITALIT = "<i>Italic</i><br><br>";
@@ -48,9 +50,13 @@ public class DraftActivity extends ActionBarActivity {
     }
 
     private void initData() {
-        Intent i = getIntent();
-        title = i.getStringExtra("TITLE");
+        intent = getIntent();
+        //title = intent.getStringExtra("TITLE");
+        Bundle bunde = intent.getExtras(); /* 取得Bundle对象中的数据 */
+        title = bunde.getString("TITLE");
+        content = bunde.getString("CONTENT");
         LogUtil.d(TAG, "initData debug, Title = " + title);
+        LogUtil.d(TAG, "initData debug, Content = " + content);
     }
 
 
@@ -67,6 +73,7 @@ public class DraftActivity extends ActionBarActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setReturnResult();
                 onBackPressed();
             }
         });
@@ -77,14 +84,33 @@ public class DraftActivity extends ActionBarActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                new SweetAlertDialog(DraftActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Do you wish to end?")
+                        .setContentText("You will be able to edit again!")
+                        .setCancelText("No,cancel plx!")
+                        .setConfirmText("Yes,end it!")
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismiss();
+                                setReturnResult();
+                                onBackPressed();
+                            }
+                        })
+                        .show();
             }
         });
 
         knife = (KnifeText) findViewById(R.id.kt_draft_content_knife);
         // ImageGetter coming soon...
-        //knife.fromHtml(EXAMPLE);
+        knife.fromHtml(content);
         knife.setHint("Please Edit Your Article......");
         knife.setHintTextColor(getResources().getColor(R.color.colorHintText));
         knife.setSelection(knife.getEditableText().length());
@@ -285,6 +311,27 @@ public class DraftActivity extends ActionBarActivity {
 
         builder.create().show();
     }
+
+    private void setReturnResult(){
+        content = knife.toHtml();
+        LogUtil.d(TAG, "setReturnResult debug, CONTENT = " + content);
+        Bundle bunde = intent.getExtras(); /* 取得Bundle对象中的数据 */
+        bunde.putString("TITLE", title);
+        bunde.putString("CONTENT", content);
+        intent.putExtras(bunde);
+        setResult(RESULT_OK, intent); /* 关闭activity */
+    }
+
+//    @Override
+//    public void onBackPressed() {
+//        finish();
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        LogUtil.d(TAG, "onDestroy debug");
+//        super.onDestroy();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

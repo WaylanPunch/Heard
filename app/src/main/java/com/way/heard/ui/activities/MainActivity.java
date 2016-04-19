@@ -1,5 +1,6 @@
 package com.way.heard.ui.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -17,6 +18,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVAnalytics;
 import com.way.heard.R;
 import com.way.heard.ui.fragments.BookmarkFragment;
 import com.way.heard.ui.fragments.ContactFragment;
@@ -69,6 +71,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setLeanCloudAnalytics();
         setContentFragment();
         setDrawerLayout();
         setToolBar();
@@ -77,6 +80,9 @@ public class MainActivity extends ActionBarActivity {
         setContextMenuFragment();
     }
 
+    private void setLeanCloudAnalytics() {
+        AVAnalytics.trackAppOpened(getIntent());
+    }
 
     private void setContentFragment() {
         LogUtil.d(TAG, "setContentFragment debug");
@@ -307,8 +313,10 @@ public class MainActivity extends ActionBarActivity {
         onMenuItemClickListener = new OnMenuItemClickListener() {
             @Override
             public void onMenuItemClick(View clickedView, int position) {
-                LogUtil.d(TAG, "setContextMenuFragment debug, onMenuItemClick, Position = " + position);
-                Toast.makeText(MainActivity.this, "Clicked on position: " + position, Toast.LENGTH_SHORT).show();
+                if(position == 4) {
+                    Intent intent = new Intent(MainActivity.this,TestActivity.class);
+                    startActivity(intent);
+                }
             }
         };
         onMenuItemLongClickListener = new OnMenuItemLongClickListener() {
