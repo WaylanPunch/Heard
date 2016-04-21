@@ -11,6 +11,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".base.HeardApp"
         android:allowBackup="true"
@@ -48,11 +53,17 @@
 
 
         <!-- 反馈组件（若使用该功能，需添加以下声明）START -->
-        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity"></activity>
+        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
         <!-- 反馈组件 END -->
-        <activity android:name=".ui.activities.TestActivity"></activity>
+        <activity android:name=".ui.activities.TestActivity" />
 
-        <meta-data android:value="4f7eb9f181842ebabb19943640505597" android:name="BUG_HD_SDK_GENERAL_KEY" />
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="4f7eb9f181842ebabb19943640505597" />
+
+        <activity
+            android:name=".ui.activities.LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>

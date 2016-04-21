@@ -60,4 +60,5 @@ dependencies {
     //compile ('cn.leancloud.android:qq-sdk:1.6.1-leancloud')
     //avoscloud-search 为 LeanCloud 应用内搜索包
     //compile ('cn.leancloud.android:avoscloud-search:v3.+@aar')
+    compile 'info.hoang8f:android-segmented:1.0.6'
 }

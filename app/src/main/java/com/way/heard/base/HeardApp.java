@@ -21,7 +21,12 @@ public class HeardApp extends Application {
         //BugHD
         FIR.init(this);
         // 初始化参数依次为 this, AppId, AppKey
-        AVOSCloud.initialize(this, CONSTANTS.LeanCloudAppID, CONSTANTS.LeanCloudAppKey);
-        //AVOSCloud.setDebugLogEnabled(true);
+        AVOSCloud.initialize(this, CONFIG.LeanCloudAppID, CONFIG.LeanCloudAppKey);
+        // 应该放在 Application 的 onCreate 中，开启调式日志打印
+        AVOSCloud.setDebugLogEnabled(CONFIG.LeanCloudIsDebugLogEnabled);
+        // 应该放在 Application 的 onCreate 中，开启全局省流量模式
+        AVOSCloud.setLastModifyEnabled(CONFIG.LeanCloudIsLastModifyEnabled);
+        // 应该放在 Application 的 onCreate 中，设置网络超时限制
+        AVOSCloud.setNetworkTimeout(AVOSCloud.DEFAULT_NETWORK_TIMEOUT);//15秒的网络超时限制
     }
 }

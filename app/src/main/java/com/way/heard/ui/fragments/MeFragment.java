@@ -1,6 +1,7 @@
 package com.way.heard.ui.fragments;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -9,8 +10,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
+import com.way.heard.ui.activities.LoginActivity;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
@@ -25,6 +29,7 @@ public class MeFragment extends Fragment implements ScreenShotable {
 
     private View containerView;
     private Bitmap bitmap;
+    private Button btnLogin;
 
     public MeFragment() {
         // Required empty public constructor
@@ -55,6 +60,26 @@ public class MeFragment extends Fragment implements ScreenShotable {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.containerView = view.findViewById(R.id.fl_me_container);
+        this.btnLogin = (Button) view.findViewById(R.id.btn_me_login);
+
+        AVUser currentUser = AVUser.getCurrentUser();
+        if(currentUser == null){
+            btnLogin.setVisibility(View.VISIBLE);
+        }else {
+            btnLogin.setVisibility(View.GONE);
+        }
+
+        initView();
+    }
+
+    private void initView() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent); //这里用getActivity().startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -22,5 +22,12 @@
         <!--android:layout_gravity="bottom|end"-->
         <!--android:layout_margin="@dimen/fab_margin"-->
         <!--android:src="@drawable/ic_plus" />-->
+
+        <Button
+            android:id="@+id/btn_me_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Login" />
     </FrameLayout>
 </io.codetail.widget.RevealFrameLayout>
