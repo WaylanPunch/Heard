@@ -3,15 +3,15 @@
 
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#E3F2FD"/>
-            <corners android:radius="5dp"/>
+            <solid android:color="@color/colorAccentDark"/>
+            <corners android:radius="6dp"/>
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid android:color="#BBDEFB"/>
-            <corners android:radius="5dp"/>
+            <solid android:color="@color/colorAccent"/>
+            <corners android:radius="6dp"/>
         </shape>
     </item>
 

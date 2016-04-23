@@ -28,7 +28,17 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dip"
+                android:layout_height="100dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="40dip"
+                android:src="@drawable/ic_picture_default" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -78,43 +88,68 @@
 
             <!--</android.support.design.widget.TextInputLayout>-->
 
-            <!--<Button-->
-                <!--android:id="@+id/email_sign_in_button"-->
-                <!--style="?android:textAppearanceSmall"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="16dp"-->
-                <!--android:text="@string/action_sign_in"-->
-                <!--android:textStyle="bold" />-->
-
-            <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/sg_login_button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                segmentedgroup:sc_border_width="2dip"
-                segmentedgroup:sc_corner_radius="8dip">
+                android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/rb_login_signup"
-                    style="@style/RadioButton"
+                <TextView
+                    android:id="@+id/tv_login_sign_up"
+                    style="?android:textAppearanceSmall"
                     android:layout_width="0dip"
                     android:layout_height="36dip"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="SIGN UP" />
+                    android:background="@drawable/backgroud_button_sign_up"
+                    android:gravity="center"
+                    android:text="@string/action_sign_up"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
 
-                <RadioButton
-                    android:id="@+id/rb_login_signin"
-                    style="@style/RadioButton"
+                <TextView
+                    android:id="@+id/tv_login_sign_in"
+                    style="?android:textAppearanceSmall"
                     android:layout_width="0dip"
                     android:layout_height="36dip"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:checked="true"
-                    android:text="SIGN IN" />
-            </info.hoang8f.android.segmented.SegmentedGroup>
+                    android:background="@drawable/backgroud_button_sign_in"
+                    android:gravity="center"
+                    android:text="@string/action_sign_in"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <!--<info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/sg_login_button"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--segmentedgroup:sc_border_width="2dip"-->
+            <!--segmentedgroup:sc_corner_radius="8dip">-->
+
+            <!--<RadioButton-->
+            <!--android:id="@+id/rb_login_signup"-->
+            <!--style="@style/RadioButton"-->
+            <!--android:layout_width="0dip"-->
+            <!--android:layout_height="36dip"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="SIGN UP" />-->
+
+            <!--<RadioButton-->
+            <!--android:id="@+id/rb_login_signin"-->
+            <!--style="@style/RadioButton"-->
+            <!--android:layout_width="0dip"-->
+            <!--android:layout_height="36dip"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_weight="1"-->
+            <!--android:checked="true"-->
+            <!--android:text="SIGN IN" />-->
+            <!--</info.hoang8f.android.segmented.SegmentedGroup>-->
 
         </LinearLayout>
     </ScrollView>

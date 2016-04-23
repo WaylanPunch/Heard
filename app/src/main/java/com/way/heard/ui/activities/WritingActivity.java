@@ -21,7 +21,6 @@ import com.way.heard.R;
 import com.way.heard.adapters.NineGridImageViewAdapter;
 import com.way.heard.internal.GlidePauseOnScrollListener;
 import com.way.heard.models.Article;
-import com.way.heard.models.ArticlePhoto;
 import com.way.heard.ui.views.NineGridImageView;
 import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.utils.GlideImageLoader;
@@ -338,6 +337,7 @@ public class WritingActivity extends ActionBarActivity {
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
+                                    /*
                                     Article article = new Article();
                                     article.setTitle(etTitle.getText().toString());
                                     if (tagsData != null && tagsData.size() > 0) {
@@ -356,6 +356,9 @@ public class WritingActivity extends ActionBarActivity {
                                     if (!TextUtils.isEmpty(articleContent)) {
                                         article.setContent(articleContent);
                                     }
+                                    */
+                                    Article article = new Article();
+                                    //article.get
                                     sDialog.setTitleText("Published!")
                                             .setContentText("Your article has been published!")
                                             .setConfirmText("OK")

@@ -1,3 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.yalantis\sidemenu\1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="fa8b9fe429cf6dfae8b74673088ed0219bf0ca4a">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.yalantis-sidemenu-1.0_b74c6211521783aa821011931e11a6a647a9004b.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\glide-3.7.0_1bb1ad64e9843f9a4c6d6f93e3417677706a49c0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\internal_impl-23.1.1_1102d736f0da63fa6e4ce41059ad4a91d6491afa.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\im.fir\fir-sdk\1.3.7\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="cfda5d835c72941d6633845276136830328b616c">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\im.fir-fir-sdk-1.3.7_df5dc88288cc6bb8566c8d90fa6c78162dd6e32b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.android.support-design-23.1.1_b855a50a57b824229f16c15502c203aac1399422.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.android.support-appcompat-v7-23.1.1_2782f48ebe602e34e3bd6c1b514afa8f22d605ee.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\fastjson\1.1.39-leancloud\94d4ebd4acdaf01d7445435382eea2d2d38e7534\fastjson-1.1.39-leancloud.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="94d4ebd4acdaf01d7445435382eea2d2d38e7534">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\fastjson-1.1.39-leancloud_ad19e31c1bc68e77ea251c06a6f3f0e5d37a0d4d.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\okio\1.6.0-leancloud\7086c00a30a6de0ee3b963ec2c3702d37f1de11d\okio-1.6.0-leancloud.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7086c00a30a6de0ee3b963ec2c3702d37f1de11d">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\okio-1.6.0-leancloud_e7672f2fb82729679e3776a1db9c5e75b90bfa69.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.pnikosis\materialish-progress\1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="57487745ce450899f9f250d5ae5c092a682cd041">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.pnikosis-materialish-progress-1.0_d84b2a2766aa5ec264284fb9fcc0ebac89eda4d8.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\support-annotations-23.1.1_3b101eab2bcecdabf7514c3c7f7321a7f3f9eb5c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.leancloud.android\avoscloud-feedback\v3.13.7\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="918ce81608fbc9adc1326e63b7ba79502aa9cbb4">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\cn.leancloud.android-avoscloud-feedback-v3.13.7_9faaf87058f563888b95761f9578b3fcfd7402b7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.github.ozodrukh\CircularReveal\1.3.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4e01297e21f918ce3de5f20f1b7ab5682f125ff4">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.github.ozodrukh-CircularReveal-1.3.1_25a3561bd03ddb7793bb443fddd5a9112607983e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.finalteam\toolsfinal\1.1.5\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="966da5b6a8bfdef0bfc660e349f8765dde5cb6f3">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\cn.finalteam-toolsfinal-1.1.5_e08c5e2fd7f8f97f8e4ce32dc045144ca01d8d3c.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\okhttp\2.6.0-leancloud\7d1a8dbbc128e91cf41ab6eafaa741ab2a6ff930\okhttp-2.6.0-leancloud.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7d1a8dbbc128e91cf41ab6eafaa741ab2a6ff930">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\okhttp-2.6.0-leancloud_6eef72cb845b8610d7a00566682c8ecb42b4551d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.yalantis\contextmenu\1.0.6\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5b7d40af1a91ea8e0cac0022b9dfd966b87fe5e3">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.yalantis-contextmenu-1.0.6_a8d629451044eaf36c62d42da8aca16370236878.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.way.waylanlibrary\waylanlibrary\1.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a43842df91ad6e80d34592576f9d62408b7e0efd">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.way.waylanlibrary-waylanlibrary-1.0.0_a6c8d1329335044cfde77513a23f6102b992cc44.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\Java-WebSocket\1.3.1-leancloud\b2e07c7789af93de587a1d0c9441fb0e74fd16e0\Java-WebSocket-1.3.1-leancloud.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b2e07c7789af93de587a1d0c9441fb0e74fd16e0">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\Java-WebSocket-1.3.1-leancloud_c175fa40ab9aa2f0a9e87787a13e862a9286555a.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\avoscloud-sdk\v3.13.7\7090cf8399a1c4a7cb275e026ae37c6178e2bdf\avoscloud-sdk-v3.13.7.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="07090cf8399a1c4a7cb275e026ae37c6178e2bdf">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\avoscloud-sdk-v3.13.7_ced7a0481614be458c3e78ac474d5d4a8a9098b2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.github.mthli\Knife\v1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="37ca756004128e1b554dd52aad9a179fcea18925">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.github.mthli-Knife-v1.1_eb273879518593b221d40675b3862f740d8b08ff.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\com.google.protobuf\protobuf-java\2.6.1\d9521f2aecb909835746b7a5facf612af5e890e8\protobuf-java-2.6.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d9521f2aecb909835746b7a5facf612af5e890e8">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\protobuf-java-2.6.1_f96fd15dad984949526fd214af2f0d03ef17595d.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\avoscloud-statistics\v3.13.7\2a58957104d69d36a556a57f687ebf9c23553735\avoscloud-statistics-v3.13.7.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2a58957104d69d36a556a57f687ebf9c23553735">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\avoscloud-statistics-v3.13.7_cbb7301e89a0dfb0de184d02058c04113af650ad.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.finalteam\galleryfinal\1.4.8.7\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c74f0952cfb481882d8cedf4ca9f3c60289a3301">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\cn.finalteam-galleryfinal-1.4.8.7_ac19f59ba7ee5380ad2c22362698aec42ffd1180.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\info.hoang8f\android-segmented\1.0.6\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="692a913dff3246e0cc5369c2508f5970ecfeca01">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\info.hoang8f-android-segmented-1.0.6_edef43229c9973a60a64feee5ea4a0f1a8f20de7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5e412e954a24c5310a459c09870e4e2081aceb03">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.android.support-cardview-v7-23.1.1_8c98de879b900799cf68142b38516ba2c915d021.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.android.support-support-v4-23.1.1_77e84f98f0908a7fec9bbc22b9d50d462cbbdf86.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.leancloud.android\avoscloud-push\v3.13.7\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6dbe8fe69bba1524d10a558d472ffbf74ece09c6">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\cn.leancloud.android-avoscloud-push-v3.13.7_3e512ad3fbef05d6e8357a280c8487fa545ef0b2.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\library-2.4.0_64176596d5bb2121d93e14e3a764092f67164116.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\com.android.support-recyclerview-v7-23.1.1_0206bf8e9c195c158912251c817fe5ef92a59036.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.pedant.sweetalert\library\1.3\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0c3529d9491be892952749d252ae1defa9b1f937">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\release\cn.pedant.sweetalert-library-1.3_af6676789b12eb97a948dc347175a3d92733e17c.jar" />
+    </item>
+
+</items>

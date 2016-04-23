@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorHintText">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/fl_contact_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/colorTransparent"
+        android:orientation="vertical">
 
-        <!--<ImageView-->
-        <!--android:id="@+id/image_content"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:src="@drawable/content_films" />-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_contact_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:tabIndicatorColor="@color/colorWhite"
+            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabTextColor="@color/colorHintText" />
 
-        <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@drawable/ic_plus" />-->
-    </FrameLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_contact_pager"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 </io.codetail.widget.RevealFrameLayout>

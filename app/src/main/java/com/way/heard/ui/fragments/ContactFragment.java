@@ -5,12 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.way.heard.R;
+import com.way.heard.adapters.ContactTabAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
@@ -18,13 +25,23 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactFragment extends Fragment implements ScreenShotable{
+public class ContactFragment extends Fragment implements ScreenShotable {
     private final static String TAG = ContactFragment.class.getName();
 
     public static final String CONTACT = "Contact";
 
     private View containerView;
     private Bitmap bitmap;
+
+    private TabLayout tabTile;                            //定义TabLayout
+    private ViewPager vpPager;                             //定义viewPager
+    private FragmentPagerAdapter fAdapter;                               //定义adapter
+
+    private List<Fragment> list_fragment;                                //定义要装fragment的列表
+    private List<String> list_title;                                     //tab名称列表
+
+    private FolloweeFragment followeeFragment;              //Followee Fragment
+    private FollowerFragment followerFragment;            //Follower Fragment
 
     public ContactFragment() {
         // Required empty public constructor
@@ -55,6 +72,36 @@ public class ContactFragment extends Fragment implements ScreenShotable{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.containerView = view.findViewById(R.id.fl_contact_container);
+        this.tabTile = (TabLayout) view.findViewById(R.id.tab_contact_title);
+        this.vpPager = (ViewPager) view.findViewById(R.id.vp_contact_pager);
+
+        initData();
+    }
+
+    private void initData() {
+        followeeFragment = FolloweeFragment.newInstance(0);
+        followerFragment = FollowerFragment.newInstance(1);
+        //将fragment装进列表中
+        list_fragment = new ArrayList<>();
+        list_fragment.add(followeeFragment);
+        list_fragment.add(followerFragment);
+        list_title = new ArrayList<>();
+        list_title.add("Followee");
+        list_title.add("Follower");
+
+        //设置TabLayout的模式
+        tabTile.setTabMode(TabLayout.MODE_FIXED);
+        //为TabLayout添加tab名称
+        tabTile.addTab(tabTile.newTab().setText(list_title.get(0)));
+        tabTile.addTab(tabTile.newTab().setText(list_title.get(1)));
+
+        fAdapter = new ContactTabAdapter(getActivity().getSupportFragmentManager(), list_fragment, list_title);
+
+        //viewpager加载adapter
+        vpPager.setAdapter(fAdapter);
+        //tab_FindFragment_title.setViewPager(vp_FindFragment_pager);
+        //TabLayout加载viewpager
+        tabTile.setupWithViewPager(vpPager);
     }
 
     @Override

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorHintText">
 
     <FrameLayout
         android:id="@+id/fl_message_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/colorTransparent">
 
         <!--<ImageView-->
         <!--android:id="@+id/image_content"-->

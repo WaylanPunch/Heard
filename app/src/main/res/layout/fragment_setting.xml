@@ -1,26 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
 <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorHintText">
 
-    <FrameLayout
+    <ScrollView
         android:id="@+id/fl_setting_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="72dip"
+        android:background="@color/colorTransparent">
 
-        <!--<ImageView-->
-        <!--android:id="@+id/image_content"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:src="@drawable/content_films" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@drawable/ic_plus" />-->
-    </FrameLayout>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:src="@drawable/ic_message"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dip"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dip"
+                            android:gravity="start|center_vertical"
+                            android:text="Message" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:src="@drawable/ic_comment"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dip"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dip"
+                            android:gravity="start|center_vertical"
+                            android:text="Chat" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:src="@drawable/ic_privacy"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dip"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dip"
+                            android:gravity="start|center_vertical"
+                            android:text="Privacy" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:src="@drawable/ic_security"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dip"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dip"
+                            android:gravity="start|center_vertical"
+                            android:text="Security" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:src="@drawable/ic_cache"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dip"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dip"
+                            android:gravity="start|center_vertical"
+                            android:text="Cache" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="36dip"
+                android:background="@color/colorHintText"></View>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:src="@drawable/ic_about"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dip"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dip"
+                            android:gravity="start|center_vertical"
+                            android:text="About" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:src="@drawable/ic_send_accent"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dip"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dip"
+                            android:gravity="start|center_vertical"
+                            android:text="Feedback" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:src="@drawable/ic_exit"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dip"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dip"
+                            android:gravity="start|center_vertical"
+                            android:text="Exit" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
 </io.codetail.widget.RevealFrameLayout>

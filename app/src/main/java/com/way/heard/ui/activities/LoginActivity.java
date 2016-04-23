@@ -3,16 +3,10 @@ package com.way.heard.ui.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
@@ -23,25 +17,22 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
+import com.way.heard.utils.InternetUtil;
 import com.way.heard.utils.LogUtil;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import info.hoang8f.android.segmented.SegmentedGroup;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends ActionBarActivity {
     private final static String TAG = LoginActivity.class.getName();
 
     private static final int SIGNUPEVENT = 0;
@@ -101,19 +92,33 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             //}
         //});
 
-        SegmentedGroup segmentedButton = (SegmentedGroup) findViewById(R.id.sg_login_button);
-        segmentedButton.setTintColor(getResources().getColor(R.color.colorAccent));
-        segmentedButton.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//        SegmentedGroup segmentedButton = (SegmentedGroup) findViewById(R.id.sg_login_button);
+//        segmentedButton.setTintColor(getResources().getColor(R.color.colorAccent));
+//        segmentedButton.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//                    case R.id.rb_login_signup:
+//                        attemptLogin(SIGNUPEVENT);
+//                        break;
+//                    default:
+//                        attemptLogin(SIGNINEVENT);
+//                        break;
+//                }
+//            }
+//        });
+        TextView tv_signup = (TextView) findViewById(R.id.tv_login_sign_up);
+        TextView tv_signin = (TextView) findViewById(R.id.tv_login_sign_in);
+        tv_signup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb_login_signup:
-                        attemptLogin(SIGNUPEVENT);
-                        break;
-                    default:
-                        attemptLogin(SIGNINEVENT);
-                        break;
-                }
+            public void onClick(View v) {
+                attemptLogin(SIGNUPEVENT);//Sign up
+            }
+        });
+        tv_signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptLogin(SIGNINEVENT);//Sign in
             }
         });
 
@@ -125,8 +130,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         if (!mayRequestContacts()) {
             return;
         }
-
-        getLoaderManager().initLoader(0, null, this);
+        //getLoaderManager().initLoader(0, null, this);
     }
 
     private boolean mayRequestContacts() {
@@ -189,13 +193,28 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
+        // Check for a valid username.
+        if (TextUtils.isEmpty(username)) {
+            mUsernameView.setError(getString(R.string.error_field_required));
+            focusView = mUsernameView;
+            cancel = true;
+        } else if (!isUsernameValid(username)) {
+            mUsernameView.setError(getString(R.string.error_invalid_username));
+            focusView = mUsernameView;
+            cancel = true;
+        }
+
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
-        } else if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        } else if (!isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!isPasswordLong(password)) {
+            mPasswordView.setError(getString(R.string.error_too_short_password));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -213,28 +232,29 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         }
         */
 
-        // Check for a valid username.
-        if (TextUtils.isEmpty(username)) {
-            mUsernameView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameView;
-            cancel = true;
-        } else if (!isUsernameValid(username)) {
-            mUsernameView.setError(getString(R.string.error_invalid_username));
-            focusView = mUsernameView;
-            cancel = true;
-        }
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            //mAuthTask = new UserLoginTask(email, password);
-            mAuthTask = new UserLoginTask(username, password, buttonEvent);
-            mAuthTask.execute((Void) null);
+            if(InternetUtil.isConnected(LoginActivity.this)) {
+                // Show a progress spinner, and kick off a background task to
+                // perform the user login attempt.
+                showProgress(true);
+                //mAuthTask = new UserLoginTask(email, password);
+                mAuthTask = new UserLoginTask(username, password, buttonEvent);
+                mAuthTask.execute((Void) null);
+            }else {
+                Snackbar.make(mUsernameView, R.string.internet_setting, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(android.R.string.ok, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                InternetUtil.openSetting(LoginActivity.this);
+                            }
+                        });
+            }
         }
     }
 
@@ -253,9 +273,15 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         String regex = "^[A-Za-z0-9]+$";
         boolean isValid = false;
         if (password.matches(regex)) {
-            if (password.length() > 4) {
-                isValid = true;
-            }
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    private boolean isPasswordLong(String password) {
+        boolean isValid = false;
+        if (password.length() > 4) {
+            isValid = true;
         }
         return isValid;
     }
@@ -296,6 +322,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         }
     }
 
+    /*
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -329,6 +356,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
     }
+    */
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
@@ -341,15 +369,15 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
     }
 
 
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
+//    private interface ProfileQuery {
+//        String[] PROJECTION = {
+//                ContactsContract.CommonDataKinds.Email.ADDRESS,
+//                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
+//        };
+//
+//        int ADDRESS = 0;
+//        int IS_PRIMARY = 1;
+//    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -361,7 +389,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         private final String mUsername;
         private final String mPassword;
         private final int mButtonEvent;
-
+        private String message;
         UserLoginTask(String username, String password, int buttonEvent) {
             //mEmail = email;
             mUsername = username;
@@ -381,10 +409,11 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                     LogUtil.d(TAG, "UserLoginTask debug, Sign In Successful");
                     RESULT = 1;
                 } catch (AVException ave) {
+                    message = ave.getMessage();
                     LogUtil.e(TAG, "UserLoginTask error, Sign In Failed", ave);
                     RESULT = -1;
                 }
-            } else {
+            } else if (mButtonEvent == SIGNUPEVENT) {
                 try {
                     LogUtil.d(TAG, "UserLoginTask debug, Start to Sign Up");
                     AVUser user = new AVUser();// 新建 AVUser 对象实例
@@ -395,6 +424,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                     LogUtil.d(TAG, "UserLoginTask debug, Sign Up Successful");
                     RESULT = 2;
                 } catch (AVException ave) {
+                    message = ave.getMessage();
                     LogUtil.e(TAG, "UserLoginTask error, Sign Up Failed", ave);
                     RESULT = -2;
                 }
@@ -410,11 +440,11 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             if (result == 0) {
                 finish();
             } else if (result == -1){//Sign In
-                mUsernameView.setError(getString(R.string.error_username_noneexist));
+                mUsernameView.setError(message);
                 mUsernameView.requestFocus();
             } else if (result == -2){//Sign Up
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                mUsernameView.setError(message);
+                mUsernameView.requestFocus();
             }
         }
 
