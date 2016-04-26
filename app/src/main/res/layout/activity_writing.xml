@@ -36,7 +36,13 @@
         android:layout_below="@+id/tb_writing_toolbar"
         android:layout_marginLeft="8dip"
         android:layout_marginRight="8dip">
-
+        <ProgressBar
+            android:id="@+id/writing_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="36dip"
+            android:layout_height="36dip"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
         <RelativeLayout
             android:id="@+id/rl_writing_container"
             android:layout_width="match_parent"

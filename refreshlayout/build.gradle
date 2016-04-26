@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'refreshlayout'
+
+    publishedGroupId = 'com.demievil.library'
+    libraryName = 'refreshlayout'
+    artifact = 'refreshlayout'
+
+    libraryDescription = 'An extension of android.support.v4.widget.SwipeRefreshLayout with loading more function for ListView'
+
+    siteUrl = 'https://github.com/Demievil/SwipeRefreshLayout'
+    gitUrl = 'https://github.com/Demievil/SwipeRefreshLayout.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'demievil'
+    developerName = 'LiuYan'
+    developerEmail = 'liuyanbupt@163.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:support-v4:22.2.0'
+}

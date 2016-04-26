@@ -1,8 +1,6 @@
 package com.way.heard.ui.fragments;
 
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,20 +10,14 @@ import android.view.ViewGroup;
 
 import com.way.heard.R;
 
-import yalantis.com.sidemenu.interfaces.ScreenShotable;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MessageFragment extends Fragment implements ScreenShotable {
+public class MessageFragment extends Fragment{
     private final static String TAG = MessageFragment.class.getName();
 
     public static final String MESSAGE = "Message";
-
-    private View containerView;
-    private Bitmap bitmap;
-
 
     public MessageFragment() {
         // Required empty public constructor
@@ -55,27 +47,6 @@ public class MessageFragment extends Fragment implements ScreenShotable {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.containerView = view.findViewById(R.id.fl_message_container);
     }
 
-    @Override
-    public void takeScreenShot() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                MessageFragment.this.bitmap = bitmap;
-            }
-        };
-
-        thread.start();
-    }
-
-    @Override
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
 }

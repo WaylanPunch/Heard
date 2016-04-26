@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -21,7 +21,7 @@ import com.way.heard.utils.LogUtil;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.github.mthli.knife.KnifeText;
 
-public class DraftActivity extends ActionBarActivity {
+public class DraftActivity extends AppCompatActivity {
     private final static String TAG = DraftActivity.class.getName();
 
     private Intent intent;

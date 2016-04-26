@@ -74,3 +74,7 @@
 -keep class org.xbill.** { *;}
 
 -keepattributes *Annotation*
+
+# Bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

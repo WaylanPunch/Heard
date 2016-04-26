@@ -1,10 +1,14 @@
 package com.way.heard.ui.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -14,18 +18,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
 import com.way.heard.adapters.NineGridImageViewAdapter;
 import com.way.heard.internal.GlidePauseOnScrollListener;
-import com.way.heard.models.Article;
 import com.way.heard.ui.views.NineGridImageView;
 import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.GlideLocalImageLoader;
+import com.way.heard.utils.LeanCloudHelper;
 import com.way.heard.utils.LogUtil;
+import com.way.heard.utils.NetAsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +47,7 @@ import cn.finalteam.galleryfinal.widget.GFImageView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.github.mthli.knife.KnifeParser;
 
-public class WritingActivity extends ActionBarActivity {
+public class WritingActivity extends AppCompatActivity {
     private final static String TAG = WritingActivity.class.getName();
 
     private final int REQUEST_CODE_CAMERA = 1000;
@@ -50,6 +57,7 @@ public class WritingActivity extends ActionBarActivity {
 
     private String articleContent;
     private List<String> tagsData = null;
+    private ProgressBar progressBar;
     private EditText etTitle;
     private TagCloudView tcvTags;
     private EditText etTags;
@@ -112,6 +120,7 @@ public class WritingActivity extends ActionBarActivity {
     }
 
     private void initView() {
+        progressBar = (ProgressBar) findViewById(R.id.writing_progress);
         etTitle = (EditText) findViewById(R.id.et_writing_title);
         tcvTags = (TagCloudView) findViewById(R.id.tcv_writing_tags);
         etTags = (EditText) findViewById(R.id.et_writing_tags);
@@ -324,11 +333,12 @@ public class WritingActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_publish:
-                if (TextUtils.isEmpty(etTitle.getText())) {
-                    new SweetAlertDialog(WritingActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Oops...")
-                            .setContentText("Your article has no title!")
-                            .show();
+                if (TextUtils.isEmpty(etTitle.getText().toString())) {
+//                    new SweetAlertDialog(WritingActivity.this, SweetAlertDialog.ERROR_TYPE)
+//                            .setTitleText("Oops...")
+//                            .setContentText("Your article has no title!")
+//                            .show();
+                    Toast.makeText(WritingActivity.this, "Your article has no title!", Toast.LENGTH_SHORT).show();
                 } else {
                     new SweetAlertDialog(WritingActivity.this, SweetAlertDialog.NORMAL_TYPE)
                             .setTitleText("Do you wish to publish the article?")
@@ -357,13 +367,15 @@ public class WritingActivity extends ActionBarActivity {
                                         article.setContent(articleContent);
                                     }
                                     */
-                                    Article article = new Article();
+                                    //Article article = new Article();
                                     //article.get
-                                    sDialog.setTitleText("Published!")
-                                            .setContentText("Your article has been published!")
-                                            .setConfirmText("OK")
-                                            .setConfirmClickListener(null)
-                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                    sDialog.dismissWithAnimation();
+                                    new PulblicTask(WritingActivity.this).execute();
+//                                    sDialog.setTitleText("Published!")
+//                                            .setContentText("Your article has been published!")
+//                                            .setConfirmText("OK")
+//                                            .setConfirmClickListener(null)
+//                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                 }
                             })
                             .show();
@@ -391,6 +403,76 @@ public class WritingActivity extends ActionBarActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    class PulblicTask extends NetAsyncTask {
+
+        protected PulblicTask(Context ctx) {
+            super(ctx);
+        }
+
+        @Override
+        protected void showProgress(boolean isDone) {
+            showProgressBar(isDone);
+        }
+
+        @Override
+        protected void doInBack() throws Exception {
+//            if (tagsData != null && tagsData.size() > 0) {
+//                article.setTags(tagsData);
+//            }
+
+            List<String> photopaths = new ArrayList<String>();
+            if (mPhotoList == null || mPhotoList.size() == 0 || TextUtils.isEmpty(mPhotoList.get(0).getPhotoPath())) {
+            } else {
+                for (PhotoInfo photoInfo : mPhotoList) {
+                    String photopath = "file://" + photoInfo.getPhotoPath();
+                    photopaths.add(photopath);
+                }
+            }
+            LeanCloudHelper.publishArticle(etTitle.getText().toString(),tagsData,photopaths,articleContent, AVUser.getCurrentUser());
+        }
+
+        @Override
+        protected void onPost(Exception e) {
+            showProgressBar(false);
+            if (e == null) {
+                new SweetAlertDialog(WritingActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Yes...")
+                        .setContentText("Your article has been published!")
+                        .show();
+            } else {
+                new SweetAlertDialog(WritingActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText(e.getMessage())
+                        .show();
+            }
+
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgressBar(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            progressBar.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            progressBar.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 }

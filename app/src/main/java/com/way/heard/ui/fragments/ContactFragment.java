@@ -1,8 +1,6 @@
 package com.way.heard.ui.fragments;
 
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -19,19 +17,15 @@ import com.way.heard.adapters.ContactTabAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import yalantis.com.sidemenu.interfaces.ScreenShotable;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactFragment extends Fragment implements ScreenShotable {
+public class ContactFragment extends Fragment{
     private final static String TAG = ContactFragment.class.getName();
 
     public static final String CONTACT = "Contact";
 
-    private View containerView;
-    private Bitmap bitmap;
 
     private TabLayout tabTile;                            //定义TabLayout
     private ViewPager vpPager;                             //定义viewPager
@@ -71,7 +65,6 @@ public class ContactFragment extends Fragment implements ScreenShotable {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.containerView = view.findViewById(R.id.fl_contact_container);
         this.tabTile = (TabLayout) view.findViewById(R.id.tab_contact_title);
         this.vpPager = (ViewPager) view.findViewById(R.id.vp_contact_pager);
 
@@ -104,24 +97,5 @@ public class ContactFragment extends Fragment implements ScreenShotable {
         tabTile.setupWithViewPager(vpPager);
     }
 
-    @Override
-    public void takeScreenShot() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                ContactFragment.this.bitmap = bitmap;
-            }
-        };
 
-        thread.start();
-    }
-
-    @Override
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
 }

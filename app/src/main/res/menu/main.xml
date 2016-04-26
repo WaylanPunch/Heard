@@ -1,34 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <!--<item-->
-        <!--android:id="@+id/action_search"-->
-        <!--android:icon="@drawable/ic_search"-->
-        <!--android:title="@string/action_search"-->
-        <!--app:showAsAction="ifRoom" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_notification"-->
-        <!--android:icon="@drawable/ic_notification"-->
-        <!--android:title="@string/action_notification"-->
-        <!--app:showAsAction="ifRoom" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_share"-->
-        <!--android:title="@string/action_share"-->
-        <!--android:orderInCategory="100"-->
-        <!--app:showAsAction="never" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_author"-->
-        <!--android:title="@string/action_author"-->
-        <!--android:orderInCategory="101"-->
-        <!--app:showAsAction="never" />-->
     <item
-        android:id="@+id/context_menu"
-        android:title="@string/context_menu"
-        android:icon="@drawable/ic_drag_vertical"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
+    android:id="@+id/action_search"
+    android:icon="@drawable/ic_search"
+    android:title="@string/action_search"
+    app:showAsAction="ifRoom" />
+
+    <item
+    android:id="@+id/action_notification"
+    android:icon="@drawable/ic_notification"
+    android:title="@string/action_notification"
+    app:showAsAction="ifRoom" />
+
+    <item
+    android:id="@+id/action_share"
+    android:title="@string/action_share"
+    android:orderInCategory="100"
+    app:showAsAction="never" />
+
+    <item
+    android:id="@+id/action_developer"
+    android:title="@string/action_developer"
+    android:orderInCategory="101"
+    app:showAsAction="never" />
 </menu>

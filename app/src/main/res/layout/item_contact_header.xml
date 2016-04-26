@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_item_contact_header_title"
+    style="?android:textAppearanceSmall"
+    android:layout_width="match_parent"
+    android:layout_height="36dip"
+    android:layout_gravity="center"
+    android:background="@color/colorHintText"
+    android:gravity="start|center_vertical"
+    android:padding="8dip"
+    android:text="A"
+    android:textColor="@color/colorWhite" />

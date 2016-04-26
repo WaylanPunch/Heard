@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorHintText">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/fl_contact_container"
@@ -29,4 +28,4 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
     </LinearLayout>
-</io.codetail.widget.RevealFrameLayout>
+</FrameLayout>

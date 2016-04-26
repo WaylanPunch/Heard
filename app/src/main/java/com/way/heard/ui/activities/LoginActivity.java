@@ -3,13 +3,14 @@ package com.way.heard.ui.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,20 +20,22 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
 import com.way.heard.utils.InternetUtil;
+import com.way.heard.utils.LeanCloudHelper;
 import com.way.heard.utils.LogUtil;
 
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends AppCompatActivity {
     private final static String TAG = LoginActivity.class.getName();
 
     private static final int SIGNUPEVENT = 0;
@@ -86,10 +89,10 @@ public class LoginActivity extends ActionBarActivity {
 
         //Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         //mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            //@Override
-            //public void onClick(View view) {
-                //attemptLogin();
-            //}
+        //@Override
+        //public void onClick(View view) {
+        //attemptLogin();
+        //}
         //});
 
 //        SegmentedGroup segmentedButton = (SegmentedGroup) findViewById(R.id.sg_login_button);
@@ -124,6 +127,17 @@ public class LoginActivity extends ActionBarActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        AVUser currentUser = AVUser.getCurrentUser();
+        if (currentUser != null) {
+            startMainActivity();
+        }
+    }
+
+    public void startMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void populateAutoComplete() {
@@ -233,27 +247,39 @@ public class LoginActivity extends ActionBarActivity {
         */
 
 
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
-            if(InternetUtil.isConnected(LoginActivity.this)) {
+            if (InternetUtil.isConnected(LoginActivity.this)) {
                 // Show a progress spinner, and kick off a background task to
                 // perform the user login attempt.
                 showProgress(true);
                 //mAuthTask = new UserLoginTask(email, password);
                 mAuthTask = new UserLoginTask(username, password, buttonEvent);
                 mAuthTask.execute((Void) null);
-            }else {
-                Snackbar.make(mUsernameView, R.string.internet_setting, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(android.R.string.ok, new View.OnClickListener() {
+            } else {
+                new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Failed to connect with internet?")
+                        .setContentText("Would you like to open the internet setting?")
+                        .setCancelText("No,cancel plx!")
+                        .setConfirmText("Yes,open it!")
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
-                            public void onClick(View v) {
-                                InternetUtil.openSetting(LoginActivity.this);
+                            public void onClick(SweetAlertDialog sDialog) {
+                                // reuse previous dialog instance, keep widget user state, reset them if you need
+                                sDialog.dismissWithAnimation();
                             }
-                        });
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .show();
             }
         }
     }
@@ -390,6 +416,7 @@ public class LoginActivity extends ActionBarActivity {
         private final String mPassword;
         private final int mButtonEvent;
         private String message;
+
         UserLoginTask(String username, String password, int buttonEvent) {
             //mEmail = email;
             mUsername = username;
@@ -404,28 +431,36 @@ public class LoginActivity extends ActionBarActivity {
                 try {
                     // Simulate network access.
                     //Thread.sleep(2000);
-                    LogUtil.d(TAG, "UserLoginTask debug, Start to Sign In");
-                    AVUser.logIn(mUsername, mPassword);
-                    LogUtil.d(TAG, "UserLoginTask debug, Sign In Successful");
-                    RESULT = 1;
-                } catch (AVException ave) {
-                    message = ave.getMessage();
-                    LogUtil.e(TAG, "UserLoginTask error, Sign In Failed", ave);
+                    //LogUtil.d(TAG, "UserLoginTask debug, Start to Sign In");
+                    boolean isOK = LeanCloudHelper.loginWithUsername(mUsername, mPassword);
+                    //AVUser.logIn(mUsername, mPassword);
+                    //LogUtil.d(TAG, "UserLoginTask debug, Sign In Successful");
+                    if (isOK)
+                        RESULT = 1;
+                    else
+                        RESULT = -1;
+                } catch (Exception e) {
+                    message = e.getMessage();
+                    LogUtil.e(TAG, "UserLoginTask error, Sign In Failed", e);
                     RESULT = -1;
                 }
             } else if (mButtonEvent == SIGNUPEVENT) {
                 try {
-                    LogUtil.d(TAG, "UserLoginTask debug, Start to Sign Up");
-                    AVUser user = new AVUser();// 新建 AVUser 对象实例
-                    user.setUsername(mUsername);// 设置用户名
-                    user.setPassword(mPassword);// 设置密码
-                    //user.setEmail("tom@leancloud.cn");// 设置邮箱
-                    user.signUp();
-                    LogUtil.d(TAG, "UserLoginTask debug, Sign Up Successful");
-                    RESULT = 2;
-                } catch (AVException ave) {
-                    message = ave.getMessage();
-                    LogUtil.e(TAG, "UserLoginTask error, Sign Up Failed", ave);
+//                    LogUtil.d(TAG, "UserLoginTask debug, Start to Sign Up");
+//                    AVUser user = new AVUser();// 新建 AVUser 对象实例
+//                    user.setUsername(mUsername);// 设置用户名
+//                    user.setPassword(mPassword);// 设置密码
+//                    //user.setEmail("tom@leancloud.cn");// 设置邮箱
+//                    user.signUp();
+//                    LogUtil.d(TAG, "UserLoginTask debug, Sign Up Successful");
+                    boolean isOK = LeanCloudHelper.signUpWithUsername(mUsername, mPassword);
+                    if (isOK)
+                        RESULT = 2;
+                    else
+                        RESULT = -2;
+                } catch (Exception e) {
+                    message = e.getMessage();
+                    LogUtil.e(TAG, "UserLoginTask error, Sign Up Failed", e);
                     RESULT = -2;
                 }
             }
@@ -437,12 +472,12 @@ public class LoginActivity extends ActionBarActivity {
             mAuthTask = null;
             showProgress(false);
 
-            if (result == 0) {
-                finish();
-            } else if (result == -1){//Sign In
+            if (result == 1 || result == 2) {
+                startMainActivity();
+            } else if (result == -1) {//Sign In
                 mUsernameView.setError(message);
                 mUsernameView.requestFocus();
-            } else if (result == -2){//Sign Up
+            } else if (result == -2) {//Sign Up
                 mUsernameView.setError(message);
                 mUsernameView.requestFocus();
             }
@@ -454,5 +489,7 @@ public class LoginActivity extends ActionBarActivity {
             showProgress(false);
         }
     }
+
+
 }
 

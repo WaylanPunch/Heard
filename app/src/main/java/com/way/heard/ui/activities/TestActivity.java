@@ -1,7 +1,7 @@
 package com.way.heard.ui.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,7 +11,7 @@ import com.avos.avoscloud.SaveCallback;
 import com.way.heard.R;
 import com.way.heard.utils.LogUtil;
 
-public class TestActivity extends ActionBarActivity {
+public class TestActivity extends AppCompatActivity {
     private final static String TAG = TestActivity.class.getName();
 
 

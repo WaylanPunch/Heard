@@ -44,4 +44,6 @@
     <string name="error_username_noneexist">Could not find user</string>
     <string name="action_sign_up">Sign Up</string>
     <string name="internet_setting">Make sure your device has connected the internet.</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="action_developer">Developer</string>
 </resources>

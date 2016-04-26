@@ -15,20 +15,24 @@
         android:id="@+id/imageView"
         android:layout_width="80dip"
         android:layout_height="80dip"
+        android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/imageview_ripple_rounded_shape_mask"
-        android:clickable="true"
-        android:padding="@dimen/text_normal_vertical_spacing"
         android:src="@android:drawable/sym_def_app_icon" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/textview_ripple_white_mask"
-        android:clickable="true"
-        android:padding="@dimen/text_normal_vertical_spacing"
         android:text="Android Studio"
+        android:textColor="@color/colorWhite"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorHintText"
+        android:text="android.studio@android.com" />
 
 </LinearLayout>
