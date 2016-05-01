@@ -10,10 +10,73 @@
     tools:context="com.way.heard.ui.activities.TestActivity">
 
     <Button
-        android:id="@+id/btn_test_add"
+        android:id="@+id/btn_test_query"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="New Button" />
+        android:text="Query" />
+
+    <TextView
+        android:id="@+id/tv_test_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_test_query"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_test_test"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/tv_test_message"-->
+        <!--android:text="Test" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_test_leanuser"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/btn_test_test"-->
+        <!--android:text="Lean User" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_test_folder"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/btn_test_leanuser"-->
+        <!--android:text="Folder" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_test_pick"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/btn_test_folder"-->
+        <!--android:text="Pick Image" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_test_display"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/btn_test_pick" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_test_select"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/iv_test_display"-->
+        <!--android:text="Select" />-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/rv_test_list"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/btn_test_select" />-->
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.way.heard.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -53,8 +54,12 @@ public class MainActivity extends AppCompatActivity
 
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.app_name));
+        //getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        toolbar.invalidate();
     }
 
     private void setLeanCloudAnalytics() {
@@ -73,6 +78,8 @@ public class MainActivity extends AppCompatActivity
 
     private void setDrawerLayout() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        //(R.drawable.app_icon);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -199,6 +206,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.action_share) {
             return true;
         } else if (id == R.id.action_developer) {
+            Intent intent = new Intent(MainActivity.this,TestActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -232,5 +241,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.d(TAG, "Request Code = " + requestCode + ", Result Code = " + resultCode);
     }
 }

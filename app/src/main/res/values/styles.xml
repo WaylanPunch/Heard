@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textColorHint">@color/colorHintText</item>
+        <!--<item name="android:actionButtonStyle">@style/ActionButtonStyle</item>-->
         <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
     </style>
 
@@ -21,4 +24,7 @@
     <style name="OverflowButtonStyle" parent="@android:style/Widget.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_drag_vertical</item>
     </style>
+    <!--<style name="ActionButtonStyle" parent="@android:style/Widget.ActionButton">-->
+    <!--<item name="android:src">@drawable/ic_menu</item>-->
+    <!--</style>-->
 </resources>

@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
 import com.way.heard.adapters.NineGridImageViewAdapter;
 import com.way.heard.internal.GlidePauseOnScrollListener;
@@ -55,17 +54,18 @@ public class WritingActivity extends AppCompatActivity {
     private final int REQUEST_CODE_CROP = 1002;
     private final int REQUEST_CODE_EDIT = 1003;
 
-    private String articleContent;
-    private List<String> tagsData = null;
+    private static String articleContent;
+    private static List<String> tagsData = null;
     private ProgressBar progressBar;
     private EditText etTitle;
     private TagCloudView tcvTags;
     private EditText etTags;
     private NineGridImageView ngivGallery;
-    private List<PhotoInfo> mPhotoList;
+    private static List<PhotoInfo> mPhotoList;
+    private static List<String> photopaths;
     private NineGridImageViewAdapter<PhotoInfo> mAdapter;
     private FloatingActionButton fab;
-
+    private TextView tvDataStorage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +97,7 @@ public class WritingActivity extends AppCompatActivity {
         LogUtil.d(TAG, "initData debug");
         tagsData = new ArrayList<>();
         mPhotoList = new ArrayList<>();
+        photopaths = new ArrayList<>();
         mAdapter = new NineGridImageViewAdapter<PhotoInfo>() {
             @Override
             public void onDisplayImage(Context context, final GFImageView imageView, PhotoInfo photoInfo) {
@@ -126,6 +127,7 @@ public class WritingActivity extends AppCompatActivity {
         etTags = (EditText) findViewById(R.id.et_writing_tags);
         ngivGallery = (NineGridImageView) findViewById(R.id.ngiv_writing_gallery);
         fab = (FloatingActionButton) findViewById(R.id.fab_writing_action);
+        tvDataStorage = (TextView) findViewById(R.id.tv_writing_storage);
 
         tcvTags.setVisibility(View.GONE);
         etTags.setOnKeyListener(new View.OnKeyListener() {
@@ -304,12 +306,22 @@ public class WritingActivity extends AppCompatActivity {
         public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
             try {
                 if (resultList != null) {
-                    //mPhotoList.clear();
-                    //mPhotoList.addAll(resultList);
                     mPhotoList = resultList;
-                    //ngivGallery.removeAllViewsInLayout();
-                    //ngivGallery.setAdapter(mAdapter);
                     ngivGallery.setImagesData(mPhotoList);
+                    ngivGallery.setTag(0, mPhotoList);
+                    if (resultList == null || resultList.size() == 0) {
+                        etTitle.setText("Noooooooooo");
+                        Toast.makeText(WritingActivity.this, "Noooooooooo", Toast.LENGTH_LONG).show();
+                    } else {
+                        String photoStr = "";
+                        for (PhotoInfo ph : resultList) {
+                            photoStr += ph.getPhotoPath() + ";";
+                        }
+                        etTitle.setText(photoStr);
+                        Toast.makeText(WritingActivity.this, photoStr, Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    etTitle.setText("Nullnullllll");
                 }
             } catch (Exception e) {
                 LogUtil.e(TAG, "OnHanlderResultCallback error", e);
@@ -343,7 +355,7 @@ public class WritingActivity extends AppCompatActivity {
                     new SweetAlertDialog(WritingActivity.this, SweetAlertDialog.NORMAL_TYPE)
                             .setTitleText("Do you wish to publish the article?")
                             .setContentText("You will be able to edit it again!")
-                            .setConfirmText("Yes,delete it!")
+                            .setConfirmText("Yes,publish it!")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
@@ -369,6 +381,21 @@ public class WritingActivity extends AppCompatActivity {
                                     */
                                     //Article article = new Article();
                                     //article.get
+                                    List<PhotoInfo> dataStorage = (List<PhotoInfo>) ngivGallery.getTag(0);
+                                    if (dataStorage == null || dataStorage.size() == 0 || TextUtils.isEmpty(dataStorage.get(0).getPhotoPath())) {
+                                        Toast.makeText(WritingActivity.this, "Er123, nonono", Toast.LENGTH_LONG).show();
+                                    }else {
+                                        for (PhotoInfo photoInfo : dataStorage) {
+                                            String photopath = photoInfo.getPhotoPath();
+                                            photopaths.add(photopath);
+                                        }
+                                    }
+//                                    if(photopaths == null || photopaths.size() == 0){
+//                                        Toast.makeText(WritingActivity.this, "Noooooooo", Toast.LENGTH_LONG).show();
+//                                    }else {
+//                                        Toast.makeText(WritingActivity.this, photopaths.get(0), Toast.LENGTH_LONG).show();
+//                                    }
+
                                     sDialog.dismissWithAnimation();
                                     new PulblicTask(WritingActivity.this).execute();
 //                                    sDialog.setTitleText("Published!")
@@ -397,7 +424,7 @@ public class WritingActivity extends AppCompatActivity {
 
                     SpannableStringBuilder builder = new SpannableStringBuilder();
                     builder.append(KnifeParser.fromHtml(content));
-                    ((TextView) findViewById(R.id.tv_writing_content)).setText(builder.toString());
+                    //((TextView) findViewById(R.id.tv_writing_storage)).setText(builder.toString());
                     LogUtil.d(TAG, "onActivityResult debug, requestCode = 0, Article's Title = " + title + " & Content = " + content);
                 }
                 break;
@@ -419,19 +446,8 @@ public class WritingActivity extends AppCompatActivity {
 
         @Override
         protected void doInBack() throws Exception {
-//            if (tagsData != null && tagsData.size() > 0) {
-//                article.setTags(tagsData);
-//            }
-
-            List<String> photopaths = new ArrayList<String>();
-            if (mPhotoList == null || mPhotoList.size() == 0 || TextUtils.isEmpty(mPhotoList.get(0).getPhotoPath())) {
-            } else {
-                for (PhotoInfo photoInfo : mPhotoList) {
-                    String photopath = "file://" + photoInfo.getPhotoPath();
-                    photopaths.add(photopath);
-                }
-            }
-            LeanCloudHelper.publishArticle(etTitle.getText().toString(),tagsData,photopaths,articleContent, AVUser.getCurrentUser());
+            //LeanCloudHelper.publishArticle(etTitle.getText().toString(), tagsData, photopaths, articleContent, AVUser.getCurrentUser());
+            LeanCloudHelper.test2(photopaths);
         }
 
         @Override

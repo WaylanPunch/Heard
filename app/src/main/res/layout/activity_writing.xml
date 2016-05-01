@@ -23,7 +23,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="Writing"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorSecondaryText"
             android:textSize="20dip" />
 
     </android.support.v7.widget.Toolbar>
@@ -141,7 +141,7 @@
             </ScrollView>
 
             <TextView
-                android:id="@+id/tv_writing_content"
+                android:id="@+id/tv_writing_storage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sc_writing_gallery_scroller"

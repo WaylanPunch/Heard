@@ -7,6 +7,8 @@ import com.avos.avoscloud.AVObject;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.way.heard.models.Article;
 import com.way.heard.models.Comment;
+import com.way.heard.models.Image;
+import com.way.heard.models.Post;
 import com.way.heard.utils.LogUtil;
 
 import im.fir.sdk.FIR;
@@ -31,6 +33,8 @@ public class HeardApp extends Application {
         AVOSCloud.initialize(this, CONFIG.LeanCloudAppID, CONFIG.LeanCloudAppKey);
         AVObject.registerSubclass(Article.class);
         AVObject.registerSubclass(Comment.class);
+        AVObject.registerSubclass(Post.class);
+        AVObject.registerSubclass(Image.class);
         // 应该放在 Application 的 onCreate 中，开启调式日志打印
         AVOSCloud.setDebugLogEnabled(CONFIG.LeanCloudIsDebugLogEnabled);
         // 应该放在 Application 的 onCreate 中，开启全局省流量模式

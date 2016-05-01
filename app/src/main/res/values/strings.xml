@@ -46,4 +46,10 @@
     <string name="internet_setting">Make sure your device has connected the internet.</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="action_developer">Developer</string>
+    <string name="title_activity_edit_post">EditPostActivity</string>
+    <string name="title_activity_post">PostActivity</string>
+    <string name="xlistview_footer_hint_ready">Ready to load more</string>
+    <string name="xlistview_footer_hint_normal">More</string>
+    <string name="listEmptyHint">No Data</string>
+    <string name="noMore">No More</string>
 </resources>

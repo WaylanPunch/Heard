@@ -5,6 +5,7 @@ import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.way.heard.models.Article;
+import com.way.heard.models.Post;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -21,10 +22,64 @@ public class LeanCloudHelper {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
+
+
     // https://github.com/leancloud/leanchat-android
+    public static boolean test1() {
+        try {
+            AVFile photoa = AVFile.withAbsoluteLocalPath("a.png", "/storage/emulated/0/Pictures/Screenshots/a.png");
+            photoa.save();
+            AVFile photob = AVFile.withAbsoluteLocalPath("b.png", "/storage/emulated/0/Pictures/Screenshots/b.png");
+            photob.save();
+            AVFile photoc = AVFile.withAbsoluteLocalPath("c.png", "/storage/emulated/0/Pictures/Screenshots/c.png");
+            photoc.save();
+            AVFile photod = AVFile.withAbsoluteLocalPath("d.png", "/storage/emulated/0/Pictures/Screenshots/d.png");
+            photod.save();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "test1 debug, Failed", e);
+            return false;
+        } catch (FileNotFoundException e) {
+            LogUtil.e(TAG, "test1 debug, Failed", e);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean test2(List<String> filepaths){
+        try{
+            if(filepaths != null && filepaths.size() > 0){
+                int photoindex = 0;
+                for(String filepath : filepaths){
+                    photoindex++;
+                    AVFile photo = AVFile.withAbsoluteLocalPath("aaaaaa-" + photoindex, filepath);
+                    photo.save();
+                }
+            }
+        } catch(AVException e){
+            LogUtil.e(TAG, "test2 debug, Failed", e);
+            return false;
+        } catch (FileNotFoundException e) {
+            LogUtil.e(TAG, "test2 debug, Failed", e);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public static boolean publishArticle(String title, List<String> tags, List<String> filepaths, String content, AVUser currentUser){
         try{
+            List<AVFile> photos = new ArrayList<>();
+            if(filepaths != null && filepaths.size() > 0){
+                int photoindex = 0;
+                for(String filepath : filepaths){
+                    photoindex++;
+                    AVFile photo = AVFile.withAbsoluteLocalPath("aaaaaa-" + photoindex, filepath);
+                    photo.save();
+                    photos.add(photo);
+                }
+            }
+
             Article article  = new Article();
             article.setTitle(title);
             if(tags != null && tags.size() > 0) {
@@ -32,26 +87,8 @@ public class LeanCloudHelper {
             }
             article.setContent(content);
             article.setAuthor(currentUser);
+            article.setPhotos(photos);
 
-            if(filepaths != null && filepaths.size() > 0){
-                List<AVFile> photos = new ArrayList<>();
-                int photoindex = 0;
-                for(String filepath : filepaths){
-                    photoindex++;
-                    AVFile photo = AVFile.withAbsoluteLocalPath(title + "-" + photoindex, filepath);
-                    photos.add(photo);
-                }
-
-				/*
-				AVRelation<AVFile> photos = new AVRelation<AVFile>();
-				for(String filepath : filepaths){
-					File file = new File(filepath);
-					AVFile photo = new AVFile.withFile(filename, file);
-					photos.add(photo);
-				}
-				*/
-                article.setPhotos(photos);
-            }
             article.save();
         } catch(AVException e){
             LogUtil.e(TAG, "publishArticle debug, Failed", e);
@@ -59,6 +96,7 @@ public class LeanCloudHelper {
         } catch (FileNotFoundException e) {
             LogUtil.e(TAG, "publishArticle debug, Failed", e);
             e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -284,5 +322,23 @@ public class LeanCloudHelper {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static List<Post> getAnyPublicPostsByPage(int skip, int limit){
+        List<Post> posts = new ArrayList<>();
+        try{
+            if(limit > 0){
+                AVQuery<Post> query = AVQuery.getQuery("Post");
+                query.whereEqualTo("type", 1);// public article
+                query.skip(skip);
+                query.limit(limit);
+                query.orderByDescending("createdAt");
+                posts = query.find();
+            }
+        } catch(AVException e){
+            LogUtil.e(TAG, "getAnyPublicPostsByPage debug, Failed", e);
+            return null;
+        }
+        return posts;
     }
 }

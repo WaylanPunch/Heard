@@ -20,7 +20,8 @@ public class GlideLocalImageLoader implements cn.finalteam.galleryfinal.ImageLoa
     @Override
     public void displayImage(Activity activity, String path, final GFImageView imageView, Drawable defaultDrawable, int width, int height) {
         Glide.with(activity)
-                .load("file://" + path)
+                //.load("file://" + path)
+                .load(path)
                 .placeholder(defaultDrawable)
                 .error(defaultDrawable)
                 .override(width, height)
