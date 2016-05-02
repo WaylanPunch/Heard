@@ -3,8 +3,10 @@ package com.way.heard.utils;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
 import com.way.heard.models.Article;
+import com.way.heard.models.Image;
 import com.way.heard.models.Post;
 
 import java.io.FileNotFoundException;
@@ -332,8 +334,16 @@ public class LeanCloudHelper {
                 query.whereEqualTo("type", 1);// public article
                 query.skip(skip);
                 query.limit(limit);
+                query.include(Post.AUTHOR);
                 query.orderByDescending("createdAt");
                 posts = query.find();
+
+                for(Post post : posts) {
+                    AVRelation<Image> photos = post.getPhotos();
+                    AVQuery<Image> photoQuery = photos.getQuery();
+                    List<Image> images = photoQuery.find();
+                    post.trySetPhotoList(images);
+                }
             }
         } catch(AVException e){
             LogUtil.e(TAG, "getAnyPublicPostsByPage debug, Failed", e);

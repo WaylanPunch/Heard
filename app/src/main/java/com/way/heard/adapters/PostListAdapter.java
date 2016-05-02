@@ -1,27 +1,42 @@
 package com.way.heard.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 import com.way.heard.R;
+import com.way.heard.models.Image;
 import com.way.heard.models.Post;
+import com.way.heard.ui.activities.ImageDisplayActivity;
+import com.way.heard.ui.activities.PostDisplayActivity;
+import com.way.heard.ui.activities.UserDisplayActivity;
 import com.way.heard.ui.views.ViewHolder;
+import com.way.heard.utils.GlideImageLoader;
+import com.way.heard.utils.Util;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by pc on 2016/5/1.
  */
 public class PostListAdapter extends BaseListAdapter<Post> {
 
+    private Context context;
+
     public PostListAdapter(Context ctx) {
         super(ctx);
+        context = ctx;
     }
 
     @Override
@@ -29,110 +44,132 @@ public class PostListAdapter extends BaseListAdapter<Post> {
         if (conView == null) {
             conView = inflater.inflate(R.layout.item_post_normal, null, false);
         }
+        //1.Get View
         ImageView ivAvatar = ViewHolder.findViewById(conView, R.id.iv_post2_item_avatar);
         TextView tvUsername = ViewHolder.findViewById(conView, R.id.tv_post2_item_nickname);
         TextView tvCreateAt = ViewHolder.findViewById(conView, R.id.tv_post2_item_createat);
         TextView tvContent = ViewHolder.findViewById(conView, R.id.tv_post2_item_content);
-        ImageView ivphoto = ViewHolder.findViewById(conView, R.id.iv_post2_item_photo);
+        ImageView ivPhoto = ViewHolder.findViewById(conView, R.id.iv_post2_item_photo);
         TextView tvTag = ViewHolder.findViewById(conView, R.id.tv_post2_item_tag);
         ImageView ivLikesButton = ViewHolder.findViewById(conView, R.id.iv_post2_item_likes_button);
-        TextView tvLikesCount = ViewHolder.findViewById(conView, R.id.tv_post2_item_likes_count);
+        //TextView tvLikesCount = ViewHolder.findViewById(conView, R.id.tv_post2_item_likes_count);
         ImageView ivCommentsButton = ViewHolder.findViewById(conView, R.id.iv_post2_item_comments_button);
-        TextView tvCommentsCount = ViewHolder.findViewById(conView, R.id.tv_post2_item_comments_count);
+        //TextView tvCommentsCount = ViewHolder.findViewById(conView, R.id.tv_post2_item_comments_count);
 
+        //2.Get Data
         final Post post = datas.get(position);
+        String strAvatarUrl = post.getAuthor().getString("avatar");
+        String strUsername = post.getAuthor().getUsername();
+        long longCreateAt = post.getCreatedAt().getTime();
+        String strContent = post.getContent();
 
-        /*
-        TextView nameView = ViewHolder.findViewById(conView, R.id.nameView);
-        TextView textView = ViewHolder.findViewById(conView, R.id.statusText);
-        ImageView avatarView = ViewHolder.findViewById(conView, R.id.avatarView);
-        ImageView imageView = ViewHolder.findViewById(conView, R.id.statusImage);
-        ImageView likeView = ViewHolder.findViewById(conView, R.id.likeView);
-        TextView likeCountView = ViewHolder.findViewById(conView, R.id.likeCount);
-        View likeLayout = ViewHolder.findViewById(conView, R.id.likeLayout);
-        TextView timeView = ViewHolder.findViewById(conView, R.id.timeView);
+        List<Image> images = post.tryGetPhotoList();
+        String strImageUrl = "";
+        if (images != null && images.size() > 0) {
+            strImageUrl = images.get(0).getUrl();
+        }
+        String strTag = post.getTag();
+        List<String> likesObjectIDs = post.getLikes();
+        List<String> commentObjectIDs = post.getComments();
 
-        final Post post = datas.get(position);
-        AVUser source = innerStatus.getSource();
-        StatusUtils.displayAvatar(source, avatarView);
-        nameView.setText(source.getUsername());
-
-        avatarView.setOnClickListener(new View.OnClickListener() {
+        //3.Set Data
+        //3.1.Avatar
+        GlideImageLoader.displayImage(context, strAvatarUrl, ivAvatar);
+        ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersonActivity.go(ctx, innerStatus.getSource());
+                UserDisplayActivity.go(context, post.getAuthor());
             }
         });
-
-        if (TextUtils.isEmpty(innerStatus.getMessage())) {
-            textView.setVisibility(View.GONE);
-        } else {
-            textView.setText(innerStatus.getMessage());
-            textView.setVisibility(View.VISIBLE);
+        //3.2.Username
+        tvUsername.setText(strUsername);
+        //3.3.CreateAt
+        tvCreateAt.setText(millisecs2DateString(longCreateAt));
+        //3.4.Content
+        if (!TextUtils.isEmpty(strContent)) {
+            tvContent.setVisibility(View.VISIBLE);
+            tvContent.setText(strContent);
+        }else {
+            tvContent.setVisibility(View.GONE);
         }
-        if (TextUtils.isEmpty(innerStatus.getImageUrl()) == false) {
-            imageView.setVisibility(View.VISIBLE);
-            //ImageLoader.getInstance().displayImage(innerStatus.getImageUrl(), imageView, StatusUtils.normalImageOptions);
-            imageView.setOnClickListener(new View.OnClickListener() {
+        //3.5.Photo
+        if (!TextUtils.isEmpty(strImageUrl)) {
+            ivPhoto.setVisibility(View.VISIBLE);
+            final String finalStrImageUrl = strImageUrl;
+            ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Intent intent = new Intent(ctx, ImageBrowserActivity.class);
-                    //intent.putExtra("url", innerStatus.getImageUrl());
-                    //ctx.startActivity(intent);
+                    ImageDisplayActivity.go(context, finalStrImageUrl);
                 }
             });
+            GlideImageLoader.displayImage(context, strImageUrl, ivPhoto);
         } else {
-            imageView.setVisibility(View.GONE);
+            ivPhoto.setVisibility(View.GONE);
+        }
+        //3.6.Tag
+        if (!TextUtils.isEmpty(strTag)) {
+            tvTag.setVisibility(View.VISIBLE);
+            tvTag.setText(strTag);
+        }else {
+            tvTag.setVisibility(View.GONE);
+        }
+        //3.7.Likes
+        final AVUser currentUser = AVUser.getCurrentUser();
+        if (likesObjectIDs == null) {
+            likesObjectIDs = new ArrayList<>();
+        }
+        final boolean isliked = likesObjectIDs.contains(currentUser.getObjectId());
+        if(isliked){
+            //tvLikesCount.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            ivLikesButton.setImageResource(R.drawable.ic_thumb_up_accent);
+        }else {
+            ivLikesButton.setImageResource(R.drawable.ic_thumb_up);
         }
 
-
-        final AVObject detail = status.getDetail();
-
-        final List<String> likes;
-        if (detail.get(App.LIKES) != null) {
-            likes = (List<String>) detail.get(App.LIKES);
-        } else {
-            likes = new ArrayList<String>();
-        }
-
-        int n = likes.size();
-        if (n > 0) {
-            likeCountView.setText(n + "");
-        } else {
-            likeCountView.setText("");
-        }
-
-        final AVUser user = AVUser.getCurrentUser();
-        final String userId = user.getObjectId();
-        final boolean contains = likes.contains(userId);
-        if (contains) {
-            likeView.setImageResource(R.drawable.status_ic_player_liked);
-        } else {
-            likeView.setImageResource(R.drawable.ic_player_like);
-        }
-        likeLayout.setOnClickListener(new View.OnClickListener() {
+        final List<String> finalLikesObjectIDs = likesObjectIDs;
+        ivLikesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveCallback saveCallback = new SaveCallback() {
-                    @Override
-                    public void done(AVException e) {
-                        if (StatusUtils.filterException(ctx, e)) {
-                            notifyDataSetChanged();
+                if(isliked){//Remove Like
+                    finalLikesObjectIDs.remove(currentUser.getObjectId());
+                    post.setLikes(finalLikesObjectIDs);
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if(e==null){
+                                notifyDataSetChanged();
+                                //ivLikesButton.setImageResource(R.drawable.ic_thumb_up);
+                            }else {
+                                Util.toast(context,"Error, " + e.getMessage());
+                            }
                         }
-                    }
-                };
-                if (contains) {
-                    likes.remove(userId);
-                    StatusService.saveStatusLikes(detail, likes, saveCallback);
-                } else {
-                    likes.add(userId);
-                    StatusService.saveStatusLikes(detail, likes, saveCallback);
+                    });
+                }else {//Add Like
+                    finalLikesObjectIDs.add(currentUser.getObjectId());
+                    post.setLikes(finalLikesObjectIDs);
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if(e==null){
+                                notifyDataSetChanged();
+                                //ivLikesButton.setImageResource(R.drawable.ic_thumb_up_accent);
+                            }else {
+                                Util.toast(context,"Error, " + e.getMessage());
+                            }
+                        }
+                    });
                 }
             }
         });
 
-        timeView.setText(millisecs2DateString(innerStatus.getCreatedAt().getTime()));
-        */
+        //3.8.Comments
+        ivCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostDisplayActivity.go(context, post);
+            }
+        });
+
         return conView;
     }
 

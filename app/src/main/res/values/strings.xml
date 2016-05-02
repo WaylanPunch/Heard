@@ -52,4 +52,6 @@
     <string name="xlistview_footer_hint_normal">More</string>
     <string name="listEmptyHint">No Data</string>
     <string name="noMore">No More</string>
+    <string name="title_activity_post_display">PostDisplayActivity</string>
+    <string name="title_activity_user_detail">UserDetailActivity</string>
 </resources>

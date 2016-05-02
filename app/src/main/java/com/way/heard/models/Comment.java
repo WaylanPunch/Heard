@@ -2,8 +2,9 @@ package com.way.heard.models;
 
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
+
+import java.util.List;
 
 /**
  * Created by pc on 2016/4/23.
@@ -32,19 +33,19 @@ public class Comment extends AVObject {
         put(AUTHOR, author);
     }
 
-    public AVRelation<AVUser> getLikes() {
-        return getRelation(LIKES);
+    public List<String> getLikes() {
+        return getList(LIKES);
     }
 
-    public void setLikes(AVRelation<AVUser> likes) {
-        put(LIKES, likes);
+    public void setLikes(List<String> likeObjectIDs) {
+        put(LIKES, likeObjectIDs);
     }
 
-    public AVRelation<Comment> getComments() {
-        return getRelation(COMMENTS);
+    public List<String> getComments() {
+        return getList(COMMENTS);
     }
 
-    public void setComments(AVRelation<Comment> comments) {
-        put(COMMENTS, comments);
+    public void setComments(List<String> commentObjectIDs) {
+        put(COMMENTS, commentObjectIDs);
     }
 }

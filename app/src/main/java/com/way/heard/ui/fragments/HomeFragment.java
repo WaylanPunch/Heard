@@ -183,7 +183,9 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         LogUtil.d(TAG, "Request Code = " + requestCode + ", Result Code = " + resultCode);
         if (resultCode == Activity.RESULT_OK) {
-
+            if (requestCode == POST_PUBLISH_REQUEST) {
+                blvPostList.onRefresh();
+            }
         }
     }
 }

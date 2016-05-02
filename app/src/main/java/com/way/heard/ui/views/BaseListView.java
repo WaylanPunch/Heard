@@ -93,13 +93,15 @@ public class BaseListView<T> extends XListView implements XListView.IXListViewLi
                         stopRefresh();
                         adapter.setDatas(datas);
                         adapter.notifyDataSetChanged();
-                        if (datas.size() < ONE_PAGE_SIZE) {
-                            if (isToastIfEmpty()) {
-                                if (datas.size() == 0) {
-                                    Util.toast(getContext(), R.string.listEmptyHint);
+                        if (datas != null) {
+                            if(datas.size() < ONE_PAGE_SIZE) {
+                                if (isToastIfEmpty()) {
+                                    if (datas.size() == 0) {
+                                        Util.toast(getContext(), R.string.listEmptyHint);
+                                    }
                                 }
+                                setPullLoadEnable(false);
                             }
-                            setPullLoadEnable(false);
                         } else {
                             setPullLoadEnable(true);
                         }

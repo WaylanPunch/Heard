@@ -19,6 +19,10 @@ public class BookmarkFragment extends Fragment{
 
     public static final String BOOKMARK = "Bookmark";
 
+    @Override
+    public void setRetainInstance(boolean retain) {
+        super.setRetainInstance(retain);
+    }
 
     public BookmarkFragment() {
         // Required empty public constructor

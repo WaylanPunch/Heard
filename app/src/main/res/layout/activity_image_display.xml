@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.way.heard.ui.activities.ImageDisplayActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:layout_width="80dip"
+        android:layout_height="36dip"
+        android:layout_gravity="left|bottom"
+        android:layout_margin="@dimen/bullet_gap_width"
+        android:padding="@dimen/bullet_gap_width"
+        android:gravity="center"
+        android:background="@drawable/background_tag_selector_border_light"
+        android:text="Download"
+        android:textColor="@color/colorSecondaryText" />
+    <TextView
+        android:layout_width="80dip"
+        android:layout_height="36dip"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="@dimen/bullet_gap_width"
+        android:padding="@dimen/bullet_gap_width"
+        android:gravity="center"
+        android:background="@drawable/background_tag_selector_border_light"
+        android:text="Send"
+        android:textColor="@color/colorSecondaryText" />
+</FrameLayout>

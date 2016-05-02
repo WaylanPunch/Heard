@@ -41,13 +41,17 @@ public class BaseListAdapter<T> extends BaseAdapter {
     }
 
     public void addAll(List<T> subDatas) {
-        datas.addAll(subDatas);
-        notifyDataSetChanged();
+        if (subDatas != null) {
+            datas.addAll(subDatas);
+            notifyDataSetChanged();
+        }
     }
 
     public void add(T object) {
-        datas.add(object);
-        notifyDataSetChanged();
+        if (object != null) {
+            datas.add(object);
+            notifyDataSetChanged();
+        }
     }
 
     public void remove(int position) {
@@ -57,7 +61,7 @@ public class BaseListAdapter<T> extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return datas.size();
+        return datas == null ? 0 : datas.size();
     }
 
     @Override

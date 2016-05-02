@@ -1,6 +1,7 @@
 package com.way.heard.utils;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -57,6 +58,37 @@ public class GlideImageLoader {
                     //.diskCacheStrategy(DiskCacheStrategy.NONE) //不缓存到SD卡
                     //.skipMemoryCache(true)
                     .centerCrop()
+                    .into(new ImageViewTarget<GlideDrawable>(imageView) {
+                        @Override
+                        protected void setResource(GlideDrawable resource) {
+                            imageView.setImageDrawable(resource);
+                        }
+
+                        @Override
+                        public void setRequest(Request request) {
+                            imageView.setTag(R.id.adapter_item_tag_key,request);
+                        }
+
+                        @Override
+                        public Request getRequest() {
+                            return (Request) imageView.getTag(R.id.adapter_item_tag_key);
+                        }
+                    });
+        } catch (Exception e) {
+            LogUtil.e(TAG, "displayImageFromUrl error", e);
+        }
+    }
+
+    public static void displayImage(Context context, String url, final ImageView imageView) {
+        try {
+            Glide.with(context)
+                    .load(url)
+                    .placeholder(R.drawable.ic_picture_default)
+                    .error(R.drawable.ic_picture_default)
+                    //.override(width, height)
+                    //.diskCacheStrategy(DiskCacheStrategy.NONE) //不缓存到SD卡
+                    //.skipMemoryCache(true)
+                    //.fitCenter()
                     .into(new ImageViewTarget<GlideDrawable>(imageView) {
                         @Override
                         protected void setResource(GlideDrawable resource) {

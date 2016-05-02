@@ -3,7 +3,9 @@ package com.way.heard.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,17 +24,25 @@ import com.way.heard.ui.fragments.MessageFragment;
 import com.way.heard.ui.fragments.SettingFragment;
 import com.way.heard.utils.LogUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private final static String TAG = MainActivity.class.getName();
 
     private FragmentManager fragmentManager;
+
     private HomeFragment homeFragment;
     private FindFragment findFragment;
     private BookmarkFragment bookmarkFragment;
     private MessageFragment messageFragment;
     private MeFragment meFragment;
     private SettingFragment settingFragment;
+
+    private Fragment mContent;
+    private List<String> tags;
+
     private Toolbar toolbar;
     private DrawerLayout drawer;
 
@@ -48,9 +58,6 @@ public class MainActivity extends AppCompatActivity
 
         initView();
     }
-
-
-
 
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -68,13 +75,42 @@ public class MainActivity extends AppCompatActivity
 
     private void setContentFragment() {
         LogUtil.d(TAG, "setContentFragment debug");
-        fragmentManager = getSupportFragmentManager();
-        homeFragment = HomeFragment.newInstance(1);
+        tags = new ArrayList<>();
+        tags.add(HomeFragment.HOME);
+        tags.add(FindFragment.FIND);
+        tags.add(BookmarkFragment.BOOKMARK);
+        tags.add(MessageFragment.MESSAGE);
+        tags.add(MeFragment.ME);
+        tags.add(SettingFragment.SETTING);
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, homeFragment)
-                .commit();
+        fragmentManager = getSupportFragmentManager();
+        homeFragment = HomeFragment.newInstance(0);
+
+        mContent = homeFragment;
+        fragmentManager.beginTransaction().add(R.id.fragment_container, mContent, tags.get(0)).commit();
+        //switchContent(mContent, homeFragment, 0);
     }
+
+    /**
+     * fragment 切换
+     *
+     *
+     * @param newFragment
+     * @param position
+     */
+    public void switchContent(Fragment newFragment, int position) {
+        if (mContent != newFragment) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            if (!newFragment.isAdded()) { // 先判断是否被add过
+                transaction.hide(mContent)
+                        .add(R.id.fragment_container, newFragment, tags.get(position)).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            } else {
+                transaction.hide(mContent).show(newFragment).commit(); // 隐藏当前的fragment，显示下一个
+            }
+            mContent = newFragment;
+        }
+    }
+
 
     private void setDrawerLayout() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -103,6 +139,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /*
     private void replaceFragment(int index) {
         switch (index){
             case 1:
@@ -165,6 +202,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
+
 //        View view = findViewById(R.id.fragment_container);
 //        int finalRadius = Math.max(view.getWidth(), view.getHeight());
 //        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, 400, 0, finalRadius);
@@ -173,6 +211,7 @@ public class MainActivity extends AppCompatActivity
 //        //findViewById(R.id.main_content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), settingFragment.getBitmap()));
 //        animator.start();
     }
+    */
 
     @Override
     public void onBackPressed() {
@@ -221,17 +260,41 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            replaceFragment(1);
+            //replaceFragment(1);
+            if (homeFragment == null) {
+                homeFragment = HomeFragment.newInstance(0);
+            }
+            switchContent(homeFragment, 0);
         } else if (id == R.id.nav_find) {
-            replaceFragment(2);
+            //replaceFragment(2);
+            if (findFragment == null) {
+                findFragment = FindFragment.newInstance(1);
+            }
+            switchContent(findFragment, 1);
         } else if (id == R.id.nav_bookmark) {
-            replaceFragment(3);
+            //replaceFragment(3);
+            if (bookmarkFragment == null) {
+                bookmarkFragment = BookmarkFragment.newInstance(2);
+            }
+            switchContent(bookmarkFragment, 2);
         } else if (id == R.id.nav_message) {
-            replaceFragment(4);
+            //replaceFragment(4);
+            if (messageFragment == null) {
+                messageFragment = MessageFragment.newInstance(3);
+            }
+            switchContent(messageFragment, 3);
         } else if (id == R.id.nav_me) {
-            replaceFragment(5);
+            //replaceFragment(5);
+            if (meFragment == null) {
+                meFragment = MeFragment.newInstance(4);
+            }
+            switchContent(meFragment, 4);
         } else if (id == R.id.nav_setting) {
-            replaceFragment(6);
+            //replaceFragment(6);
+            if (settingFragment == null) {
+                settingFragment = SettingFragment.newInstance(5);
+            }
+            switchContent(settingFragment, 5);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -248,4 +311,6 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         LogUtil.d(TAG, "Request Code = " + requestCode + ", Result Code = " + resultCode);
     }
+
+
 }

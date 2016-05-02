@@ -11,8 +11,6 @@ import com.way.heard.models.Image;
 import com.way.heard.models.Post;
 import com.way.heard.utils.LogUtil;
 
-import im.fir.sdk.FIR;
-
 /**
  * Created by pc on 2016/4/19.
  */
@@ -27,8 +25,6 @@ public class HeardApp extends Application {
         // Tencent Bugly
         CrashReport.initCrashReport(getApplicationContext(), CONFIG.BuglyAppId, false);
 
-        //BugHD
-        FIR.init(this);
         // 初始化参数依次为 this, AppId, AppKey
         AVOSCloud.initialize(this, CONFIG.LeanCloudAppID, CONFIG.LeanCloudAppKey);
         AVObject.registerSubclass(Article.class);

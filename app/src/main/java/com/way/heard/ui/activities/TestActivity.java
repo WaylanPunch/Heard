@@ -1,30 +1,40 @@
 package com.way.heard.ui.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
+import com.way.heard.models.Image;
 import com.way.heard.models.Post;
 import com.way.heard.utils.LeanCloudBackgroundTask;
 import com.way.heard.utils.LeanCloudHelper;
 import com.way.heard.utils.LogUtil;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class TestActivity extends AppCompatActivity {
     private final static String TAG = TestActivity.class.getName();
     private static final int IMAGE_PICK_REQUEST = 0;
 
-//    Button btnAdd;
+    //    Button btnAdd;
     TextView tvMessage;
     String message = "";
-//    Button btnTest;
+    //    Button btnTest;
 //    Button btnLeanUser;
 //    Button btnFolder;
 //    Button btnPick;
@@ -32,17 +42,80 @@ public class TestActivity extends AppCompatActivity {
 //    Button btnSelect;
 //    RecyclerView rvPhotoList;
 //
-//    private static Bitmap bitmap;
+    private static Bitmap bitmap;
 
     Button btnQuery;
     private List<Post> posts;
+
+    private Button btnAvatar;
+    private ImageView ivAvatar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        initView1();
+
         initView2();
+    }
+
+    private void initView1() {
+        btnAvatar = (Button) findViewById(R.id.btn_test_avatar);
+        ivAvatar = (ImageView) findViewById(R.id.iv_test_avatar);
+        ivAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickImage(TestActivity.this, IMAGE_PICK_REQUEST);
+            }
+        });
+        btnAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new LeanCloudBackgroundTask(TestActivity.this) {
+
+                    @Override
+                    protected void onPre() {
+
+                    }
+
+                    @Override
+                    protected void doInBack() throws AVException {
+                        AVUser currentUser = AVUser.getCurrentUser();
+
+                        if (bitmap != null) {
+                            ByteArrayOutputStream out = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                            byte[] data = out.toByteArray();
+                            AVFile avfile = new AVFile(currentUser.getUsername() + ".jpg", data);
+                            avfile.save();
+                            
+                            String url = avfile.getUrl();
+                            String thumbnailurl = avfile.getThumbnailUrl(true, 100, 100);
+
+                            Image img = new Image();
+                            img.setAuthor(currentUser);
+                            img.setThumbnailurl(thumbnailurl);
+                            img.setUrl(url);
+                            img.save();
+
+                            currentUser.put("avatar", thumbnailurl);
+                            currentUser.save();
+                        }
+                    }
+
+                    @Override
+                    protected void onPost(AVException e) {
+                        if (e == null) {
+                            Toast.makeText(TestActivity.this, "Done", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(TestActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }.execute();
+            }
+        });
     }
 
     private void initView2() {
@@ -75,7 +148,11 @@ public class TestActivity extends AppCompatActivity {
                                         message += "Tag = " + post.getTag() + " ; ";
                                         message += "Author = " + post.getAuthor().getUsername() + " ; ";
                                         message += "Type = " + post.getType() + " ; ";
-                                        message += "Photo key = " + post.getPhotos().getKey() + " ; ";
+                                        List<Image> images = post.tryGetPhotoList();
+                                        if (images != null && images.size() > 0) {
+                                            message += "Photo key = " + post.tryGetPhotoList().get(0) + " ; ";
+                                        }
+                                        break;
                                     }
                                 }
                                 tvMessage.setText(message);
@@ -343,38 +420,28 @@ public class TestActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
-//
-//    public static void pickImage(Activity activity, int requestCode) {
-//        Intent intent = new Intent(Intent.ACTION_PICK, null);
-//        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-//        activity.startActivityForResult(intent, requestCode);
-//    }
-//
+
+    public static void pickImage(Activity activity, int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_PICK, null);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        activity.startActivityForResult(intent, requestCode);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK) {
-//            if (requestCode == IMAGE_PICK_REQUEST) {
-//                Uri uri = data.getData();
-//                try {
-//                    tvMessage.setText(uri.getPath());
-//                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-//                    ivDisplay.setImageBitmap(bitmap);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            } else if (requestCode == REQUEST_CODE && data != null) {
-//                List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
-//
-//                for (String path : pathList) {
-//                    Log.i("ImagePathList", path);
-//                }
-//
-//                photopaths.clear();
-//                photopaths.addAll(pathList);
-//                adapter.notifyDataSetChanged();
-//            }
-//        }
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == IMAGE_PICK_REQUEST) {
+                Uri uri = data.getData();
+                try {
+                    tvMessage.setText(uri.getPath());
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                    ivAvatar.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
