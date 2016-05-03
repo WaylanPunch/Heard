@@ -46,8 +46,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:gravity="center"
-                    android:text="displayname"
+                    android:text="nickname"
                     android:textColor="@color/colorSecondaryText" />
 
                 <TextView
@@ -55,33 +56,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:gravity="center"
-                    android:text="nickname"
+                    android:text="username"
                     android:textColor="@color/colorHintText" />
 
-                <TextView
-                    android:id="@+id/tv_user_display_signature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="signature"
-                    android:textColor="@color/colorHintText" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
 
                     <TextView
                         android:id="@+id/tv_user_display_followee_tip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="56dip"
-                        android:textColor="@color/colorHintText"
                         android:gravity="center"
                         android:minWidth="80dip"
                         android:padding="@dimen/bullet_gap_width"
-                        android:text="Followee" />
+                        android:text="Followee"
+                        android:textColor="@color/colorHintText" />
 
                     <TextView
                         android:id="@+id/tv_user_display_followee_count"
@@ -89,9 +84,9 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/tv_user_display_followee_tip"
                         android:gravity="center"
-                        android:textColor="@color/colorHintText"
                         android:padding="@dimen/bullet_gap_width"
-                        android:text="1" />
+                        android:text="1"
+                        android:textColor="@color/colorHintText" />
 
                     <TextView
                         android:id="@+id/tv_user_display_follower_tip"
@@ -111,79 +106,157 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginRight="56dip"
                         android:gravity="center"
-                        android:textColor="@color/colorHintText"
                         android:padding="@dimen/bullet_gap_width"
-                        android:text="21" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tv_user_display_chat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="56dip"
-                        android:background="@drawable/tag_background"
-                        android:gravity="center"
-                        android:minWidth="80dip"
-                        android:textColor="@color/colorWhite"
-                        android:padding="@dimen/bullet_gap_width"
-                        android:text="Chat" />
-
-                    <TextView
-                        android:id="@+id/tv_user_display_follow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="56dip"
-                        android:background="@drawable/tag_background_accent"
-                        android:gravity="center"
-                        android:minWidth="80dip"
-                        android:textColor="@color/colorWhite"
-                        android:padding="@dimen/bullet_gap_width"
-                        android:text="Follow" />
+                        android:text="21"
+                        android:textColor="@color/colorHintText" />
                 </RelativeLayout>
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
-        <RelativeLayout
+
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_user_display_post_count"
-                android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:text="23"
-                android:textColor="@color/colorSecondaryText"/>
-            <TextView
-                android:id="@+id/tv_user_display_post_tip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/tv_user_display_post_count"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:text="Posts"
-                android:textColor="@color/colorSecondaryText"/>
-            <ImageView
-                android:id="@+id/tv_user_display_post_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_dots_horizontal"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-        </RelativeLayout>
-        <com.way.heard.ui.views.BaseListView
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_user_display_signature_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:gravity="center"
+                        android:text="Signature"
+                        android:textColor="@color/colorSecondaryText" />
+
+                    <TextView
+                        android:id="@+id/tv_user_display_signature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:gravity="center"
+                        android:text="signature"
+                        android:textColor="@color/colorHintText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_user_display_city_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:gravity="center"
+                        android:text="City"
+                        android:textColor="@color/colorSecondaryText" />
+
+                    <TextView
+                        android:id="@+id/tv_user_display_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:gravity="center"
+                        android:text="city"
+                        android:textColor="@color/colorHintText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_user_display_photo_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:gravity="center"
+                        android:text="Photo"
+                        android:textColor="@color/colorSecondaryText" />
+
+                    <ImageView
+                        android:id="@+id/iv_user_display_photo1"
+                        android:layout_width="56dip"
+                        android:layout_height="56dip"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:src="@drawable/ic_picture_default" />
+
+                    <ImageView
+                        android:id="@+id/iv_user_display_photo2"
+                        android:layout_width="56dip"
+                        android:layout_height="56dip"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:src="@drawable/ic_picture_default" />
+
+                    <ImageView
+                        android:id="@+id/iv_user_display_photo3"
+                        android:layout_width="56dip"
+                        android:layout_height="56dip"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:src="@drawable/ic_picture_default" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_user_display_chat"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.way.heard.ui.views.BaseListView>
+            android:layout_height="48dip"
+            android:layout_gravity="center"
+            android:layout_marginLeft="56dip"
+            android:layout_marginRight="56dip"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/tag_background_white"
+            android:gravity="center"
+            android:minWidth="80dip"
+            android:padding="@dimen/bullet_gap_width"
+            android:text="Chat"
+            android:textColor="@color/colorHintText" />
+
+        <TextView
+            android:id="@+id/tv_user_display_follow"
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            android:layout_gravity="center"
+            android:layout_marginLeft="56dip"
+            android:layout_marginRight="56dip"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/tag_background_accent"
+            android:gravity="center"
+            android:minWidth="80dip"
+            android:padding="@dimen/bullet_gap_width"
+            android:text="Follow"
+            android:textColor="@color/colorWhite" />
     </LinearLayout>
+
 </ScrollView>

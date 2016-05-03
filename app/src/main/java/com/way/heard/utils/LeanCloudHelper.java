@@ -2,6 +2,7 @@ package com.way.heard.utils;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
@@ -332,6 +333,33 @@ public class LeanCloudHelper {
             if(limit > 0){
                 AVQuery<Post> query = AVQuery.getQuery("Post");
                 query.whereEqualTo("type", 1);// public article
+                query.skip(skip);
+                query.limit(limit);
+                query.include(Post.AUTHOR);
+                query.orderByDescending("createdAt");
+                posts = query.find();
+
+                for(Post post : posts) {
+                    AVRelation<Image> photos = post.getPhotos();
+                    AVQuery<Image> photoQuery = photos.getQuery();
+                    List<Image> images = photoQuery.find();
+                    post.trySetPhotoList(images);
+                }
+            }
+        } catch(AVException e){
+            LogUtil.e(TAG, "getAnyPublicPostsByPage debug, Failed", e);
+            return null;
+        }
+        return posts;
+    }
+
+    public static List<Post> getAnyPublicPostsByUserByPage(String userObjectId, int skip, int limit){
+        List<Post> posts = new ArrayList<>();
+        try{
+            if(limit > 0){
+                AVQuery<Post> query = AVQuery.getQuery("Post");
+                query.whereEqualTo("type", 1);// public post
+                query.whereEqualTo("author", AVObject.createWithoutData("_User", userObjectId));
                 query.skip(skip);
                 query.limit(limit);
                 query.include(Post.AUTHOR);

@@ -3,6 +3,7 @@ package com.way.heard.ui.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -490,6 +491,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
+    public static void go(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
 }
 

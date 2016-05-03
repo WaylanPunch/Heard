@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
+import com.way.heard.ui.activities.LoginActivity;
+import com.way.heard.utils.LeanCloudHelper;
 
 
 /**
@@ -22,7 +24,7 @@ public class SettingFragment extends Fragment{
     private final static String TAG = SettingFragment.class.getName();
 
     public static final String SETTING = "Setting";
-
+    private static boolean isLogin = false;
 
     private LinearLayout ll_LoginContainer;
     private ImageView iv_LoginIcon;
@@ -67,12 +69,23 @@ public class SettingFragment extends Fragment{
     private void initData() {
         AVUser currentUser = AVUser.getCurrentUser();
         if (currentUser != null) {
+            isLogin = true;
             iv_LoginIcon.setImageResource(R.drawable.ic_logout);
             tv_LoginTip.setText("Sign Out");
         } else {
+            isLogin = false;
             iv_LoginIcon.setImageResource(R.drawable.ic_login);
             tv_LoginTip.setText("Sign In");
         }
+        ll_LoginContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isLogin){
+                    LeanCloudHelper.logout();
+                }
+                LoginActivity.go(getContext());
+            }
+        });
     }
 
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -90,9 +91,16 @@ public class HomeFragment extends Fragment {
         });
 
         initListView();
-
         blvPostList.setToastIfEmpty(false);
-        blvPostList.onRefresh();
+        new Handler().postDelayed(new Runnable()
+        {
+            public void run()
+            {
+
+                blvPostList.onRefresh();
+            }
+        }, 2000);
+
     }
 
     private void initListView() {
