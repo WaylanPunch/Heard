@@ -4,29 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVUser;
+import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
-import com.way.heard.adapters.PostListAdapter;
+import com.way.heard.adapters.PostAdapter;
 import com.way.heard.models.Post;
 import com.way.heard.ui.activities.PostActivity;
-import com.way.heard.ui.views.BaseListView;
+import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
+import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
 import com.way.heard.utils.LeanCloudBackgroundTask;
 import com.way.heard.utils.LeanCloudHelper;
 import com.way.heard.utils.LogUtil;
-import com.way.heard.utils.Util;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by pc on 2016/4/13.
@@ -34,15 +34,21 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class HomeFragment extends Fragment {
     private final static String TAG = HomeFragment.class.getName();
     private static final int POST_PUBLISH_REQUEST = 1001;
-    private Context context;
 
     public static final String CLOSE = "Close";
     public static final String HOME = "Home";
     public static final String EXIT = "Exit";
 
+    private Context context;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private AutoLoadRecyclerView mRecyclerView;
+    private RotateLoading loading;
     private FloatingActionButton fab;
-    private BaseListView<Post> blvPostList;
-    private static int PAGE_INDEX = 1;
+
+    private PostAdapter mAdapter;
+    private int pageIndex = 1;
+    private final static int pageSize = 5;
+    private List<Post> mPosts;
 
     public static HomeFragment newInstance(int param) {
         LogUtil.d(TAG, "newInstance debug");
@@ -72,14 +78,17 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         LogUtil.d(TAG, "onViewCreated debug");
         super.onViewCreated(view, savedInstanceState);
-        context = getContext();
+        this.mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_home_swiperefreshlayout);
+        this.mRecyclerView = (AutoLoadRecyclerView) view.findViewById(R.id.alrv_home_recyclerview);
+        this.loading = (RotateLoading) view.findViewById(R.id.loading);
         this.fab = (FloatingActionButton) view.findViewById(R.id.fab_home_action);
-        this.blvPostList = (BaseListView<Post>) view.findViewById(R.id.blv_post2_list);
-        initView();
     }
 
-    private void initView() {
-        LogUtil.d(TAG, "initView debug");
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        context = getContext();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,101 +99,80 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        initListView();
-        blvPostList.setToastIfEmpty(false);
-        new Handler().postDelayed(new Runnable()
-        {
-            public void run()
-            {
-
-                blvPostList.onRefresh();
+        mPosts = new ArrayList<>();
+        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
+            @Override
+            public void loadMore() {
+                loadNextPage();
             }
-        }, 2000);
+        });
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadFirst();
+            }
+        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setOnPauseListenerParams(context, false, true);
+
+
+        mAdapter = new PostAdapter(context);
+        mRecyclerView.setAdapter(mAdapter);
+        loadFirst();
 
     }
 
-    private void initListView() {
-        blvPostList.init(new BaseListView.DataInterface<Post>() {
-            @Override
-            public List<Post> getDatas(int skip, int limit, List<Post> currentDatas) throws AVException {
+    public void loadFirst() {
+        pageIndex = 1;
+        LogUtil.d(TAG, "loadFirst debug, Page Index = " + pageIndex);
+        loadDataByNetworkType();
+    }
 
-                return LeanCloudHelper.getAnyPublicPostsByPage(skip, limit);
-//                long maxId;
-//                maxId = getMaxId(skip, currentDatas);
-//                if (maxId == 0) {
-//                    return new ArrayList<>();
-//                } else {
-//                    return StatusService.getStatusDatas(maxId, limit);
-//                }
+    public void loadNextPage() {
+        pageIndex++;
+        LogUtil.d(TAG, "loadNextPage debug, Page Index = " + pageIndex);
+        loadDataByNetworkType();
+    }
+
+    private void loadDataByNetworkType() {
+        new LeanCloudBackgroundTask(context) {
+
+            @Override
+            protected void onPre() {
+                loading.start();
+                mSwipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
-            public void onItemLongPressed(final Post item) {
-                //AVStatus innerStatus = item.getInnerStatus();
-                AVUser friend = item.getAuthor();
-                if (friend.getObjectId().equals(AVUser.getCurrentUser().getObjectId())) {
-
-                    new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Are you sure?")
-                            .setContentText("Won't be able to recover this post!")
-                            .setCancelText("No,cancel plx!")
-                            .setConfirmText("Yes,delete it!")
-                            .showCancelButton(true)
-                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismissWithAnimation();
-                                }
-                            })
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(final SweetAlertDialog sDialog) {
-                                    new LeanCloudBackgroundTask(context) {
-                                        @Override
-                                        protected void onPre() {
-
-                                        }
-
-                                        @Override
-                                        protected void doInBack() throws AVException {
-                                            //StatusService.deleteStatus(item);
-                                        }
-
-                                        @Override
-                                        protected void onPost(AVException e) {
-                                            if (e != null) {
-                                                Util.toast(context, e.getMessage());
-                                            } else {
-                                                sDialog.setTitleText("Deleted!")
-                                                        .setContentText("Your post has been deleted!")
-                                                        .setConfirmText("OK")
-                                                        .showCancelButton(false)
-                                                        .setCancelClickListener(null)
-                                                        .setConfirmClickListener(null)
-                                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                                blvPostList.onRefresh();
-                                            }
-                                        }
-                                    }.execute();
-                                }
-                            })
-                            .show();
+            protected void doInBack() throws AVException {
+                List<Post> data = LeanCloudHelper.getAnyPublicPostsByPage((pageIndex - 1) * pageSize, pageSize);
+                if(mPosts == null){
+                    mPosts = new ArrayList<Post>();
+                }
+                if (pageIndex == 1) {
+                    mPosts.clear();
+                    mPosts = data;
+                } else {
+                    mPosts.addAll(data);
                 }
             }
-        }, new PostListAdapter(getContext()));
-    }
 
-//    public static long getMaxId(int skip, List<Post> currentDatas) {
-//        long maxId;
-//        if (skip == 0) {
-//            maxId = Long.MAX_VALUE;
-//        } else {
-//
-//            Post lastStatus = currentDatas.get(currentDatas.size() - 1);
-//            maxId = lastStatus.getMessageId() - 1;
-//        }
-//        return maxId;
-//    }
+            @Override
+            protected void onPost(AVException e) {
+                mAdapter.setPosts(mPosts);
+                mAdapter.notifyDataSetChanged();
+                loading.stop();
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        }.execute();
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -192,7 +180,7 @@ public class HomeFragment extends Fragment {
         LogUtil.d(TAG, "Request Code = " + requestCode + ", Result Code = " + resultCode);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == POST_PUBLISH_REQUEST) {
-                blvPostList.onRefresh();
+                loadFirst();
             }
         }
     }

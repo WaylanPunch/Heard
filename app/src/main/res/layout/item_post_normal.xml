@@ -1,121 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_post2_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/bullet_gap_width">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/iv_post2_item_avatar"
+                android:layout_width="60dip"
+                android:layout_height="60dip"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:src="@drawable/ic_picture_default" />
+
+            <TextView
+                android:id="@+id/tv_post2_item_nickname"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_toRightOf="@+id/iv_post2_item_avatar"
+                android:text="Nickname"
+                android:textColor="@color/colorSecondaryText" />
+
+            <TextView
+                android:id="@+id/tv_post2_item_createat"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:text="1 hour ago" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_post2_item_content"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:text="content"
+            android:textColor="@color/colorSecondaryText" />
 
         <ImageView
-            android:id="@+id/iv_post2_item_avatar"
-            android:layout_width="60dip"
-            android:layout_height="60dip"
+            android:id="@+id/iv_post2_item_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:src="@drawable/ic_picture_default" />
 
         <TextView
-            android:id="@+id/tv_post2_item_nickname"
-            style="?android:textAppearanceSmall"
+            android:id="@+id/tv_post2_item_tag"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="36dip"
             android:layout_margin="@dimen/activity_vertical_margin"
-            android:layout_toRightOf="@+id/iv_post2_item_avatar"
-            android:text="Nickname"
-            android:textColor="@color/colorSecondaryText" />
+            android:background="@drawable/tag_background"
+            android:drawableLeft="@drawable/ic_tag"
+            android:gravity="center_vertical"
+            android:minWidth="60dip"
+            android:text="tag" />
 
-        <TextView
-            android:id="@+id/tv_post2_item_createat"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:text="1 hour ago" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_post2_item_content"
-        style="?android:textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:text="content"
-        android:textColor="@color/colorSecondaryText" />
+            <ImageView
+                android:id="@+id/iv_post2_item_comments_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="24dip"
+                android:layout_height="24dip"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/bullet_gap_width"
+                android:layout_marginTop="@dimen/bullet_gap_width"
+                android:src="@drawable/ic_comment_gray" />
 
-    <ImageView
-        android:id="@+id/iv_post2_item_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:scaleType="center"
-        android:src="@drawable/ic_picture_default" />
+            <!--<TextView-->
+            <!--android:id="@+id/tv_post2_item_comments_count"-->
+            <!--style="?android:textAppearanceSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="24dip"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_marginBottom="@dimen/bullet_gap_width"-->
+            <!--android:layout_marginTop="@dimen/bullet_gap_width"-->
+            <!--android:gravity="start|center_vertical"-->
+            <!--android:text="0" />-->
 
-    <TextView
-        android:id="@+id/tv_post2_item_tag"
-        android:layout_width="wrap_content"
-        android:layout_height="36dip"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:background="@drawable/tag_background"
-        android:drawableLeft="@drawable/ic_tag"
-        android:gravity="center_vertical"
-        android:minWidth="60dip"
-        android:text="tag" />
+            <ImageView
+                android:id="@+id/iv_post2_item_likes_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="24dip"
+                android:layout_height="24dip"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/bullet_gap_width"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/bullet_gap_width"
+                android:src="@drawable/ic_thumb_up" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/iv_post2_item_comments_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="24dip"
-            android:layout_height="24dip"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/bullet_gap_width"
-            android:layout_marginTop="@dimen/bullet_gap_width"
-            android:src="@drawable/ic_comment_gray" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_post2_item_comments_count"-->
-        <!--style="?android:textAppearanceSmall"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="24dip"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:layout_marginBottom="@dimen/bullet_gap_width"-->
-        <!--android:layout_marginTop="@dimen/bullet_gap_width"-->
-        <!--android:gravity="start|center_vertical"-->
-        <!--android:text="0" />-->
-
-        <ImageView
-            android:id="@+id/iv_post2_item_likes_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="24dip"
-            android:layout_height="24dip"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="@dimen/bullet_gap_width"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/bullet_gap_width"
-            android:src="@drawable/ic_thumb_up" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_post2_item_likes_count"-->
-        <!--style="?android:textAppearanceSmall"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="24dip"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_marginBottom="@dimen/bullet_gap_width"-->
-        <!--android:layout_marginRight="@dimen/activity_vertical_margin"-->
-        <!--android:layout_marginTop="@dimen/bullet_gap_width"-->
-        <!--android:gravity="start|center_vertical"-->
-        <!--android:text="0" />-->
+            <!--<TextView-->
+            <!--android:id="@+id/tv_post2_item_likes_count"-->
+            <!--style="?android:textAppearanceSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="24dip"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_marginBottom="@dimen/bullet_gap_width"-->
+            <!--android:layout_marginRight="@dimen/activity_vertical_margin"-->
+            <!--android:layout_marginTop="@dimen/bullet_gap_width"-->
+            <!--android:gravity="start|center_vertical"-->
+            <!--android:text="0" />-->
 
 
-    </RelativeLayout>
-</LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

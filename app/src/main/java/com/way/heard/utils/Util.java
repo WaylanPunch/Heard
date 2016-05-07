@@ -5,6 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.Toast;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by pc on 2016/4/26.
  */
@@ -28,5 +33,21 @@ public class Util {
             dialog.show();
         }
         return dialog;
+    }
+
+    public static String getDate(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+        return format.format(date);
+    }
+
+    public static String millisecs2DateString(long timestamp) {
+        PrettyTime prettyTime = new PrettyTime();
+        long gap = System.currentTimeMillis() - timestamp;
+        if (gap < 1000 * 60 * 60 * 24) {
+            String s = prettyTime.format(new Date(timestamp));
+            return s.replace(" ", "");
+        } else {
+            return getDate(new Date(timestamp));
+        }
     }
 }

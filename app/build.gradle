@@ -87,4 +87,6 @@ dependencies {
     //compile 'com.yancy.imageselector:imageselector:1.3.3'
     compile project(':imageselector')
     compile files('libs/prettytime-3.2.5.Final.jar')
+    compile 'com.victor:lib:1.0.1'
+    compile 'net.wujingchao.android.view:simple-tag-imageview:1.0.1'
 }

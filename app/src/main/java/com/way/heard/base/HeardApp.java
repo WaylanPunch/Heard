@@ -1,6 +1,7 @@
 package com.way.heard.base;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
@@ -17,10 +18,12 @@ import com.way.heard.utils.LogUtil;
 public class HeardApp extends Application {
     private final static String TAG = HeardApp.class.getName();
 
+    private static Context mContext;
     @Override
     public void onCreate() {
         super.onCreate();
         LogUtil.d(TAG, "onCreate debug");
+        mContext = this;
 
         // Tencent Bugly
         CrashReport.initCrashReport(getApplicationContext(), CONFIG.BuglyAppId, false);
@@ -37,5 +40,9 @@ public class HeardApp extends Application {
         AVOSCloud.setLastModifyEnabled(CONFIG.LeanCloudIsLastModifyEnabled);
         // 应该放在 Application 的 onCreate 中，设置网络超时限制
         AVOSCloud.setNetworkTimeout(AVOSCloud.DEFAULT_NETWORK_TIMEOUT);//15秒的网络超时限制
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 }

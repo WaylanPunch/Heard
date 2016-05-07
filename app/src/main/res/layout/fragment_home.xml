@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/colorBackgroundDefault"
     android:layout_height="match_parent">
 
-    <com.way.heard.ui.views.BaseListView
-        android:id="@+id/blv_post2_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_home_swiperefreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="@dimen/activity_vertical_margin"
-        android:divider="@color/colorBackgroundDefault">
+        android:layout_height="match_parent">
 
-    </com.way.heard.ui.views.BaseListView>
+        <com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView
+            android:id="@+id/alrv_home_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+
+        </com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/common_loading"></include>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_home_action"
