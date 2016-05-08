@@ -12,10 +12,21 @@ import java.util.List;
 @AVClassName("Comment")
 public class Comment extends AVObject {
     public static final Creator CREATOR = AVObjectCreator.instance;
+    public static final String POSTOBJECTID = "postobjectid";
     public static final String CONTENT = "content";
     public static final String AUTHOR = "author";
+    public static final String REPLYTO = "replyto";
     public static final String LIKES = "likes";
-    public static final String COMMENTS = "comments";
+    public static final String REPLYFOR = "replyfor";
+
+    public String getPostObjectID() {
+        return getString(POSTOBJECTID);
+    }
+
+    public void setPostObjectID(String content) {
+        put(POSTOBJECTID, content);
+    }
+
 
     public String getContent() {
         return getString(CONTENT);
@@ -33,6 +44,22 @@ public class Comment extends AVObject {
         put(AUTHOR, author);
     }
 
+    public AVUser getReplyTo() {
+        return getAVUser(REPLYTO);
+    }
+
+    public void setReplyTo(AVUser author) {
+        put(REPLYTO, author);
+    }
+
+    public Comment getReplyFor() {
+        return getAVObject(REPLYFOR);
+    }
+
+    public void setReplyFor(Comment comment) {
+        put(REPLYFOR, comment);
+    }
+
     public List<String> getLikes() {
         return getList(LIKES);
     }
@@ -41,11 +68,5 @@ public class Comment extends AVObject {
         put(LIKES, likeObjectIDs);
     }
 
-    public List<String> getComments() {
-        return getList(COMMENTS);
-    }
 
-    public void setComments(List<String> commentObjectIDs) {
-        put(COMMENTS, commentObjectIDs);
-    }
 }

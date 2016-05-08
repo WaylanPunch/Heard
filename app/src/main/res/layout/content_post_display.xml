@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,10 +8,54 @@
     tools:context="com.way.heard.ui.activities.PostDisplayActivity"
     tools:showIn="@layout/activity_post_display">
 
-    <RelativeLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_post_display_swiperefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView
+                android:id="@+id/alrv_post_display_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:scrollbars="vertical">
+
+            </com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <include layout="@layout/common_loading"></include>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_post_display_commentcontainer"
         android:layout_width="match_parent"
         android:layout_height="56dip"
-        android:layout_marginBottom="0dip">
+        android:layout_alignParentBottom="true"
+        android:background="#f6f6f6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:padding="8dp">
 
-    </RelativeLayout>
-</FrameLayout>
+        <EditText
+            android:id="@+id/et_post_display_commentcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="I have to say..." />
+
+        <ImageView
+            android:id="@+id/iv_post_display_commentsend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_send" />
+    </LinearLayout>
+</RelativeLayout>

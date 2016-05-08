@@ -4,6 +4,8 @@ import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 
+import java.util.List;
+
 /**
  * Created by pc on 2016/4/23.
  */
@@ -13,6 +15,8 @@ public class Image extends AVObject {
     public static final String URL = "url";
     public static final String THUMBNAILURL = "thumbnailurl";
     public static final String AUTHOR = "author";
+    public static final String TYPE = "type";
+    public static final String LIKES = "likes";
 
     public String getUrl() {
         return getString(URL);
@@ -38,5 +42,19 @@ public class Image extends AVObject {
         put(AUTHOR, author);
     }
 
+    public int getType() {
+        return getInt(TYPE);
+    }
 
+    public void setType(int type) {
+        put(TYPE, type);
+    }
+
+    public List<String> getLikes() {
+        return getList(LIKES);
+    }
+
+    public void setLikes(List<String> likeObjectIDs) {
+        put(LIKES, likeObjectIDs);
+    }
 }

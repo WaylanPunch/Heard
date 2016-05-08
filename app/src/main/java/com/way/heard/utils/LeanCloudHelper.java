@@ -7,6 +7,7 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
 import com.way.heard.models.Article;
+import com.way.heard.models.Comment;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
 
@@ -24,7 +25,6 @@ public class LeanCloudHelper {
         /** cannot be instantiated **/
         throw new UnsupportedOperationException("cannot be instantiated");
     }
-
 
 
     // https://github.com/leancloud/leanchat-android
@@ -49,17 +49,17 @@ public class LeanCloudHelper {
         return true;
     }
 
-    public static boolean test2(List<String> filepaths){
-        try{
-            if(filepaths != null && filepaths.size() > 0){
+    public static boolean test2(List<String> filepaths) {
+        try {
+            if (filepaths != null && filepaths.size() > 0) {
                 int photoindex = 0;
-                for(String filepath : filepaths){
+                for (String filepath : filepaths) {
                     photoindex++;
                     AVFile photo = AVFile.withAbsoluteLocalPath("aaaaaa-" + photoindex, filepath);
                     photo.save();
                 }
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "test2 debug, Failed", e);
             return false;
         } catch (FileNotFoundException e) {
@@ -70,12 +70,12 @@ public class LeanCloudHelper {
         return true;
     }
 
-    public static boolean publishArticle(String title, List<String> tags, List<String> filepaths, String content, AVUser currentUser){
-        try{
+    public static boolean publishArticle(String title, List<String> tags, List<String> filepaths, String content, AVUser currentUser) {
+        try {
             List<AVFile> photos = new ArrayList<>();
-            if(filepaths != null && filepaths.size() > 0){
+            if (filepaths != null && filepaths.size() > 0) {
                 int photoindex = 0;
-                for(String filepath : filepaths){
+                for (String filepath : filepaths) {
                     photoindex++;
                     AVFile photo = AVFile.withAbsoluteLocalPath("aaaaaa-" + photoindex, filepath);
                     photo.save();
@@ -83,9 +83,9 @@ public class LeanCloudHelper {
                 }
             }
 
-            Article article  = new Article();
+            Article article = new Article();
             article.setTitle(title);
-            if(tags != null && tags.size() > 0) {
+            if (tags != null && tags.size() > 0) {
                 article.setTags(tags);
             }
             article.setContent(content);
@@ -93,7 +93,7 @@ public class LeanCloudHelper {
             article.setPhotos(photos);
 
             article.save();
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "publishArticle debug, Failed", e);
             return false;
         } catch (FileNotFoundException e) {
@@ -104,49 +104,49 @@ public class LeanCloudHelper {
         return true;
     }
 
-    public static List<Article> getMyArticlesByPage(String userObjectId, boolean isMe, int page, int pagesize){
+    public static List<Article> getMyArticlesByPage(String userObjectId, boolean isMe, int page, int pagesize) {
         List<Article> articles = new ArrayList<>();
-        try{
-            if(page > 0 && pagesize > 0){
+        try {
+            if (page > 0 && pagesize > 0) {
                 AVQuery<Article> query = AVQuery.getQuery("Article");
                 query.whereEqualTo("author", userObjectId);
-                if(!isMe){
+                if (!isMe) {
                     query.whereEqualTo("type", 1);
                 }
-                query.skip((page - 1)*pagesize);
+                query.skip((page - 1) * pagesize);
                 query.limit(pagesize);
                 query.orderByDescending("createdAt");
                 articles = query.find();
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "getMyArticlesByPage debug, Failed", e);
             return null;
         }
         return articles;
     }
 
-    public static List<Article> getAnyPublicArticlesByPage(int page, int pagesize){
+    public static List<Article> getAnyPublicArticlesByPage(int page, int pagesize) {
         List<Article> articles = new ArrayList<>();
-        try{
-            if(page > 0 && pagesize > 0){
+        try {
+            if (page > 0 && pagesize > 0) {
                 AVQuery<Article> query = AVQuery.getQuery("Article");
                 query.whereEqualTo("type", 1);// public article
-                query.skip((page - 1)*pagesize);
+                query.skip((page - 1) * pagesize);
                 query.limit(pagesize);
                 query.orderByDescending("createdAt");
                 articles = query.find();
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "getAnyPublicArticlesByPage debug, Failed", e);
             return null;
         }
         return articles;
     }
 
-    public static List<Article> getAllMyFolloweesArticlesByPage(String userObjectId, int page, int pagesize){
+    public static List<Article> getAllMyFolloweesArticlesByPage(String userObjectId, int page, int pagesize) {
         List<Article> articles = new ArrayList<>();
-        try{
-            if(page > 0 && pagesize > 0){
+        try {
+            if (page > 0 && pagesize > 0) {
                 AVQuery<AVUser> queryFollowee = AVUser.followeeQuery(userObjectId, AVUser.class);
                 List<AVUser> followees = queryFollowee.find();
 
@@ -157,31 +157,31 @@ public class LeanCloudHelper {
                 AVQuery<Article> queryArticle = AVQuery.getQuery("Article");
                 queryArticle.whereContainedIn("author", followees);
                 queryArticle.whereEqualTo("type", 1);
-                queryArticle.skip((page - 1)*pagesize);
+                queryArticle.skip((page - 1) * pagesize);
                 queryArticle.limit(pagesize);
                 queryArticle.orderByDescending("createdAt");
                 articles = queryArticle.find();
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "getAllMyFolloweesArticlesByPage debug, Failed", e);
             return null;
         }
         return articles;
     }
 
-    public static List<Article> getAnyPublicArticlesByTagsByPage(List<String> tags, int page, int pagesize){
+    public static List<Article> getAnyPublicArticlesByTagsByPage(List<String> tags, int page, int pagesize) {
         List<Article> articles = new ArrayList<>();
-        try{
-            if(page > 0 && pagesize > 0){
+        try {
+            if (page > 0 && pagesize > 0) {
                 AVQuery<Article> query = AVQuery.getQuery("Article");
                 query.whereEqualTo("type", 1);
                 query.whereContainedIn("tags", tags);
-                query.skip((page - 1)*pagesize);
+                query.skip((page - 1) * pagesize);
                 query.limit(pagesize);
                 query.orderByDescending("createdAt");
                 articles = query.find();
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "getAnyPublicArticlesByTagsByPage debug, Failed", e);
             return null;
         }
@@ -189,7 +189,7 @@ public class LeanCloudHelper {
     }
 
 	/*
-	public static List<AVUser> getMyFollowees(){
+    public static List<AVUser> getMyFollowees(){
 		List<AVUser> followees;
 		try{
 			AVQuery<AVUser> query = AVQuery.getQuery("_Followee");
@@ -205,17 +205,17 @@ public class LeanCloudHelper {
 	}
 	*/
 
-    public static List<AVUser> getMyFolloweesByPage(String userObjectId, int page, int pagesize){
+    public static List<AVUser> getMyFolloweesByPage(String userObjectId, int page, int pagesize) {
         List<AVUser> followees = new ArrayList<>();
-        try{
-            if(page > 0 && pagesize > 0){
+        try {
+            if (page > 0 && pagesize > 0) {
                 AVQuery<AVUser> query = AVUser.followeeQuery(userObjectId, AVUser.class);
-                query.skip((page - 1)*pagesize);
+                query.skip((page - 1) * pagesize);
                 query.limit(pagesize);
                 query.orderByDescending("createdAt");
                 followees = query.find();
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "getMyFolloweesByPage debug, Failed", e);
             return null;
         }
@@ -239,48 +239,48 @@ public class LeanCloudHelper {
 	}
 	*/
 
-    public static List<AVUser> getMyFollowersByPage(String userObjectId, int page, int pagesize){
+    public static List<AVUser> getMyFollowersByPage(String userObjectId, int page, int pagesize) {
         List<AVUser> followers = new ArrayList<>();
-        try{
-            if(page > 0 && pagesize > 0){
+        try {
+            if (page > 0 && pagesize > 0) {
                 AVQuery<AVUser> query = AVUser.followerQuery(userObjectId, AVUser.class);
-                query.skip((page - 1)*pagesize);
+                query.skip((page - 1) * pagesize);
                 query.limit(pagesize);
                 query.orderByDescending("createdAt");
                 followers = query.find();
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "getMyFollowersByPage debug, Failed", e);
             return null;
         }
         return followers;
     }
 
-    public static boolean loginWithUsername(String username, String password){
-        try{
+    public static boolean loginWithUsername(String username, String password) {
+        try {
             AVUser.logIn(username, password);
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "loginWithUsername debug, Failed", e);
             return false;
         }
         return true;
     }
 
-    public static boolean signUpWithUsername(String username, String password){
-        try{
+    public static boolean signUpWithUsername(String username, String password) {
+        try {
             AVUser user = new AVUser();// 新建 AVUser 对象实例
             user.setUsername(username);// 设置用户名
             user.setPassword(password);// 设置密码
             //user.setEmail("tom@leancloud.cn");// 设置邮箱
             user.signUp();
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "signUpWithUsername debug, Failed", e);
             return false;
         }
         return true;
     }
 
-    public static void logout(){
+    public static void logout() {
         AVUser.logOut();
     }
 
@@ -288,9 +288,9 @@ public class LeanCloudHelper {
         String url = "";
         AVFile avatar = user.getAVFile("avatar");
         if (avatar != null) {
-            if(!isThumbUrl){
+            if (!isThumbUrl) {
                 url = avatar.getUrl();
-            } else{
+            } else {
                 url = avatar.getThumbnailUrl(true, 100, 100);
             }
         }
@@ -327,10 +327,10 @@ public class LeanCloudHelper {
         return true;
     }
 
-    public static List<Post> getAnyPublicPostsByPage(int skip, int limit){
+    public static List<Post> getAnyPublicPostsByPage(int skip, int limit) {
         List<Post> posts = new ArrayList<>();
-        try{
-            if(limit > 0){
+        try {
+            if (limit > 0) {
                 AVQuery<Post> query = AVQuery.getQuery("Post");
                 query.whereEqualTo("type", 1);// public article
                 query.skip(skip);
@@ -339,24 +339,24 @@ public class LeanCloudHelper {
                 query.orderByDescending("createdAt");
                 posts = query.find();
 
-                for(Post post : posts) {
+                for (Post post : posts) {
                     AVRelation<Image> photos = post.getPhotos();
                     AVQuery<Image> photoQuery = photos.getQuery();
                     List<Image> images = photoQuery.find();
                     post.trySetPhotoList(images);
                 }
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "getAnyPublicPostsByPage debug, Failed", e);
             return null;
         }
         return posts;
     }
 
-    public static List<Post> getAnyPublicPostsByUserByPage(String userObjectId, int skip, int limit){
+    public static List<Post> getAnyPublicPostsByUserByPage(String userObjectId, int skip, int limit) {
         List<Post> posts = new ArrayList<>();
-        try{
-            if(limit > 0){
+        try {
+            if (limit > 0) {
                 AVQuery<Post> query = AVQuery.getQuery("Post");
                 query.whereEqualTo("type", 1);// public post
                 query.whereEqualTo("author", AVObject.createWithoutData("_User", userObjectId));
@@ -366,17 +366,60 @@ public class LeanCloudHelper {
                 query.orderByDescending("createdAt");
                 posts = query.find();
 
-                for(Post post : posts) {
+                for (Post post : posts) {
                     AVRelation<Image> photos = post.getPhotos();
                     AVQuery<Image> photoQuery = photos.getQuery();
                     List<Image> images = photoQuery.find();
                     post.trySetPhotoList(images);
                 }
             }
-        } catch(AVException e){
+        } catch (AVException e) {
             LogUtil.e(TAG, "getAnyPublicPostsByPage debug, Failed", e);
             return null;
         }
         return posts;
+    }
+
+    public static List<Comment> getAllCommentsByPostObjectID(String postObjectId, int skip, int limit) {
+        List<Comment> comments = new ArrayList<>();
+        try {
+            if (limit > 0) {
+                AVQuery<Comment> query = AVQuery.getQuery("Comment");
+                query.whereEqualTo("postobjectid", postObjectId);
+                query.skip(skip);
+                query.limit(limit);
+                query.include(Comment.AUTHOR);
+                query.include(Comment.REPLYTO);
+                query.include(Comment.REPLYFOR);
+                query.orderByDescending("createdAt");
+                comments = query.find();
+                //comments.add(0, null);
+            }
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAllCommentsByPostObjectID debug, Failed", e);
+            return null;
+        }
+        return comments;
+    }
+
+    public static Comment saveComment(String postID, String content, AVUser replyTo, Comment replyFor) {
+        Comment comment;
+        try {
+            comment = new Comment();
+            comment.setContent(content);
+            comment.setAuthor(AVUser.getCurrentUser());
+            comment.setPostObjectID(postID);
+            if (replyTo != null) {
+                comment.setReplyTo(replyTo);
+            }
+            if (replyFor != null) {
+                comment.setReplyFor(replyFor);
+            }
+            comment.save();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "saveComment debug, Failed", e);
+            comment = null;
+        }
+        return comment;
     }
 }
