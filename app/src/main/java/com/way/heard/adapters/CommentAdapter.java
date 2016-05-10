@@ -32,7 +32,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context mContext;
     private List<Comment> mDataList;
     private LayoutInflater mLayoutInflater;
-    private OnCommentReplyListener onCommentReplyListener;
+    private OnCommentItemReplyListener onCommentItemReplyListener;
+    private OnCommentItemClickListener onCommentItemClickListener;
 
     public List<Comment> getComments() {
         return mDataList;
@@ -42,12 +43,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mDataList = mComments;
     }
 
-//    public OnCommentReplyListener getOnCommentReplyListener() {
-//        return onCommentReplyListener;
-//    }
+    public void setOnCommentItemClickListener(OnCommentItemClickListener onCommentItemClickListener) {
+        this.onCommentItemClickListener = onCommentItemClickListener;
+    }
 
-    public void setOnCommentReplyListener(OnCommentReplyListener onCommentReplyListener) {
-        this.onCommentReplyListener = onCommentReplyListener;
+    public void setOnCommentItemReplyListener(OnCommentItemReplyListener onCommentItemReplyListener) {
+        this.onCommentItemReplyListener = onCommentItemReplyListener;
     }
 
     public CommentAdapter(Context mContext, List<Comment> mDataList) {
@@ -177,17 +178,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.ivReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onCommentReplyListener != null) {
-                    onCommentReplyListener.onCommentReply(position);
+                if (onCommentItemReplyListener != null) {
+                    onCommentItemReplyListener.onCommentItemReply(position);
                 }
             }
         });
     }
 
-    public interface OnCommentReplyListener {
-        void onCommentReply(int position);
+    public interface OnCommentItemReplyListener {
+        void onCommentItemReply(int position);
     }
 
+    public interface OnCommentItemClickListener{
+        void onCommentItemClick(int position);
+    }
 
     void bindGroupItem(Comment entity, GroupItemHolder holder, int position) {
         if (position == 0) {
@@ -247,6 +251,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvContent = (TextView) itemView.findViewById(R.id.tv_comment_content);
             ivReply = (ImageView) itemView.findViewById(R.id.iv_comment_reply);
             ivLike = (ImageView) itemView.findViewById(R.id.iv_comment_like);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onCommentItemClickListener!=null){
+                        onCommentItemClickListener.onCommentItemClick(getPosition());
+                    }
+                }
+            });
         }
     }
 

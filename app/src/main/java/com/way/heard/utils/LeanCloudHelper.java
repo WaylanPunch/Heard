@@ -422,4 +422,30 @@ public class LeanCloudHelper {
         }
         return comment;
     }
+
+    public static List<Image> getAnyPublicImageByPage(int skip, int limit) {
+        List<Image> images = new ArrayList<>();
+        try {
+            if (limit > 0) {
+                LogUtil.e(TAG, "getAnyPublicImageByPage debug, Skip = " + skip);
+                LogUtil.e(TAG, "getAnyPublicImageByPage debug, Limit = " + limit);
+                AVQuery<Image> query = AVQuery.getQuery("Image");
+                query.whereExists(Image.TYPE);
+                query.whereEqualTo(Image.TYPE, 1);//public
+                query.whereExists(Image.FROM);
+                query.whereEqualTo(Image.FROM, 1);//from post
+
+                query.skip(skip);
+                query.limit(limit);
+                query.include(Image.AUTHOR);
+                query.orderByDescending("createdAt");
+                images = query.find();
+                LogUtil.e(TAG, "getAnyPublicImageByPage debug, Successful, Images Count = " + images.size());
+            }
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAnyPublicImageByPage debug, Failed", e);
+            return null;
+        }
+        return images;
+    }
 }

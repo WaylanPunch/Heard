@@ -89,4 +89,7 @@ dependencies {
     compile files('libs/prettytime-3.2.5.Final.jar')
     compile 'com.victor:lib:1.0.1'
     compile 'net.wujingchao.android.view:simple-tag-imageview:1.0.1'
+    compile 'com.lapism:searchview:3.0.1'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'cn.bingoogolapple:bga-banner:2.0.4@aar'
 }

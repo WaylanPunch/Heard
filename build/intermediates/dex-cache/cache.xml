@@ -16,11 +16,11 @@
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\glide-3.7.0_1bb1ad64e9843f9a4c6d6f93e3417677706a49c0.jar" />
     </item>
     <item
-        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\avoscloud-statistics\v3.13.10\62c4e0dd7a177478250d0f4501fc2e4e0ccf2f45\avoscloud-statistics-v3.13.10.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_1102d736f0da63fa6e4ce41059ad4a91d6491afa.jar" />
+        sha1="62c4e0dd7a177478250d0f4501fc2e4e0ccf2f45">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\avoscloud-statistics-v3.13.10_edd2e08536e365ca3e95ddebe284d6b1a4cd4029.jar" />
     </item>
     <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\support-v13\23.1.1\jars\classes.jar"
@@ -61,7 +61,7 @@
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.yancy.imageselector\imageselector\1.3.3\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="824d1deb70a2d09c49b6f2411e8a4fc4da1c6eea">
+        sha1="3b816223ec1d8df616bba31faf7727fbedebb119">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.yancy.imageselector-imageselector-1.3.3_fbed60ff835a46c3b80c29cd4fe57a82c2bb2ea3.jar" />
     </item>
     <item
@@ -86,25 +86,18 @@
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.victor-lib-1.0.1_5353fddae9fbcbaad1267295dc247b5ed15ae7f8.jar" />
     </item>
     <item
-        jar="C:\Users\pc\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.bingoogolapple\bga-banner\2.0.4\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_3b101eab2bcecdabf7514c3c7f7321a7f3f9eb5c.jar" />
+        sha1="e7c07d846d345dc68431f1c2b46d906cbd78ba12">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.bingoogolapple-bga-banner-2.0.4_208006dd30c817409f23db5fff1359925d7187f0.jar" />
     </item>
     <item
-        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\avoscloud-statistics\v3.13.9\9cd09d12fb5f34917b832d1c947d362f6277d15e\avoscloud-statistics-v3.13.9.jar"
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.lapism\searchview\3.0.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="9cd09d12fb5f34917b832d1c947d362f6277d15e">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\avoscloud-statistics-v3.13.9_e9f12d267df0def9cd956d8dfcaca837957271fa.jar" />
-    </item>
-    <item
-        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.leancloud.android\avoscloud-feedback\v3.13.9\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="344e64ce20c6c01c02336cc891949b3b4b40a4ab">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.leancloud.android-avoscloud-feedback-v3.13.9_eed8fd747c04107194ebf2b8ceb83aaefa0fa81e.jar" />
+        sha1="df9bfb2923ca9c6711ec3bdd31ed84f71dab17ba">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.lapism-searchview-3.0.1_10541f568396cf8cea7a3f211ab0d21c33227bd6.jar" />
     </item>
     <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.github.ozodrukh\CircularReveal\1.3.1\jars\classes.jar"
@@ -135,6 +128,20 @@
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\prettytime-3.2.5.Final_30d8623402f96d31d1b3c1be9fa80d9a9be6437c.jar" />
     </item>
     <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\avoscloud-sdk\v3.13.10\31e7195b4e97057e15a905245e6da3b608edc9f8\avoscloud-sdk-v3.13.10.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="31e7195b4e97057e15a905245e6da3b608edc9f8">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\avoscloud-sdk-v3.13.10_42b0dbcee51fab9cc5adeb9cb086d589b637de75.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\support-annotations-23.3.0_c02282c5f36fc420e9e9bcdd611307bd9d8cc083.jar" />
+    </item>
+    <item
         jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\okhttp\2.6.0-leancloud\7d1a8dbbc128e91cf41ab6eafaa741ab2a6ff930\okhttp-2.6.0-leancloud.jar"
         jumboMode="false"
         revision="23.0.2"
@@ -147,6 +154,13 @@
         revision="23.0.2"
         sha1="5b7d40af1a91ea8e0cac0022b9dfd966b87fe5e3">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.yalantis-contextmenu-1.0.6_a8d629451044eaf36c62d42da8aca16370236878.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="82ce13fd19cdfde0e392f03c27edeba8d4333648">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.android.support-cardview-v7-23.3.0_0018858c3c5516b0ff53964aa8f247466fd01643.jar" />
     </item>
     <item
         jar="C:\Users\Workspace\android-studio-2.1\gradle\m2repository\com\google\code\gson\gson\2.2.4\gson-2.2.4.jar"
@@ -170,13 +184,6 @@
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\Java-WebSocket-1.3.1-leancloud_c175fa40ab9aa2f0a9e87787a13e862a9286555a.jar" />
     </item>
     <item
-        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.leancloud.android\avoscloud-push\v3.13.9\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="7f585ed2fd6ac7d25554bac567bda340da968193">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.leancloud.android-avoscloud-push-v3.13.9_c179c51a9a5879688bb99c77d7a457048ba0e393.jar" />
-    </item>
-    <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.bigkoo\quicksidebar\1.0.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
@@ -196,6 +203,13 @@
         revision="23.0.2"
         sha1="02534c458682c73f5b9871131ab3098d3f987ca3">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\okio-1.0.0_2c2ba63612e03f08cd6c5d1d22c3b7fdefa5c1bf.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.leancloud.android\avoscloud-feedback\v3.13.10\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d4bc67f5e47a618b2aee4a32acbd53db26450d79">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.leancloud.android-avoscloud-feedback-v3.13.10_9f0a9b1078bc08fa23bdd2d78585b44bb015877c.jar" />
     </item>
     <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.github.mthli\Knife\v1.1\jars\classes.jar"
@@ -226,25 +240,25 @@
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_35f76d134a9b18e7ae569201a344e5f538c47593.jar" />
     </item>
     <item
-        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\jars\classes.jar"
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="5e412e954a24c5310a459c09870e4e2081aceb03">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.android.support-cardview-v7-23.1.1_8c98de879b900799cf68142b38516ba2c915d021.jar" />
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.3.0_4704d67546087fecd0725034601f36fbcabb0ed0.jar" />
     </item>
     <item
-        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_77e84f98f0908a7fec9bbc22b9d50d462cbbdf86.jar" />
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\internal_impl-23.3.0_050677d33e1fe378fdaf9b1f9614980d8272f9c4.jar" />
     </item>
     <item
-        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\cn.leancloud.android\avoscloud-sdk\v3.13.9\a612fda016b7b58f99083023a78c942b804ebc6a\avoscloud-sdk-v3.13.9.jar"
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.leancloud.android\avoscloud-push\v3.13.10\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="a612fda016b7b58f99083023a78c942b804ebc6a">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\avoscloud-sdk-v3.13.9_5c0e5a365f4675476842cfe7a78703a7fa930bd8.jar" />
+        sha1="c19ea63054806e15a9bfff1e01a11ca5f02b395a">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.leancloud.android-avoscloud-push-v3.13.10_01c703ebda121d0c1993fecc85f554fbd6f79771.jar" />
     </item>
     <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.tencent.bugly\crashreport\2.1\jars\classes.jar"
@@ -261,18 +275,18 @@
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\library-2.4.0_64176596d5bb2121d93e14e3a764092f67164116.jar" />
     </item>
     <item
-        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
-        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_0206bf8e9c195c158912251c817fe5ef92a59036.jar" />
-    </item>
-    <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.pedant.sweetalert\library\1.3\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="0c3529d9491be892952749d252ae1defa9b1f937">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.pedant.sweetalert-library-1.3_af6676789b12eb97a948dc347175a3d92733e17c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="debf30ce0a7560396b6235edef77e447006454c2">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.3.0_3d6dfbb50184efe28a6798bb67e73b4523994ed2.jar" />
     </item>
 
 </items>

@@ -63,7 +63,7 @@ public class PostListAdapter extends BaseListAdapter<Post> {
         long longCreateAt = post.getCreatedAt().getTime();
         String strContent = post.getContent();
 
-        List<Image> images = post.tryGetPhotoList();
+        final List<Image> images = post.tryGetPhotoList();
         String strImageUrl = "";
         if (images != null && images.size() > 0) {
             strImageUrl = images.get(0).getUrl();
@@ -99,7 +99,7 @@ public class PostListAdapter extends BaseListAdapter<Post> {
             ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ImageDisplayActivity.go(context, finalStrImageUrl);
+                    ImageDisplayActivity.go(context, images.get(0));
                 }
             });
             GlideImageLoader.displayImage(context, strImageUrl, ivPhoto);

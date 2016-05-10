@@ -50,6 +50,10 @@ public class PostDisplayActivity extends AppCompatActivity {
     private final static int pageSize = 15;
     private List<Comment> mComments;
 
+    private AVUser replyToUser;
+    private Comment replyForComment;
+    private Post post;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +69,8 @@ public class PostDisplayActivity extends AppCompatActivity {
     private void getParamData() {
         try {
             Bundle bundle = getIntent().getExtras();
-            Post param = bundle.getParcelable(PostDisplayActivity.POST_DETAIL);
-            postObjectID = param.getObjectId();
+            post = bundle.getParcelable(PostDisplayActivity.POST_DETAIL);
+            postObjectID = post.getObjectId();
             LogUtil.d(TAG, "getParamData debug, Post Object ID = " + postObjectID);
         } catch (Exception e) {
             LogUtil.e(TAG, "getParamData error", e);
@@ -114,8 +118,11 @@ public class PostDisplayActivity extends AppCompatActivity {
                     Toast.makeText(PostDisplayActivity.this, "No Comment", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                sendComment(postObjectID, etCommentContent.getText().toString(), null, null);
+                sendComment(postObjectID, etCommentContent.getText().toString(), replyToUser, replyForComment);
                 etCommentContent.setText("");
+                etCommentContent.setHint("Anything you want to say...");
+                replyToUser = null;
+                replyForComment = null;
             }
         });
 
@@ -142,12 +149,23 @@ public class PostDisplayActivity extends AppCompatActivity {
         mRecyclerView.setOnPauseListenerParams(context, false, true);
 
         mAdapter = new CommentAdapter(context, mComments);
-        mAdapter.setOnCommentReplyListener(new CommentAdapter.OnCommentReplyListener() {
+        mAdapter.setOnCommentItemReplyListener(new CommentAdapter.OnCommentItemReplyListener() {
             @Override
-            public void onCommentReply(int position) {
+            public void onCommentItemReply(int position) {
                 Comment item = mAdapter.getComments().get(position);
                 etCommentContent.setText("");
                 etCommentContent.setHint("Reply to @" + item.getAuthor().getUsername() + ":");
+                replyToUser = item.getAuthor();
+                replyForComment = item;
+            }
+        });
+        mAdapter.setOnCommentItemClickListener(new CommentAdapter.OnCommentItemClickListener() {
+            @Override
+            public void onCommentItemClick(int position) {
+                etCommentContent.setText("");
+                etCommentContent.setHint("Anything you want to say...");
+                replyToUser = null;
+                replyForComment = null;
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -215,6 +233,11 @@ public class PostDisplayActivity extends AppCompatActivity {
                 if (comment != null) {
                     mComments.add(0, comment);
                 }
+                List<String> commentObjectIDs = new ArrayList<String>();
+                for (Comment item : mComments) {
+                    commentObjectIDs.add(item.getObjectId());
+                }
+                post.setComments(commentObjectIDs);
             }
 
             @Override

@@ -16,6 +16,7 @@ public class Image extends AVObject {
     public static final String THUMBNAILURL = "thumbnailurl";
     public static final String AUTHOR = "author";
     public static final String TYPE = "type";
+    public static final String FROM = "from";
     public static final String LIKES = "likes";
 
     public String getUrl() {
@@ -48,6 +49,14 @@ public class Image extends AVObject {
 
     public void setType(int type) {
         put(TYPE, type);
+    }
+
+    public int getFrom() {
+        return getInt(FROM);
+    }
+
+    public void setFrom(int from) {
+        put(FROM, from);
     }
 
     public List<String> getLikes() {

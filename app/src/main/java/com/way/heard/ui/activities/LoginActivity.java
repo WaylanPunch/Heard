@@ -70,6 +70,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        goAction();
+
         // Set up the login form.
         //mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
@@ -128,7 +131,9 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
 
+    private void goAction(){
         AVUser currentUser = AVUser.getCurrentUser();
         if (currentUser != null) {
             startMainActivity();

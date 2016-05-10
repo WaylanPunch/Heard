@@ -68,9 +68,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:text="Dylan Punch:"
+                    android:text="DylanPunch:"
                     android:textColor="@color/colorSecondaryText"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="italic" />
 
                 <TextView
@@ -106,6 +106,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/tv_comment_content"
                 android:layout_marginRight="@dimen/bullet_gap_width"
+                android:layout_marginBottom="@dimen/bullet_gap_width"
                 android:src="@drawable/ic_thumb_up" />
 
             <ImageView

@@ -29,4 +29,9 @@
             <enum name="fill" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="card">
+        <attr name="bottomMarginTop" format="dimension" />
+        <attr name="yOffsetStep" format="dimension" />
+    </declare-styleable>
 </resources>

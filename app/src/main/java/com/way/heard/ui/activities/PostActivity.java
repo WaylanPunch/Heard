@@ -23,6 +23,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
+import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
@@ -36,14 +37,18 @@ public class PostActivity extends AppCompatActivity {
     private final static String TAG = PostActivity.class.getName();
 
     private static final int IMAGE_PICK_REQUEST = 1002;
+    private static final int TAG_SEARCH_REQUEST = 1003;
+    private static final int LOCATION_SEARCH_REQUEST = 1004;
 
     private ImageView ivPhoto;
     private EditText etContent;
     private CheckBox cbPrivate;
     private TextView tvTag;
     private TextView tvLocation;
+    private RotateLoading loading;
 
     private static Bitmap bitmap;
+    private static boolean hasTag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +81,24 @@ public class PostActivity extends AppCompatActivity {
         cbPrivate = (CheckBox) findViewById(R.id.cb_post2_private);
         tvTag = (TextView) findViewById(R.id.tv_post2_tag);
         tvLocation = (TextView) findViewById(R.id.tv_post2_location);
+        loading = (RotateLoading) findViewById(R.id.loading);
 
         ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickImage(PostActivity.this, IMAGE_PICK_REQUEST);
+            }
+        });
+        tvTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchTagActivity.go(PostActivity.this, SearchTagActivity.SEARCH_TYPE_TAG, PostActivity.TAG_SEARCH_REQUEST);
+            }
+        });
+        tvLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchTagActivity.go(PostActivity.this, SearchTagActivity.SEARCH_TYPE_LOCATION, PostActivity.LOCATION_SEARCH_REQUEST);
             }
         });
     }
@@ -103,6 +121,13 @@ public class PostActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else if (requestCode == TAG_SEARCH_REQUEST) {
+                String tag = data.getStringExtra(SearchTagActivity.SEARCH_RESULT);
+                tvTag.setText(tag);
+                hasTag = true;
+                LogUtil.d(TAG, "onActivityResult debug, SEARCH_TYPE = " + tag);
+            } else if (requestCode == LOCATION_SEARCH_REQUEST) {
+
             }
         }
     }
@@ -135,14 +160,14 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void publishPost() {
-        if(TextUtils.isEmpty(etContent.getText())){
+        if (TextUtils.isEmpty(etContent.getText())) {
             Toast.makeText(PostActivity.this, "No Post Content!", Toast.LENGTH_SHORT).show();
             return;
         }
         new PostTask(PostActivity.this).execute();
     }
 
-    private void turnBack(){
+    private void turnBack() {
         setResult(RESULT_OK);
         finish();
     }
@@ -155,7 +180,7 @@ public class PostActivity extends AppCompatActivity {
 
         @Override
         protected void onPre() {
-
+            loading.start();
         }
 
         @Override
@@ -181,11 +206,17 @@ public class PostActivity extends AppCompatActivity {
 
             boolean isImageSaved = false;
             Image img = new Image();
-            if(isFileSaved) {
+            if (isFileSaved) {
                 LogUtil.d(TAG, "PostTask debug, doInBack, Save Image");
                 img.setAuthor(currentUser);
                 img.setThumbnailurl(thumbnailurl);
                 img.setUrl(url);
+                if (cbPrivate.isChecked()) {
+                    img.setType(0);//private
+                } else {
+                    img.setType(1);//private
+                }
+                img.setFrom(1);//from post
                 img.save();
 
                 isImageSaved = true;
@@ -194,16 +225,18 @@ public class PostActivity extends AppCompatActivity {
             LogUtil.d(TAG, "PostTask debug, doInBack, Save Post");
             Post post = new Post();
             post.setAuthor(currentUser);
-            if(!TextUtils.isEmpty(etContent.getText())) {
+            if (!TextUtils.isEmpty(etContent.getText())) {
                 post.setContent(etContent.getText().toString());
             }
-            post.setTag("");
-            if(cbPrivate.isChecked()) {
-                post.setType(0);
-            }else {
-                post.setType(1);
+            if (hasTag) {
+                post.setTag(tvTag.getText().toString());
             }
-            if(isImageSaved) {
+            if (cbPrivate.isChecked()) {
+                post.setType(0);//private
+            } else {
+                post.setType(1);//private
+            }
+            if (isImageSaved) {
                 AVRelation<Image> photos = post.getPhotos();
                 photos.add(img);
             }
@@ -212,6 +245,7 @@ public class PostActivity extends AppCompatActivity {
 
         @Override
         protected void onPost(AVException e) {
+            loading.stop();
             if (e == null) {
                 Toast.makeText(PostActivity.this, "Done", Toast.LENGTH_SHORT).show();
                 turnBack();

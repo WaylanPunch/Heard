@@ -82,7 +82,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         String strUsername = post.getAuthor().getUsername();
         long longCreateAt = post.getCreatedAt().getTime();
         String strContent = post.getContent();
-        List<Image> images = post.tryGetPhotoList();
+        final List<Image> images = post.tryGetPhotoList();
         String strImageUrl = "";
         if (images != null && images.size() > 0) {
             strImageUrl = images.get(0).getUrl();
@@ -118,7 +118,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ImageDisplayActivity.go(mContext, finalStrImageUrl);
+                    ImageDisplayActivity.go(mContext, images.get(0));
                 }
             });
             GlideImageLoader.displayImage(mContext, strImageUrl, holder.ivPhoto);

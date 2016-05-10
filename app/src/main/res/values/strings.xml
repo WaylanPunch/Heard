@@ -54,4 +54,5 @@
     <string name="noMore">No More</string>
     <string name="title_activity_post_display">PostDisplayActivity</string>
     <string name="title_activity_user_detail">UserDetailActivity</string>
+    <string name="title_activity_search_tag">SearchTagActivity</string>
 </resources>

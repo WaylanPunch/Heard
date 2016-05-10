@@ -6,27 +6,35 @@
     tools:context="com.way.heard.ui.activities.ImageDisplayActivity">
 
     <ImageView
+        android:id="@+id/iv_image_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <TextView
+        android:id="@+id/tv_image_save"
         android:layout_width="80dip"
         android:layout_height="36dip"
         android:layout_gravity="left|bottom"
         android:layout_margin="@dimen/bullet_gap_width"
-        android:padding="@dimen/bullet_gap_width"
+        android:background="@drawable/tag_background"
+        android:drawableLeft="@drawable/ic_folder_download_white"
         android:gravity="center"
-        android:background="@drawable/background_tag_selector_border_light"
-        android:text="Download"
-        android:textColor="@color/colorSecondaryText" />
+        android:padding="@dimen/bullet_gap_width"
+        android:text="Save"
+        android:textColor="@color/colorWhite" />
+
     <TextView
+        android:id="@+id/tv_image_like"
         android:layout_width="80dip"
         android:layout_height="36dip"
         android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/bullet_gap_width"
-        android:padding="@dimen/bullet_gap_width"
+        android:background="@drawable/tag_background"
+        android:drawableLeft="@drawable/ic_thumb_up_white"
         android:gravity="center"
-        android:background="@drawable/background_tag_selector_border_light"
-        android:text="Send"
-        android:textColor="@color/colorSecondaryText" />
+        android:padding="@dimen/bullet_gap_width"
+        android:text="Like"
+        android:textColor="@color/colorWhite" />
+
+    <include layout="@layout/common_loading"></include>
 </FrameLayout>
