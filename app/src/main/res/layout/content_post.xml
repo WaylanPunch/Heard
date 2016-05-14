@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundDefault"
+    android:background="@color/colorTransparent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.way.heard.ui.activities.PostActivity"
     tools:showIn="@layout/activity_post">
@@ -65,10 +65,28 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <RelativeLayout
+            <com.way.heard.ui.views.TagCloudView
+                android:id="@+id/tcv_post2_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin">
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/v_writing_divider1"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:visibility="gone"
+                app:tcvBorder="8dp"
+                app:tcvCanTagClick="true"
+                app:tcvItemBorderHorizontal="8dp"
+                app:tcvItemBorderVertical="6dp"
+                app:tcvShowRightImg="false"
+                app:tcvSingleLine="true"
+                app:tcvTextColor="@color/colorWhite">
+            </com.way.heard.ui.views.TagCloudView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_post2_tag"
@@ -79,7 +97,7 @@
                     android:background="@drawable/tag_background_white"
                     android:drawableLeft="@drawable/ic_tag"
                     android:gravity="start|center_vertical"
-                    android:padding="8dip"
+                    android:padding="@dimen/bullet_gap_width"
                     android:text="TAG"
                     android:textColor="@color/colorSecondaryText" />
 
@@ -92,7 +110,7 @@
                     android:background="@drawable/tag_background_white"
                     android:drawableLeft="@drawable/ic_location"
                     android:gravity="start|center_vertical"
-                    android:padding="8dip"
+                    android:padding="@dimen/bullet_gap_width"
                     android:text="LOCATION"
                     android:textColor="@color/colorSecondaryText" />
             </RelativeLayout>

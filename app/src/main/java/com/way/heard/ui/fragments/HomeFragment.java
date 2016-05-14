@@ -17,7 +17,9 @@ import com.avos.avoscloud.AVException;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.adapters.PostAdapter;
+import com.way.heard.models.Image;
 import com.way.heard.models.Post;
+import com.way.heard.ui.activities.ImageDisplayActivity;
 import com.way.heard.ui.activities.PostActivity;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
@@ -34,6 +36,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private final static String TAG = HomeFragment.class.getName();
     private static final int POST_PUBLISH_REQUEST = 1001;
+
 
     public static final String CLOSE = "Close";
     public static final String HOME = "Home";
@@ -93,7 +96,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                //intent.setClass(getActivity(), WritingActivity.class);
                 intent.setClass(getActivity(), PostActivity.class);
                 startActivityForResult(intent, POST_PUBLISH_REQUEST); //这里用getActivity().startActivity(intent);
             }
@@ -121,7 +123,19 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setOnPauseListenerParams(context, false, true);
 
 
-        mAdapter = new PostAdapter(context);
+        mAdapter = new PostAdapter(getContext());
+        mAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
+            @Override
+            public void onImageClick(int pos) {
+                LogUtil.d(TAG, "onImageClick debug, Position = " + pos);
+                Post post = mPosts.get(pos);
+                Image image = post.tryGetPhotoList().get(0);
+                Intent intent = new Intent(context, ImageDisplayActivity.class);
+                intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
+                intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+                startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         loadFirst();
 
@@ -151,7 +165,7 @@ public class HomeFragment extends Fragment {
             @Override
             protected void doInBack() throws AVException {
                 List<Post> data = LeanCloudHelper.getAnyPublicPostsByPage((pageIndex - 1) * pageSize, pageSize);
-                if(mPosts == null){
+                if (mPosts == null) {
                     mPosts = new ArrayList<Post>();
                 }
                 if (pageIndex == 1) {
@@ -177,10 +191,24 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtil.d(TAG, "Request Code = " + requestCode + ", Result Code = " + resultCode);
+        LogUtil.d(TAG, "onActivityResult debug, Request Code = " + requestCode + ", Result Code = " + resultCode);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == POST_PUBLISH_REQUEST) {
                 loadFirst();
+            } else if (requestCode == ImageDisplayActivity.IMAGE_DISPLAY_REQUEST) {
+                try {
+                    Bundle bundle = data.getExtras();
+                    Image image = bundle.getParcelable(ImageDisplayActivity.IMAGE_DETAIL);
+                    int pos = data.getIntExtra(ImageDisplayActivity.IMAGE_POST_INDEX, 0);//bundle.getInt(ImageDisplayActivity.IMAGE_POST_INDEX);
+                    List<Image> images = new ArrayList<Image>();
+                    images.add(image);
+                    mPosts.get(pos).trySetPhotoList(images);
+                    mAdapter.setPosts(mPosts);
+                    mAdapter.notifyDataSetChanged();
+                    LogUtil.d(TAG, "Position = " + pos);
+                } catch (Exception e) {
+                    LogUtil.e(TAG, "onActivityResult error", e);
+                }
             }
         }
     }

@@ -54,7 +54,7 @@ public class CardSlidePanel extends ViewGroup {
     private CardSwitchListener cardSwitchListener; // 回调接口
     private List<Image> dataList; // 存储的数据链表
     private int isShowing = 0; // 当前正在显示的小项
-    private View leftBtn, rightBtn;
+    private View leftBtn, rightBtn, homeBtn;
     private boolean btnLock = false;
     private GestureDetectorCompat moveDetector;
     private OnClickListener btnListener;
@@ -95,6 +95,8 @@ public class CardSlidePanel extends ViewGroup {
                         type = VANISH_TYPE_LEFT;
                     } else if (view == rightBtn) {
                         type = VANISH_TYPE_RIGHT;
+                    } else if(view == homeBtn){
+                        cardSwitchListener.onHomeButtonClick(isShowing);
                     }
                     vanishOnBtnClick(type);
                 }
@@ -129,9 +131,11 @@ public class CardSlidePanel extends ViewGroup {
     private void initBottomLayout() {
         leftBtn = bottomLayout.findViewById(R.id.card_left_btn);
         rightBtn = bottomLayout.findViewById(R.id.card_right_btn);
+        homeBtn = bottomLayout.findViewById(R.id.card_home_btn);
 
         leftBtn.setOnClickListener(btnListener);
         rightBtn.setOnClickListener(btnListener);
+        homeBtn.setOnClickListener(btnListener);
     }
 
     class MoveDetector extends GestureDetector.SimpleOnGestureListener {
@@ -514,13 +518,14 @@ public class CardSlidePanel extends ViewGroup {
     /**
      * 本来想写成Adapter适配，想想还是算了，这种比较简单
      *
-     * @param dataList 数据
+     * @param images 数据
      */
-    public void fillData(List<Image> dataList) {
-        this.dataList = dataList;
+    public void fillData(List<Image> images) {
+        this.dataList = images;
 
         if (dataList != null && dataList.size() > 0) {
-            int num = viewList.size();
+            //int num = viewList.size();
+            int num = dataList.size();
             for (int i = 0; i < num; i++) {
                 CardItemView itemView = (CardItemView) viewList.get(i);
                 itemView.fillData(dataList.get(i));
@@ -585,5 +590,14 @@ public class CardSlidePanel extends ViewGroup {
          * @param index         点击到的index
          */
         public void onItemClick(View cardImageView, int index);
+
+        /**
+         * home button 点击事件
+         *
+         * @param index
+         */
+        public void onHomeButtonClick(int index);
     }
+
+
 }

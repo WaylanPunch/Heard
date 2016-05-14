@@ -1,5 +1,6 @@
 package com.way.heard.ui.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -25,10 +26,13 @@ import java.util.List;
 public class ImageDisplayActivity extends AppCompatActivity {
     private final static String TAG = ImageDisplayActivity.class.getName();
     public final static String IMAGE_DETAIL = "ImageDetail";
+    public final static String IMAGE_POST_INDEX = "ImagePostIndex";
+    public static final int IMAGE_DISPLAY_REQUEST = 1004;
 
     private ImageView ivPhoto;
     private TextView tvSave;
     private TextView tvLike;
+    private Intent mIntent;
     private Image photo;
     private RotateLoading loading;
     private List<String> likeObjectIDs;
@@ -44,7 +48,8 @@ public class ImageDisplayActivity extends AppCompatActivity {
     }
 
     private void getParamData() {
-        Bundle bundle = getIntent().getExtras();
+        mIntent = getIntent();
+        Bundle bundle = mIntent.getExtras();
         photo = bundle.getParcelable(IMAGE_DETAIL);
         likeObjectIDs = photo.getLikes();
         if (likeObjectIDs == null) {
@@ -81,6 +86,13 @@ public class ImageDisplayActivity extends AppCompatActivity {
                 new LikeTask(ImageDisplayActivity.this).execute();
             }
         });
+
+        ivPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     class LikeTask extends LeanCloudBackgroundTask {
@@ -99,11 +111,13 @@ public class ImageDisplayActivity extends AppCompatActivity {
             if (isLiked) {//already like
                 likeObjectIDs.remove(AVUser.getCurrentUser().getObjectId());
                 photo.setLikes(likeObjectIDs);
+                photo.setFetchWhenSave(true);
                 photo.save();
                 isLiked = false;
             } else {
                 likeObjectIDs.add(AVUser.getCurrentUser().getObjectId());
                 photo.setLikes(likeObjectIDs);
+                photo.setFetchWhenSave(true);
                 photo.save();
                 isLiked = true;
             }
@@ -126,6 +140,10 @@ public class ImageDisplayActivity extends AppCompatActivity {
             if (e != null) {
                 Toast.makeText(ImageDisplayActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
+            //
+            mIntent.putExtra(IMAGE_DETAIL, photo);
+            setResult(RESULT_OK, mIntent);
         }
     }
 
@@ -154,9 +172,17 @@ public class ImageDisplayActivity extends AppCompatActivity {
         }
     }
 
-    public static void go(Context context, Image image) {
+    public static void go(Activity context, Image image, int position) {
         Intent intent = new Intent(context, ImageDisplayActivity.class);
-        intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
-        context.startActivity(intent);
+        intent.putExtra(IMAGE_POST_INDEX, position);
+        intent.putExtra(IMAGE_DETAIL, image);
+        context.startActivityForResult(intent, IMAGE_DISPLAY_REQUEST);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
 }

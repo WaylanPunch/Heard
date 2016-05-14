@@ -1,6 +1,6 @@
 package com.way.heard.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +13,9 @@ import com.avos.avoscloud.SaveCallback;
 import com.way.heard.R;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
-import com.way.heard.ui.activities.ImageDisplayActivity;
 import com.way.heard.ui.activities.PostDisplayActivity;
 import com.way.heard.ui.activities.UserDisplayActivity;
+import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.ui.views.ViewHolder;
 import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.Util;
@@ -32,15 +32,19 @@ import java.util.List;
  */
 public class PostListAdapter extends BaseListAdapter<Post> {
 
-    private Context context;
+    private Activity context;
+    private OnImageClickListener onImageClickListener;
 
-    public PostListAdapter(Context ctx) {
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener1) {
+        this.onImageClickListener = onImageClickListener1;
+    }
+    public PostListAdapter(Activity ctx) {
         super(ctx);
         context = ctx;
     }
 
     @Override
-    public View getView(int position, View conView, ViewGroup parent) {
+    public View getView(final int position, View conView, ViewGroup parent) {
         if (conView == null) {
             conView = inflater.inflate(R.layout.item_post_normal, null, false);
         }
@@ -50,7 +54,8 @@ public class PostListAdapter extends BaseListAdapter<Post> {
         TextView tvCreateAt = ViewHolder.findViewById(conView, R.id.tv_post2_item_createat);
         TextView tvContent = ViewHolder.findViewById(conView, R.id.tv_post2_item_content);
         ImageView ivPhoto = ViewHolder.findViewById(conView, R.id.iv_post2_item_photo);
-        TextView tvTag = ViewHolder.findViewById(conView, R.id.tv_post2_item_tag);
+        //TextView tvTag = ViewHolder.findViewById(conView, R.id.tv_post2_item_tag);
+        TagCloudView tcvTags = ViewHolder.findViewById(conView, R.id.tcv_post2_item_tags);
         ImageView ivLikesButton = ViewHolder.findViewById(conView, R.id.iv_post2_item_likes_button);
         //TextView tvLikesCount = ViewHolder.findViewById(conView, R.id.tv_post2_item_likes_count);
         ImageView ivCommentsButton = ViewHolder.findViewById(conView, R.id.iv_post2_item_comments_button);
@@ -68,7 +73,8 @@ public class PostListAdapter extends BaseListAdapter<Post> {
         if (images != null && images.size() > 0) {
             strImageUrl = images.get(0).getUrl();
         }
-        String strTag = post.getTag();
+        //String strTag = post.getTag();
+        List<String> strTags = post.getTags();
         List<String> likesObjectIDs = post.getLikes();
         List<String> commentObjectIDs = post.getComments();
 
@@ -99,7 +105,10 @@ public class PostListAdapter extends BaseListAdapter<Post> {
             ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ImageDisplayActivity.go(context, images.get(0));
+                    //ImageDisplayActivity.go(context, images.get(0), position);
+                    if (onImageClickListener != null) {
+                        onImageClickListener.onImageClick(position);
+                    }
                 }
             });
             GlideImageLoader.displayImage(context, strImageUrl, ivPhoto);
@@ -107,11 +116,11 @@ public class PostListAdapter extends BaseListAdapter<Post> {
             ivPhoto.setVisibility(View.GONE);
         }
         //3.6.Tag
-        if (!TextUtils.isEmpty(strTag)) {
-            tvTag.setVisibility(View.VISIBLE);
-            tvTag.setText(strTag);
-        }else {
-            tvTag.setVisibility(View.GONE);
+        if (strTags != null && strTags.size() > 0) {
+            tcvTags.setVisibility(View.VISIBLE);
+            tcvTags.setTags(strTags);
+        } else {
+            tcvTags.setVisibility(View.GONE);
         }
         //3.7.Likes
         final AVUser currentUser = AVUser.getCurrentUser();
@@ -190,5 +199,8 @@ public class PostListAdapter extends BaseListAdapter<Post> {
         }
     }
 
+    public interface OnImageClickListener {
+        void onImageClick(int pos);
+    }
 }
 

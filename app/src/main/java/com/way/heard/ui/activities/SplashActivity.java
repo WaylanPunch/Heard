@@ -38,10 +38,14 @@ public class SplashActivity extends AppCompatActivity {
 
         View lastView = getLayoutInflater().inflate(R.layout.splash_view_last, null);
         views.add(lastView);
+
+//        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/dragon.TTF");
+//        Button btnIn = (Button) lastView.findViewById(R.id.btn_last_main);
+//        btnIn.setTypeface(tf);
         lastView.findViewById(R.id.btn_last_main).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, IndexActivity.class));
                 finish();
             }
         });

@@ -18,6 +18,7 @@ public class Image extends AVObject {
     public static final String TYPE = "type";
     public static final String FROM = "from";
     public static final String LIKES = "likes";
+    public static final String TAGS = "tags";
 
     public String getUrl() {
         return getString(URL);
@@ -65,5 +66,13 @@ public class Image extends AVObject {
 
     public void setLikes(List<String> likeObjectIDs) {
         put(LIKES, likeObjectIDs);
+    }
+
+    public List<String> getTags() {
+        return getList(TAGS);
+    }
+
+    public void setTags(List<String> tags) {
+        put(TAGS, tags);
     }
 }

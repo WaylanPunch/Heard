@@ -12,9 +12,9 @@
             android:icon="@drawable/ic_find"
             android:title="Find" />
         <item
-            android:id="@+id/nav_bookmark"
+            android:id="@+id/nav_topic"
             android:icon="@drawable/ic_bookmark"
-            android:title="Bookmark" />
+            android:title="Topic" />
         <item
             android:id="@+id/nav_message"
             android:icon="@drawable/ic_message"

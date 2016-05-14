@@ -13,7 +13,7 @@ import java.util.List;
 @AVClassName("Post")
 public class Post extends AVObject {
     public static final Creator CREATOR = AVObjectCreator.instance;
-    public static final String TAG = "tag";
+    public static final String TAGS = "tags";
     public static final String PHOTOS = "photos";
     public static final String CONTENT = "content";
     public static final String AUTHOR = "author";
@@ -22,12 +22,12 @@ public class Post extends AVObject {
     public static final String COMMENTS = "comments";
 
 
-    public String getTag() {
-        return getString(TAG);
+    public List<String> getTags() {
+        return getList(TAGS);
     }
 
-    public void setTag(String tag) {
-        put(TAG, tag);
+    public void setTags(List<String> tags) {
+        put(TAGS, tags);
     }
 
     public AVRelation<Image> getPhotos() {

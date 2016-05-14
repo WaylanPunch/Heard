@@ -1,0 +1,7 @@
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/my_image_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/banner_image_height"
+    android:clickable="true"
+    android:scaleType="centerCrop"
+    android:src="@drawable/ic_picture_default" />

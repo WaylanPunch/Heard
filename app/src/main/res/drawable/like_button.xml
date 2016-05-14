@@ -8,6 +8,6 @@
     <item android:drawable="@drawable/like_pressed" android:state_selected="true"/>
     <!-- 获得焦点时的图片背景 -->
     <item android:drawable="@drawable/like_pressed" android:state_focused="true"/>
-    <item android:drawable="@drawable/like_normal"/>
+    <item android:drawable="@drawable/like_normal_gray"/>
 
 </selector>

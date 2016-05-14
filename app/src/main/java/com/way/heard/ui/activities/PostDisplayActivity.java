@@ -238,6 +238,7 @@ public class PostDisplayActivity extends AppCompatActivity {
                     commentObjectIDs.add(item.getObjectId());
                 }
                 post.setComments(commentObjectIDs);
+                post.save();
             }
 
             @Override

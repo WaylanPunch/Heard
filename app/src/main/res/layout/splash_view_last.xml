@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/MatchMatch">
+
     <ImageView
         style="@style/MatchMatch"
         android:scaleType="centerCrop"
         android:src="@drawable/guide_4" />
+
 
     <Button
         android:id="@+id/btn_last_main"
@@ -13,8 +15,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
         android:background="@drawable/selector_btn_orange"
+        android:elevation="6dip"
         android:padding="10dp"
-        android:text="进入主界面"
+        android:text="Heard"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
 

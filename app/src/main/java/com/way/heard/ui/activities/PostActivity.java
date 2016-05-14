@@ -20,18 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVFile;
-import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
-import com.way.heard.models.Image;
-import com.way.heard.models.Post;
+import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.utils.LeanCloudBackgroundTask;
+import com.way.heard.utils.LeanCloudHelper;
 import com.way.heard.utils.LogUtil;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostActivity extends AppCompatActivity {
     private final static String TAG = PostActivity.class.getName();
@@ -43,12 +42,13 @@ public class PostActivity extends AppCompatActivity {
     private ImageView ivPhoto;
     private EditText etContent;
     private CheckBox cbPrivate;
+    private TagCloudView tcvTags;
     private TextView tvTag;
     private TextView tvLocation;
     private RotateLoading loading;
 
     private static Bitmap bitmap;
-    private static boolean hasTag = false;
+    //private static boolean hasTag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,7 @@ public class PostActivity extends AppCompatActivity {
         ivPhoto = (ImageView) findViewById(R.id.iv_post2_photo);
         etContent = (EditText) findViewById(R.id.et_post2_content);
         cbPrivate = (CheckBox) findViewById(R.id.cb_post2_private);
+        tcvTags = (TagCloudView) findViewById(R.id.tcv_post2_tags);
         tvTag = (TextView) findViewById(R.id.tv_post2_tag);
         tvLocation = (TextView) findViewById(R.id.tv_post2_location);
         loading = (RotateLoading) findViewById(R.id.loading);
@@ -123,8 +124,17 @@ public class PostActivity extends AppCompatActivity {
                 }
             } else if (requestCode == TAG_SEARCH_REQUEST) {
                 String tag = data.getStringExtra(SearchTagActivity.SEARCH_RESULT);
-                tvTag.setText(tag);
-                hasTag = true;
+                if (!TextUtils.isEmpty(tag)) {
+                    List<String> tags = tcvTags.getTags();
+                    if (tags == null) {
+                        tags = new ArrayList<>();
+                    }
+                    tags.add(tag);
+                    tcvTags.setVisibility(View.VISIBLE);
+                    tcvTags.setTags(tags);
+                }
+                //tvTag.setText(tag);
+                //hasTag = true;
                 LogUtil.d(TAG, "onActivityResult debug, SEARCH_TYPE = " + tag);
             } else if (requestCode == LOCATION_SEARCH_REQUEST) {
 
@@ -186,7 +196,11 @@ public class PostActivity extends AppCompatActivity {
         @Override
         protected void doInBack() throws AVException {
             AVUser currentUser = AVUser.getCurrentUser();
-
+            boolean isPrivate = cbPrivate.isChecked() ? true : false;
+            String content = etContent.getText().toString();
+            List<String> tags = tcvTags.getTags();
+            LeanCloudHelper.savePost(currentUser, bitmap, isPrivate, content, tags);
+            /*
             String url = "";
             String thumbnailurl = "";
             boolean isFileSaved = false;
@@ -228,8 +242,9 @@ public class PostActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(etContent.getText())) {
                 post.setContent(etContent.getText().toString());
             }
-            if (hasTag) {
-                post.setTag(tvTag.getText().toString());
+            List<String> tags = tcvTags.getTags();
+            if (tags != null && tags.size() > 0) {
+                post.setTags(tags);
             }
             if (cbPrivate.isChecked()) {
                 post.setType(0);//private
@@ -241,6 +256,7 @@ public class PostActivity extends AppCompatActivity {
                 photos.add(img);
             }
             post.save();
+            */
         }
 
         @Override

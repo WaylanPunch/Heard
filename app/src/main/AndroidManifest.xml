@@ -39,7 +39,6 @@
             android:name=".ui.activities.LoginActivity"
             android:label="@string/title_activity_draft"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".ui.activities.DraftActivity"
             android:label="@string/title_activity_draft"
@@ -74,6 +73,10 @@
             android:label="@string/title_activity_post"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.activities.SearchTagActivity"
+            android:label="@string/title_activity_search_tag"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.activities.PostDisplayActivity"
             android:label="@string/title_activity_post_display"
             android:theme="@style/AppTheme" />
@@ -82,7 +85,7 @@
             android:label="@string/title_activity_user_detail"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.activities.ImageDisplayActivity" />
-
+        <activity android:name=".ui.activities.IndexActivity"></activity>
     </application>
 
 </manifest>

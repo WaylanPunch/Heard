@@ -18,9 +18,9 @@ import com.avos.avoscloud.SaveCallback;
 import com.way.heard.R;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
-import com.way.heard.ui.activities.ImageDisplayActivity;
 import com.way.heard.ui.activities.PostDisplayActivity;
 import com.way.heard.ui.activities.UserDisplayActivity;
+import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.Util;
 
@@ -34,6 +34,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private int lastPosition = -1;
     private Context mContext;
+    private OnImageClickListener onImageClickListener;
+
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener1) {
+        this.onImageClickListener = onImageClickListener1;
+    }
 
     public List<Post> getPosts() {
         return mPosts;
@@ -87,7 +92,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         if (images != null && images.size() > 0) {
             strImageUrl = images.get(0).getUrl();
         }
-        String strTag = post.getTag();
+        List<String> strTags = post.getTags();
         List<String> likesObjectIDs = post.getLikes();
         List<String> commentObjectIDs = post.getComments();
 
@@ -118,7 +123,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ImageDisplayActivity.go(mContext, images.get(0));
+                    //ImageDisplayActivity.go(mContext, images.get(0), position);
+                    if (onImageClickListener != null) {
+                        onImageClickListener.onImageClick(position);
+                    }
                 }
             });
             GlideImageLoader.displayImage(mContext, strImageUrl, holder.ivPhoto);
@@ -126,11 +134,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.ivPhoto.setVisibility(View.GONE);
         }
         //3.6.Tag
-        if (!TextUtils.isEmpty(strTag)) {
-            holder.tvTag.setVisibility(View.VISIBLE);
-            holder.tvTag.setText(strTag);
+        if (strTags != null && strTags.size() > 0) {
+            holder.tcvTags.setVisibility(View.VISIBLE);
+            holder.tcvTags.setTags(strTags);
         } else {
-            holder.tvTag.setVisibility(View.GONE);
+            holder.tcvTags.setVisibility(View.GONE);
         }
         //3.7.Likes
         final AVUser currentUser = AVUser.getCurrentUser();
@@ -206,7 +214,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         TextView tvCreateAt;
         TextView tvContent;
         ImageView ivPhoto;
-        TextView tvTag;
+        //TextView tvTag;
+        TagCloudView tcvTags;
         ImageView ivLikesButton;
         //TextView tvLikesCount ;
         ImageView ivCommentsButton;
@@ -220,12 +229,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvCreateAt = (TextView) contentView.findViewById(R.id.tv_post2_item_createat);
             tvContent = (TextView) contentView.findViewById(R.id.tv_post2_item_content);
             ivPhoto = (ImageView) contentView.findViewById(R.id.iv_post2_item_photo);
-            tvTag = (TextView) contentView.findViewById(R.id.tv_post2_item_tag);
+            //tvTag = (TextView) contentView.findViewById(R.id.tv_post2_item_tag);
+            tcvTags = (TagCloudView) contentView.findViewById(R.id.tcv_post2_item_tags);
             ivLikesButton = (ImageView) contentView.findViewById(R.id.iv_post2_item_likes_button);
             // tvLikesCount =  (TextView)contentView.findViewById( R.id.tv_post2_item_likes_count);
             ivCommentsButton = (ImageView) contentView.findViewById(R.id.iv_post2_item_comments_button);
             // tvCommentsCount = (TextView) contentView.findViewById( R.id.tv_post2_item_comments_count);
         }
+    }
+
+    public interface OnImageClickListener {
+        void onImageClick(int pos);
     }
 
 }

@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 import com.avos.avoscloud.AVAnalytics;
 import com.way.heard.R;
-import com.way.heard.ui.fragments.BookmarkFragment;
+import com.way.heard.ui.fragments.TopicFragment;
 import com.way.heard.ui.fragments.FindFragment;
 import com.way.heard.ui.fragments.HomeFragment;
 import com.way.heard.ui.fragments.MeFragment;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
 
     private HomeFragment homeFragment;
     private FindFragment findFragment;
-    private BookmarkFragment bookmarkFragment;
+    private TopicFragment topicFragment;
     private MessageFragment messageFragment;
     private MeFragment meFragment;
     private SettingFragment settingFragment;
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         tags = new ArrayList<>();
         tags.add(HomeFragment.HOME);
         tags.add(FindFragment.FIND);
-        tags.add(BookmarkFragment.BOOKMARK);
+        tags.add(TopicFragment.TOPIC);
         tags.add(MessageFragment.MESSAGE);
         tags.add(MeFragment.ME);
         tags.add(SettingFragment.SETTING);
@@ -161,12 +161,12 @@ public class MainActivity extends AppCompatActivity
                         .commit();
                 break;
             case 3:
-                LogUtil.d(TAG, "replaceFragment debug, BOOKMARK, Index = " + index);
-                if (bookmarkFragment == null) {
-                    bookmarkFragment = BookmarkFragment.newInstance(3);
+                LogUtil.d(TAG, "replaceFragment debug, TOPIC, Index = " + index);
+                if (topicFragment == null) {
+                    topicFragment = TopicFragment.newInstance(3);
                 }
                 fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, bookmarkFragment)
+                        .replace(R.id.fragment_container, topicFragment)
                         .commit();
                 break;
             case 4:
@@ -271,12 +271,12 @@ public class MainActivity extends AppCompatActivity
                 findFragment = FindFragment.newInstance(1);
             }
             switchContent(findFragment, 1);
-        } else if (id == R.id.nav_bookmark) {
+        } else if (id == R.id.nav_topic) {
             //replaceFragment(3);
-            if (bookmarkFragment == null) {
-                bookmarkFragment = BookmarkFragment.newInstance(2);
+            if (topicFragment == null) {
+                topicFragment = TopicFragment.newInstance(2);
             }
-            switchContent(bookmarkFragment, 2);
+            switchContent(topicFragment, 2);
         } else if (id == R.id.nav_message) {
             //replaceFragment(4);
             if (messageFragment == null) {

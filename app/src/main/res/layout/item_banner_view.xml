@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_banner_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <cn.bingoogolapple.bgabanner.BGABanner
+        android:id="@+id/bga_banner_topic"
+        style="@style/BannerDefaultStyle"
+        app:banner_pointGravity="bottom|left"
+        app:banner_transitionEffect="zoomStack" />
+
+</RelativeLayout>

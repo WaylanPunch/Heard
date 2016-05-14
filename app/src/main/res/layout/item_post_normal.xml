@@ -20,7 +20,7 @@
                 android:id="@+id/iv_post2_item_avatar"
                 android:layout_width="60dip"
                 android:layout_height="60dip"
-                android:layout_margin="@dimen/activity_vertical_margin"
+                android:layout_margin="@dimen/bullet_gap_width"
                 android:src="@drawable/ic_picture_default" />
 
             <TextView
@@ -29,8 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/bullet_gap_width"
+                android:layout_marginTop="@dimen/bullet_gap_width"
                 android:layout_toRightOf="@+id/iv_post2_item_avatar"
                 android:text="Nickname"
                 android:textColor="@color/colorSecondaryText" />
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="@dimen/activity_vertical_margin"
+                android:layout_margin="@dimen/bullet_gap_width"
                 android:text="1 hour ago" />
         </RelativeLayout>
 
@@ -51,7 +51,7 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_margin="@dimen/bullet_gap_width"
             android:text="content"
             android:textColor="@color/colorSecondaryText" />
 
@@ -59,19 +59,36 @@
             android:id="@+id/iv_post2_item_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_margin="@dimen/bullet_gap_width"
             android:src="@drawable/ic_picture_default" />
 
-        <TextView
-            android:id="@+id/tv_post2_item_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="36dip"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:background="@drawable/tag_background"
-            android:drawableLeft="@drawable/ic_tag"
-            android:gravity="center_vertical"
-            android:minWidth="60dip"
-            android:text="tag" />
+        <!--<TextView-->
+            <!--android:id="@+id/tv_post2_item_tag"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="36dip"-->
+            <!--android:layout_margin="@dimen/bullet_gap_width"-->
+            <!--android:padding="@dimen/bullet_gap_width"-->
+            <!--android:background="@drawable/tag_background"-->
+            <!--android:drawableLeft="@drawable/ic_tag"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:minWidth="60dip"-->
+            <!--android:text="tag" />-->
+
+        <com.way.heard.ui.views.TagCloudView
+            android:id="@+id/tcv_post2_item_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/v_writing_divider1"
+            android:layout_margin="@dimen/bullet_gap_width"
+            app:tcvBorder="8dp"
+            app:tcvCanTagClick="true"
+            app:tcvItemBorderHorizontal="8dp"
+            app:tcvItemBorderVertical="6dp"
+            app:tcvShowRightImg="false"
+            app:tcvSingleLine="true"
+            app:tcvTextColor="@color/colorWhite">
+        </com.way.heard.ui.views.TagCloudView>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -105,7 +122,7 @@
                 android:layout_height="24dip"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="@dimen/bullet_gap_width"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/bullet_gap_width"
                 android:layout_marginTop="@dimen/bullet_gap_width"
                 android:src="@drawable/ic_thumb_up" />
 
@@ -116,7 +133,7 @@
             <!--android:layout_height="24dip"-->
             <!--android:layout_alignParentEnd="true"-->
             <!--android:layout_marginBottom="@dimen/bullet_gap_width"-->
-            <!--android:layout_marginRight="@dimen/activity_vertical_margin"-->
+            <!--android:layout_marginRight="@dimen/bullet_gap_width"-->
             <!--android:layout_marginTop="@dimen/bullet_gap_width"-->
             <!--android:gravity="start|center_vertical"-->
             <!--android:text="0" />-->

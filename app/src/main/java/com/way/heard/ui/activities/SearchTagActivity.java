@@ -60,21 +60,21 @@ public class SearchTagActivity extends AppCompatActivity {
     private void setSearchView() {
         if (mSearchView != null) {
             //waylan punch
-            mSearchView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            mSearchView.setTextColor(ContextCompat.getColor(this, R.color.colorWhite));
-            mSearchView.setIconColor(ContextCompat.getColor(this, R.color.colorWhite));
-            mSearchView.setHintColor(ContextCompat.getColor(this, R.color.colorWhite));
-            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.colorWhite));
-
+//            mSearchView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+//            mSearchView.setTextColor(ContextCompat.getColor(this, R.color.colorWhite));
+//            mSearchView.setIconColor(ContextCompat.getColor(this, R.color.colorWhite));
+//            mSearchView.setHintColor(ContextCompat.getColor(this, R.color.colorWhite));
+//            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.colorWhite));
+            mSearchView.addFocus();
             mSearchView.setVersion(SearchView.VERSION_TOOLBAR);
             mSearchView.setVersionMargins(SearchView.VERSION_MARGINS_TOOLBAR_BIG);
-            mSearchView.setHint("Input Tag");
+            mSearchView.setHint("Search");
             mSearchView.setTextSize(16);
             mSearchView.setDivider(false);
             mSearchView.setVoice(true);
             mSearchView.setVoiceText("Set permission on Android 6+ !");
             mSearchView.setAnimationDuration(SearchView.ANIMATION_DURATION);
-            //mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.search_shadow_layout));
+            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.search_shadow_layout));
             mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {

@@ -6,5 +6,5 @@
     android:layout_height="60dp"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
-    app:loading_color="@color/colorPrimary"
+    app:loading_color="@color/colorAccent"
     app:loading_width="5dp" />

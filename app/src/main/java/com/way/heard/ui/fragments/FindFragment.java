@@ -2,7 +2,9 @@ package com.way.heard.ui.fragments;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.models.Image;
+import com.way.heard.ui.activities.UserDisplayActivity;
 import com.way.heard.ui.views.swipecard.CardSlidePanel;
 import com.way.heard.utils.LeanCloudBackgroundTask;
 import com.way.heard.utils.LeanCloudHelper;
@@ -87,6 +91,11 @@ public class FindFragment extends Fragment {
             public void onCardVanish(int index, int type) {
                 if (dataList != null && dataList.size() > 0) {
                     Log.d("CardFragment", "正在消失-Index, " + index + ", Username" + dataList.get(index).getAuthor().getUsername() + " 消失type=" + type);
+                    if (type == CardSlidePanel.VANISH_TYPE_RIGHT) {
+                        likeImage(true, dataList.get(index));
+                    } else if (type == CardSlidePanel.VANISH_TYPE_LEFT) {
+                        likeImage(false, dataList.get(index));
+                    }
                 }
                 if ((dataList.size() > index) && (index + 1 == dataList.size())) {
                     loadNextPage();
@@ -95,9 +104,23 @@ public class FindFragment extends Fragment {
 
             @Override
             public void onItemClick(View cardView, int index) {
+                /*
                 if (dataList != null && dataList.size() > 0) {
                     Log.d("CardFragment", "卡片点击-Index, " + index + ", Username" + dataList.get(index).getAuthor().getUsername());
+                    //ImageDisplayActivity.go(getActivity(), dataList.get(index), 0);
+                    Image image = dataList.get(index);
+                    Intent intent = new Intent(mContext, ImageDisplayActivity.class);
+                    intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, index);
+                    intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+                    startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
                 }
+                */
+            }
+
+            @Override
+            public void onHomeButtonClick(int index) {
+                AVUser user = dataList.get(index).getAuthor();
+                UserDisplayActivity.go(getActivity(), user);
             }
         };
         slidePanel.setCardSwitchListener(cardSwitchListener);
@@ -137,7 +160,13 @@ public class FindFragment extends Fragment {
 
             @Override
             protected void onPost(AVException e) {
-                slidePanel.fillData(dataList);
+                try {
+                    slidePanel.fillData(dataList);
+                } catch (Exception e1) {
+                    Toast.makeText(mContext, e1.getMessage(), Toast.LENGTH_SHORT).show();
+                    LogUtil.e(TAG, "loadImages error, LeanCloudBackgroundTask onPost,", e1);
+                }
+
                 loading.stop();
                 if (dataList == null || dataList.size() == 0) {
                     pageIndex = 1;
@@ -147,5 +176,67 @@ public class FindFragment extends Fragment {
                 }
             }
         }.execute();
+    }
+
+    private void likeImage(final boolean isLike, final Image image) {
+        new LeanCloudBackgroundTask(getContext()) {
+
+            @Override
+            protected void onPre() {
+                loading.start();
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                List<String> likeObjectIDs = image.getLikes();
+                if (isLike) {//like
+                    if (likeObjectIDs == null) {
+                        likeObjectIDs = new ArrayList<String>();
+                    }
+                    if (!likeObjectIDs.contains(AVUser.getCurrentUser().getObjectId())) {
+                        likeObjectIDs.add(AVUser.getCurrentUser().getObjectId());
+                        image.setLikes(likeObjectIDs);
+                        image.save();
+                    }
+                } else {//dislike
+                    if (likeObjectIDs != null) {
+                        if (likeObjectIDs.contains(AVUser.getCurrentUser().getObjectId())) {
+                            likeObjectIDs.remove(AVUser.getCurrentUser().getObjectId());
+                            image.setLikes(likeObjectIDs);
+                            image.save();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                loading.stop();
+                if (e != null) {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.d(TAG, "onActivityResult debug, Request Code = " + requestCode + ", Result Code = " + resultCode);
+        if (resultCode == Activity.RESULT_OK) {
+            /*
+            if (requestCode == ImageDisplayActivity.IMAGE_DISPLAY_REQUEST) {
+                try {
+                    Bundle bundle = data.getExtras();
+                    Image image = bundle.getParcelable(ImageDisplayActivity.IMAGE_DETAIL);
+                    int pos = data.getIntExtra(ImageDisplayActivity.IMAGE_POST_INDEX, 0);//bundle.getInt(ImageDisplayActivity.IMAGE_POST_INDEX);
+                    dataList.set(pos, image);
+                    LogUtil.d(TAG, "Position = " + pos);
+                } catch (Exception e) {
+                    LogUtil.e(TAG, "onActivityResult error", e);
+                }
+            }
+            */
+        }
     }
 }

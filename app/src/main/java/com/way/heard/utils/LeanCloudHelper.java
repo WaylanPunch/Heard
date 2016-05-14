@@ -1,5 +1,8 @@
 package com.way.heard.utils;
 
+import android.graphics.Bitmap;
+import android.text.TextUtils;
+
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
@@ -7,10 +10,13 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
 import com.way.heard.models.Article;
+import com.way.heard.models.BannerModel;
 import com.way.heard.models.Comment;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
+import com.way.heard.models.Tag;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -223,7 +229,7 @@ public class LeanCloudHelper {
     }
 
 	/*
-	public static List<AVUser> getMyFollowers(){
+    public static List<AVUser> getMyFollowers(){
 		List<AVUser> followers;
 		try{
 			AVQuery<AVUser> query = AVQuery.getQuery("_Follower");
@@ -303,8 +309,8 @@ public class LeanCloudHelper {
             user.put("avatar", file);
             file.save();
             user.save();
-	      	/*
-	      	file.saveInBackground(new SaveCallback() {
+              /*
+              file.saveInBackground(new SaveCallback() {
 		        @Override
 		        public void done(AVException e) {
 		        	if (null == e) {
@@ -402,6 +408,87 @@ public class LeanCloudHelper {
         return comments;
     }
 
+    public static Post savePost(AVUser currentUser, Bitmap bitmap, boolean isPrivate, String content, List<String> tags) {
+        Post post;
+        try {
+            post = new Post();
+
+            String url = "";
+            String thumbnailurl = "";
+            boolean isFileSaved = false;
+            if (bitmap != null) {
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                byte[] data = out.toByteArray();
+                AVFile avfile = new AVFile(currentUser.getUsername() + "-post.jpg", data);
+                avfile.save();
+                url = avfile.getUrl();
+                thumbnailurl = avfile.getThumbnailUrl(true, 100, 100);
+
+                isFileSaved = true;
+            }
+
+            boolean isImageSaved = false;
+            Image img = new Image();
+            if (isFileSaved) {
+                img.setAuthor(currentUser);
+                img.setThumbnailurl(thumbnailurl);
+                img.setUrl(url);
+                if (isPrivate) {
+                    img.setType(0);//private
+                } else {
+                    img.setType(1);//private
+                }
+                img.setFrom(1);//from post
+                if (tags != null && tags.size() > 0) {
+                    img.setTags(tags);
+                }
+                img.save();
+
+                isImageSaved = true;
+            }
+
+            post.setAuthor(currentUser);
+            if (!TextUtils.isEmpty(content)) {
+                post.setContent(content);
+            }
+            if (tags != null && tags.size() > 0) {
+                post.setTags(tags);
+            }
+            if (isPrivate) {
+                post.setType(0);//private
+            } else {
+                post.setType(1);//private
+            }
+            if (isImageSaved) {
+                AVRelation<Image> photos = post.getPhotos();
+                photos.add(img);
+            }
+            post.save();
+
+            if (tags != null && tags.size() > 0) {
+                for (String tag : tags) {
+                    AVQuery<Tag> query = AVQuery.getQuery("Tag");
+                    query.whereEqualTo(Tag.CONTENT, tag);
+                    Tag tag1 = query.getFirst();
+                    if (tag1 == null) {
+                        tag1 = new Tag();
+                        tag1.setContent(tag);
+                        tag1.setUsage(1);
+                        tag1.save();
+                    } else {
+                        int usage = tag1.getUsage();
+                        tag1.setUsage(usage + 1);
+                        tag1.save();
+                    }
+                }
+            }
+        } catch (AVException e) {
+            return null;
+        }
+        return post;
+    }
+
     public static Comment saveComment(String postID, String content, AVUser replyTo, Comment replyFor) {
         Comment comment;
         try {
@@ -447,5 +534,46 @@ public class LeanCloudHelper {
             return null;
         }
         return images;
+    }
+
+    public static List<BannerModel> getBanners() {
+        List<BannerModel> banners = new ArrayList<>();
+        try {
+            //1.query tags
+            List<Tag> tags = new ArrayList<>();
+            AVQuery<Tag> queryTag = AVQuery.getQuery("Tag");
+            queryTag.limit(6);
+            queryTag.orderByDescending(Tag.USAGE);
+            tags = queryTag.find();
+
+            //2.query images
+            if (tags != null && tags.size() > 0) {
+                for (Tag tag : tags) {
+                    List<Image> images = new ArrayList<>();
+                    AVQuery<Image> queryImage = AVQuery.getQuery("Image");
+                    queryImage.whereContains(Image.TAGS, tag.getContent());
+                    //queryImage.whereExists(Image.TYPE);
+                    queryImage.whereEqualTo(Image.TYPE, 1);//public
+                    //queryImage.whereExists(Image.FROM);
+                    queryImage.whereEqualTo(Image.FROM, 1);//from post
+                    queryImage.limit(6);
+                    //queryImage.include(Image.AUTHOR);
+                    queryImage.orderByDescending("createdAt");
+                    images = queryImage.find();
+
+                    //need > 3
+                    if (images != null && images.size() > 2) {
+                        BannerModel banner = new BannerModel();
+                        banner.setTag(tag);
+                        banner.setImages(images);
+                        banners.add(banner);
+                    }
+                }
+            }
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getBanners debug, Failed", e);
+            return null;
+        }
+        return banners;
     }
 }

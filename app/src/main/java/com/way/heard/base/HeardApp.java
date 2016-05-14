@@ -10,6 +10,7 @@ import com.way.heard.models.Article;
 import com.way.heard.models.Comment;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
+import com.way.heard.models.Tag;
 import com.way.heard.utils.LogUtil;
 
 /**
@@ -34,6 +35,7 @@ public class HeardApp extends Application {
         AVObject.registerSubclass(Comment.class);
         AVObject.registerSubclass(Post.class);
         AVObject.registerSubclass(Image.class);
+        AVObject.registerSubclass(Tag.class);
         // 应该放在 Application 的 onCreate 中，开启调式日志打印
         AVOSCloud.setDebugLogEnabled(CONFIG.LeanCloudIsDebugLogEnabled);
         // 应该放在 Application 的 onCreate 中，开启全局省流量模式

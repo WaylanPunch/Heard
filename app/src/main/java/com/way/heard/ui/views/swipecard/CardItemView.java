@@ -20,7 +20,7 @@ public class CardItemView extends LinearLayout {
     public ImageView imageView;
     private Context mContext;
     private TextView userNameTv;
-    private TextView imageNumTv;
+    //private TextView imageNumTv;
     private TextView likeNumTv;
 
     public CardItemView(Context context) {
@@ -38,14 +38,14 @@ public class CardItemView extends LinearLayout {
         inflate(context, R.layout.item_swipe_card, this);
         imageView = (ImageView) findViewById(R.id.card_image_view);
         userNameTv = (TextView) findViewById(R.id.card_user_name);
-        imageNumTv = (TextView) findViewById(R.id.card_pic_num);
+        //imageNumTv = (TextView) findViewById(R.id.card_pic_num);
         likeNumTv = (TextView) findViewById(R.id.card_like);
     }
 
     public void fillData(Image itemData) {
         GlideImageLoader.displayImage(mContext, itemData.getUrl(), imageView);
         userNameTv.setText(itemData.getAuthor().getUsername());
-        imageNumTv.setText("0");
+        //imageNumTv.setText("0");
         likeNumTv.setText(itemData.getLikes() == null ? "0" : itemData.getLikes().size() + "");
     }
 

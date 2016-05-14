@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:clickable="true"
-    android:paddingTop="20dp"
+    android:orientation="vertical"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:paddingRight="20dp"
+    android:paddingTop="20dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -18,19 +18,19 @@
             android:layout_height="260dp"
             android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/card_pic_num"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_margin="5dp"
-            android:background="#5f000000"
-            android:drawableLeft="@drawable/card_photo"
-            android:drawablePadding="4dp"
-            android:gravity="center"
-            android:paddingLeft="6dp"
-            android:paddingRight="4dp"
-            android:text="6"
-            android:textColor="#fff" />
+        <!--<TextView-->
+        <!--android:id="@+id/card_pic_num"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:layout_margin="6dp"-->
+        <!--android:background="#5f000000"-->
+        <!--android:drawableLeft="@drawable/card_photo"-->
+        <!--android:drawablePadding="4dp"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingLeft="6dp"-->
+        <!--android:paddingRight="4dp"-->
+        <!--android:text="6"-->
+        <!--android:textColor="#fff" />-->
     </RelativeLayout>
 
     <LinearLayout
@@ -51,18 +51,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="叶琪琪 23"
-                android:textColor="#111"
+                android:layout_marginLeft="6dip"
+                android:text="null"
+                android:textColor="@color/colorSecondaryText"
+                android:textStyle="italic"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/card_other_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:gravity="center_horizontal"
-                android:text="其它 6km"
-                android:textColor="#888" />
+                android:layout_marginTop="4dp"
+                android:drawableLeft="@drawable/ic_location_gray"
+                android:gravity="center"
+                android:text="6km"
+                android:textStyle="italic"
+                android:textColor="@color/colorHintText"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,26 +75,27 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/card_left1"
-                android:drawablePadding="2dp"
-                android:gravity="center_horizontal"
-                android:text="0"
-                android:textColor="#999"
-                android:textSize="15sp" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:drawableLeft="@drawable/card_left1"-->
+                <!--android:drawablePadding="2dp"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:text="0"-->
+                <!--android:textColor="#999"-->
+                <!--android:textSize="15sp" />-->
 
             <TextView
                 android:id="@+id/card_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:drawableLeft="@drawable/card_left2"
+                android:layout_marginLeft="6dp"
+                android:drawableLeft="@drawable/ic_heart"
                 android:drawablePadding="2dp"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:text="2"
-                android:textColor="#999"
+                android:textStyle="italic"
+                android:textColor="@color/colorHintText"
                 android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
