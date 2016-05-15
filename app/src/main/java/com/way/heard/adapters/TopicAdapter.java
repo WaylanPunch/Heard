@@ -14,6 +14,7 @@ import com.way.heard.R;
 import com.way.heard.models.BannerModel;
 import com.way.heard.models.Image;
 import com.way.heard.utils.GlideImageLoader;
+import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import cn.bingoogolapple.bgabanner.BGABanner;
  * Created by pc on 2016/5/7.
  */
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> {
+    private final static String TAG = TopicAdapter.class.getName();
 
     private int lastPosition = -1;
     private FragmentActivity mContext;
@@ -86,15 +88,18 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
             tags.add(tagStr);
         }
         //3.Set Data
+        LogUtil.d(TAG, "onBindViewHolder debug, Images Count = " + imgUrls.size());
+        LogUtil.d(TAG, "onBindViewHolder debug, Tags Count = " + tags.size());
         initZoomStack(holder.bgaBanner, imgUrls, tags);
 
         setAnimation(holder.rlContainer, position);
     }
 
     private void initZoomStack(BGABanner banner, List<String> imgUrls, List<String> tags) {
-        List<ImageView> mZoomStackViews = getViews(3);
+        int viewCOUNT = imgUrls.size();
+        List<ImageView> mZoomStackViews = getViews(viewCOUNT);
         banner.setViews(mZoomStackViews);
-        for (int i = 0; i < mZoomStackViews.size(); i++) {
+        for (int i = 0; i < viewCOUNT; i++) {
             GlideImageLoader.displayImage(mContext, imgUrls.get(i), mZoomStackViews.get(i));
             //Glide.with(MainActivity.this).load(bannerModel.imgs.get(i)).placeholder(R.drawable.holder).error(R.drawable.holder).into(mZoomStackViews.get(i));
         }

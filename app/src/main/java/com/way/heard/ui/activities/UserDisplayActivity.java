@@ -9,14 +9,24 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
+import com.way.heard.models.Image;
 import com.way.heard.utils.GlideImageLoader;
+import com.way.heard.utils.LeanCloudBackgroundTask;
 import com.way.heard.utils.LogUtil;
+
+import java.util.List;
 
 public class UserDisplayActivity extends AppCompatActivity {
     private final static String TAG = UserDisplayActivity.class.getName();
@@ -30,15 +40,19 @@ public class UserDisplayActivity extends AppCompatActivity {
     private ImageView ivAvatar;
     private TextView tvDisplayName;
     private TextView tvUsername;
-    private TextView tvSignature;
     private TextView tvFolloweeCount;
     private TextView tvFollowerCount;
+    private LinearLayout llSignContainer;
+    private TextView tvSignature;
+    private LinearLayout llCityContainer;
     private TextView tvCity;
+    private LinearLayout llPhotoContainer;
     private ImageView ivPhoto1;
     private ImageView ivPhoto2;
     private ImageView ivPhoto3;
     private TextView tvChatAction;
     private TextView tvFollowAction;
+    private RotateLoading loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,19 +90,22 @@ public class UserDisplayActivity extends AppCompatActivity {
         ivAvatar = (ImageView) findViewById(R.id.iv_user_display_avatar);
         tvDisplayName = (TextView) findViewById(R.id.tv_user_display_displayname);
         tvUsername = (TextView) findViewById(R.id.tv_user_display_username);
-        tvSignature = (TextView) findViewById(R.id.tv_user_display_signature);
         tvFolloweeCount = (TextView) findViewById(R.id.tv_user_display_followee_count);
         tvFollowerCount = (TextView) findViewById(R.id.tv_user_display_follower_count);
+        llSignContainer = (LinearLayout) findViewById(R.id.ll_user_display_signature_container);
+        tvSignature = (TextView) findViewById(R.id.tv_user_display_signature);
+        llCityContainer = (LinearLayout) findViewById(R.id.ll_user_display_city_container);
         tvCity = (TextView) findViewById(R.id.tv_user_display_city);
+        llPhotoContainer = (LinearLayout) findViewById(R.id.ll_user_display_photo_container);
         ivPhoto1 = (ImageView) findViewById(R.id.iv_user_display_photo1);
         ivPhoto2 = (ImageView) findViewById(R.id.iv_user_display_photo2);
         ivPhoto3 = (ImageView) findViewById(R.id.iv_user_display_photo3);
         tvChatAction = (TextView) findViewById(R.id.tv_user_display_chat);
         tvFollowAction = (TextView) findViewById(R.id.tv_user_display_follow);
-
+        loading = (RotateLoading) findViewById(R.id.loading);
         initData();
+        getViewData(user);
     }
-
 
 
     private void initData() {
@@ -104,6 +121,8 @@ public class UserDisplayActivity extends AppCompatActivity {
             String displayNameStr = user.getString("displayname");
             if (!TextUtils.isEmpty(displayNameStr)) {
                 tvDisplayName.setText(displayNameStr);
+            } else {
+                tvDisplayName.setVisibility(View.GONE);
             }
             String usernameStr = user.getUsername();
             if (!TextUtils.isEmpty(usernameStr)) {
@@ -112,25 +131,130 @@ public class UserDisplayActivity extends AppCompatActivity {
             String signatureStr = user.getString("signature");
             if (!TextUtils.isEmpty(signatureStr)) {
                 tvSignature.setText(signatureStr);
+            } else {
+                llSignContainer.setVisibility(View.GONE);
             }
             String cityStr = user.getString("city");
             if (!TextUtils.isEmpty(cityStr)) {
-                tvSignature.setText(cityStr);
+                tvCity.setText(cityStr);
+            } else {
+                llCityContainer.setVisibility(View.GONE);
             }
-            GlideImageLoader.displayImage(context, "http://img0.ph.126.net/Yb9EDjXQWy2xrrlrl7p6Pw==/1996502009910115188.jpg", ivPhoto1);
+            tvChatAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            tvFollowAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         } catch (Exception e) {
             LogUtil.e(TAG, "initData error", e);
+        }
+    }
+
+    private int mFolloweeCount;
+    private int mFollowerCount;
+    private List<Image> photos;
+    private boolean isFollowed;
+
+    private void getViewData(final AVUser avUser) {
+        new LeanCloudBackgroundTask(UserDisplayActivity.this) {
+
+            @Override
+            protected void onPre() {
+                loading.start();
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                // 其中 userA 是 AVUser 对象，你也可以使用 AVUser 的子类化对象进行查询
+                AVQuery<AVUser> followerQuery = avUser.followerQuery(AVUser.class);
+                // AVQuery<AVUser> followerQuery = AVUser.followerQuery(userA.getObjectId(),AVUser.class); 也可以使用这个静态方法来获取非登录用户的好友关系
+                mFollowerCount = followerQuery.count(); //.find().size();
+
+                //查询关注者
+                AVQuery<AVUser> followeeQuery = AVUser.followeeQuery(avUser.getObjectId(), AVUser.class);
+                //AVQuery<AVUser> followeeQuery = userB.followeeQuery(AVUser.class);
+                mFolloweeCount = followeeQuery.count();
+//                followeeQuery.findInBackground(new FindCallback<AVUser>() {
+//                    @Override
+//                    public void done(List<AVUser> avObjects, AVException avException) {
+//                        //avObjects 就是用户的关注用户列表
+//
+//                    }
+//                });
+
+                AVQuery<AVUser> followQuery = AVUser.followeeQuery(AVUser.getCurrentUser().getObjectId(), AVUser.class);
+                followQuery.whereEqualTo("followee", AVObject.createWithoutData("_User", avUser.getObjectId()));
+                int count = followQuery.count();
+                if (count == 0) {
+                    isFollowed = false;
+                } else {
+                    isFollowed = true;
+                }
+
+                AVQuery<Image> query = AVQuery.getQuery("Image");
+                query.whereExists(Image.TYPE);
+                query.whereEqualTo(Image.TYPE, 1);//public
+                query.whereExists(Image.FROM);
+                query.whereEqualTo(Image.FROM, 1);//from post
+                query.whereEqualTo(Image.AUTHOR, AVObject.createWithoutData("_User", avUser.getObjectId()));
+                query.limit(3);
+                query.orderByDescending("createdAt");
+                photos = query.find();
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                loading.stop();
+                if (e != null) {
+                    Toast.makeText(UserDisplayActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                setMoreData();
+            }
+        }.execute();
+    }
+
+    private void setMoreData() {
+        tvFolloweeCount.setText(mFolloweeCount + "");
+        tvFollowerCount.setText(mFollowerCount + "");
+        if (isFollowed) {
+            tvFollowAction.setText("Followed");
+            tvFollowAction.setBackgroundResource(R.drawable.tag_background_accent);
+        }
+        if (photos == null || photos.size() == 0) {
+            llPhotoContainer.setVisibility(View.GONE);
+//            ivPhoto1.setVisibility(View.GONE);
+//            ivPhoto2.setVisibility(View.GONE);
+//            ivPhoto3.setVisibility(View.GONE);
+        } else if (photos.size() == 1) {
+            GlideImageLoader.displayImage(context, photos.get(0).getThumbnailurl(), ivPhoto1);
+            ivPhoto2.setVisibility(View.GONE);
+            ivPhoto3.setVisibility(View.GONE);
+        } else if (photos.size() == 2) {
+            GlideImageLoader.displayImage(context, photos.get(0).getThumbnailurl(), ivPhoto1);
+            GlideImageLoader.displayImage(context, photos.get(1).getThumbnailurl(), ivPhoto2);
+            ivPhoto3.setVisibility(View.GONE);
+        } else if (photos.size() == 3) {
+            GlideImageLoader.displayImage(context, photos.get(0).getThumbnailurl(), ivPhoto1);
+            GlideImageLoader.displayImage(context, photos.get(1).getThumbnailurl(), ivPhoto2);
+            GlideImageLoader.displayImage(context, photos.get(2).getThumbnailurl(), ivPhoto3);
         }
     }
 
     private void setListViewHeightBasedOnChildren(ListView listView) {
         // 获取ListView对应的Adapter
         ListAdapter listAdapter = listView.getAdapter();
-        if(listAdapter == null) {
+        if (listAdapter == null) {
             return;
         }
         int totalHeight = 0;
-        for(int i = 0, len = listAdapter.getCount(); i < len; i++) { // listAdapter.getCount()返回数据项的数目
+        for (int i = 0, len = listAdapter.getCount(); i < len; i++) { // listAdapter.getCount()返回数据项的数目
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0); // 计算子项View 的宽高
             totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度

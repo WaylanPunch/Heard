@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.way.heard.R;
 import com.way.heard.models.Image;
+import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,9 @@ import java.util.List;
  */
 @SuppressLint({"HandlerLeak", "NewApi", "ClickableViewAccessibility"})
 public class CardSlidePanel extends ViewGroup {
+    private final static String TAG = CardSlidePanel.class.getName();
+
+
     private List<CardItemView> viewList = new ArrayList<CardItemView>(); // 存放的是每一层的view，从顶到底
     private List<View> releasedViewList = new ArrayList<View>(); // 手指松开后存放的view列表
 
@@ -521,19 +525,23 @@ public class CardSlidePanel extends ViewGroup {
      * @param images 数据
      */
     public void fillData(List<Image> images) {
-        this.dataList = images;
+        try {
+            this.dataList = images;
 
-        if (dataList != null && dataList.size() > 0) {
-            //int num = viewList.size();
-            int num = dataList.size();
-            for (int i = 0; i < num; i++) {
-                CardItemView itemView = (CardItemView) viewList.get(i);
-                itemView.fillData(dataList.get(i));
-                itemView.setVisibility(View.VISIBLE);
+            if (dataList != null && dataList.size() > 0) {
+                int num = viewList.size();
+                //int num = dataList.size();
+                for (int i = 0; i < num; i++) {
+                    CardItemView itemView = (CardItemView) viewList.get(i);
+                    itemView.fillData(dataList.get(i));
+                    itemView.setVisibility(View.VISIBLE);
+                }
             }
-        }
-        if (null != cardSwitchListener) {
-            cardSwitchListener.onShow(0);
+            if (null != cardSwitchListener) {
+                cardSwitchListener.onShow(0);
+            }
+        } catch (Exception e) {
+            LogUtil.e(TAG, "onCreate error", e);
         }
     }
 
