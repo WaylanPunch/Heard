@@ -22,8 +22,9 @@ import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.models.Image;
+import com.way.heard.services.LeanCloudUserService;
 import com.way.heard.utils.GlideImageLoader;
-import com.way.heard.utils.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.utils.LogUtil;
 
 import java.util.List;
@@ -140,6 +141,26 @@ public class UserDisplayActivity extends AppCompatActivity {
             } else {
                 llCityContainer.setVisibility(View.GONE);
             }
+
+
+            tvFolloweeCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FollowerListActivity.go(context, user.getObjectId(), FollowerListActivity.QUERY_TYPE_FOLLOWEE);
+                }
+            });
+            tvFollowerCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FollowerListActivity.go(context, user.getObjectId(), FollowerListActivity.QUERY_TYPE_FOLLOWER);
+                }
+            });
+            llPhotoContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserPostActivity.go(UserDisplayActivity.this, user, UserPostActivity.DISPLAY_TYPE_PUBLIC);
+                }
+            });
             tvChatAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,7 +170,55 @@ public class UserDisplayActivity extends AppCompatActivity {
             tvFollowAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (isFollowed) {//already followed
+                        LeanCloudUserService.unfollowUser(AVUser.getCurrentUser(), user.getObjectId(), new LeanCloudUserService.LeanCloudUserServiceListener() {
+                            @Override
+                            public void onSuccess() {
+                                isFollowed = false;
+                                tvFollowAction.setText("Follow");
+                                tvFollowAction.setBackgroundResource(R.drawable.tag_background);
+                                Toast.makeText(context, "Unfollowed", Toast.LENGTH_SHORT).show();
+                                LogUtil.d(TAG, "unfollowUser debug, unfollow succeeded.");
+                            }
 
+                            @Override
+                            public void onErrorMatter(String msg) {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                                LogUtil.e(TAG, "unfollowUser error, " + msg);
+                            }
+
+                            @Override
+                            public void onErrorNoMatter(String msg) {
+
+                            }
+                        });
+                    } else {//unfollow
+                        LeanCloudUserService.followUser(AVUser.getCurrentUser(), user.getObjectId(), new LeanCloudUserService.LeanCloudUserServiceListener() {
+                            @Override
+                            public void onSuccess() {
+                                isFollowed = true;
+                                tvFollowAction.setText("Followed");
+                                tvFollowAction.setBackgroundResource(R.drawable.tag_background_accent);
+                                Toast.makeText(context, "Followed", Toast.LENGTH_SHORT).show();
+                                LogUtil.d(TAG, "followUser debug, follow succeeded.");
+                            }
+
+                            @Override
+                            public void onErrorMatter(String msg) {
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                                LogUtil.e(TAG, "followUser error, " + msg);
+                            }
+
+                            @Override
+                            public void onErrorNoMatter(String msg) {
+                                isFollowed = true;
+                                tvFollowAction.setText("Followed");
+                                tvFollowAction.setBackgroundResource(R.drawable.tag_background_accent);
+                                Toast.makeText(context, "Already Followed", Toast.LENGTH_SHORT).show();
+                                LogUtil.d(TAG, "followUser debug, Already followed.");
+                            }
+                        });
+                    }
                 }
             });
         } catch (Exception e) {

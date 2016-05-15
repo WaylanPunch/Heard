@@ -16,10 +16,10 @@ import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.adapters.TopicAdapter;
 import com.way.heard.models.BannerModel;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
-import com.way.heard.utils.LeanCloudBackgroundTask;
-import com.way.heard.utils.LeanCloudHelper;
+import com.way.heard.services.LeanCloudBackgroundTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +121,7 @@ public class TopicFragment extends Fragment {
 
             @Override
             protected void doInBack() throws AVException {
-                List<BannerModel> data = LeanCloudHelper.getBanners();
+                List<BannerModel> data = LeanCloudDataService.getBanners();
                 if (mBannerModels == null) {
                     mBannerModels = new ArrayList<BannerModel>();
                 }

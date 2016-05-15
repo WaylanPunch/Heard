@@ -17,7 +17,7 @@ import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.models.Image;
 import com.way.heard.utils.GlideImageLoader;
-import com.way.heard.utils.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;

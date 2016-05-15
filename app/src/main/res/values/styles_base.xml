@@ -149,7 +149,7 @@
     </style>
 
     <style name="MainBtn" parent="AutoWrap">
-        <item name="android:background">@drawable/selector_btn_orange</item>
+        <item name="android:background">@drawable/selector_btn_shape_accent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">5dp</item>
         <item name="android:layout_margin">3dp</item>

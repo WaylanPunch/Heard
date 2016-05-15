@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.activities.LoginActivity;
-import com.way.heard.utils.LeanCloudHelper;
 
 
 /**
@@ -81,7 +81,7 @@ public class SettingFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 if(isLogin){
-                    LeanCloudHelper.logout();
+                    LeanCloudDataService.logout();
                 }
                 LoginActivity.go(getContext());
             }

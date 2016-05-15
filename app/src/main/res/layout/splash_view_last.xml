@@ -14,7 +14,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
-        android:background="@drawable/selector_btn_orange"
+        android:background="@drawable/selector_btn_shape_accent"
         android:elevation="6dip"
         android:padding="10dp"
         android:text="Heard"

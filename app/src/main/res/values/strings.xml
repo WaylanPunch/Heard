@@ -55,4 +55,6 @@
     <string name="title_activity_post_display">PostDisplayActivity</string>
     <string name="title_activity_user_detail">UserDetailActivity</string>
     <string name="title_activity_search_tag">SearchTagActivity</string>
+    <string name="title_activity_user_post">UserPostActivity</string>
+    <string name="title_activity_follower_list">FollowerListActivity</string>
 </resources>

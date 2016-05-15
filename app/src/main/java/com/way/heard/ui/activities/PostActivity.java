@@ -24,8 +24,8 @@ import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.ui.views.TagCloudView;
-import com.way.heard.utils.LeanCloudBackgroundTask;
-import com.way.heard.utils.LeanCloudHelper;
+import com.way.heard.services.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.utils.LogUtil;
 
 import java.io.IOException;
@@ -199,7 +199,7 @@ public class PostActivity extends AppCompatActivity {
             boolean isPrivate = cbPrivate.isChecked() ? true : false;
             String content = etContent.getText().toString();
             List<String> tags = tcvTags.getTags();
-            LeanCloudHelper.savePost(currentUser, bitmap, isPrivate, content, tags);
+            LeanCloudDataService.savePost(currentUser, bitmap, isPrivate, content, tags);
             /*
             String url = "";
             String thumbnailurl = "";

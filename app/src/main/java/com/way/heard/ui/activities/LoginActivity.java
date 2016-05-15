@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
 import com.way.heard.utils.InternetUtil;
-import com.way.heard.utils.LeanCloudHelper;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.utils.LogUtil;
 
 import java.util.List;
@@ -438,7 +438,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Simulate network access.
                     //Thread.sleep(2000);
                     //LogUtil.d(TAG, "UserLoginTask debug, Start to Sign In");
-                    boolean isOK = LeanCloudHelper.loginWithUsername(mUsername, mPassword);
+                    boolean isOK = LeanCloudDataService.loginWithUsername(mUsername, mPassword);
                     //AVUser.logIn(mUsername, mPassword);
                     //LogUtil.d(TAG, "UserLoginTask debug, Sign In Successful");
                     if (isOK)
@@ -459,7 +459,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    //user.setEmail("tom@leancloud.cn");// 设置邮箱
 //                    user.signUp();
 //                    LogUtil.d(TAG, "UserLoginTask debug, Sign Up Successful");
-                    boolean isOK = LeanCloudHelper.signUpWithUsername(mUsername, mPassword);
+                    boolean isOK = LeanCloudDataService.signUpWithUsername(mUsername, mPassword);
                     if (isOK)
                         RESULT = 2;
                     else

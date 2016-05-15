@@ -9,7 +9,7 @@ import com.avos.avoscloud.AVException;
 import com.way.heard.R;
 import com.way.heard.adapters.BaseListAdapter;
 import com.way.heard.ui.views.xlist.XListView;
-import com.way.heard.utils.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.utils.Util;
 
 import java.util.ArrayList;

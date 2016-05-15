@@ -21,10 +21,10 @@ import com.way.heard.R;
 import com.way.heard.adapters.CommentAdapter;
 import com.way.heard.models.Comment;
 import com.way.heard.models.Post;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
-import com.way.heard.utils.LeanCloudBackgroundTask;
-import com.way.heard.utils.LeanCloudHelper;
+import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -195,7 +195,7 @@ public class PostDisplayActivity extends AppCompatActivity {
 
             @Override
             protected void doInBack() throws AVException {
-                List<Comment> data = LeanCloudHelper.getAllCommentsByPostObjectID(postObjectID, (pageIndex - 1) * pageSize, pageSize);
+                List<Comment> data = LeanCloudDataService.getAllCommentsByPostObjectID(postObjectID, (pageIndex - 1) * pageSize, pageSize);
                 if (mComments == null) {
                     mComments = new ArrayList<Comment>();
                 }
@@ -229,7 +229,7 @@ public class PostDisplayActivity extends AppCompatActivity {
 
             @Override
             protected void doInBack() throws AVException {
-                Comment comment = LeanCloudHelper.saveComment(postID, content, replyTo, replyFor);
+                Comment comment = LeanCloudDataService.saveComment(postID, content, replyTo, replyFor);
                 if (comment != null) {
                     mComments.add(0, comment);
                 }

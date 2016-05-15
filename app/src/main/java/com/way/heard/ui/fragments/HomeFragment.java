@@ -23,8 +23,8 @@ import com.way.heard.ui.activities.ImageDisplayActivity;
 import com.way.heard.ui.activities.PostActivity;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
-import com.way.heard.utils.LeanCloudBackgroundTask;
-import com.way.heard.utils.LeanCloudHelper;
+import com.way.heard.services.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -109,10 +109,10 @@ public class HomeFragment extends Fragment {
                 loadNextPage();
             }
         });
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccentLight,
+                R.color.colorAccent,
+                R.color.colorAccentDark,
+                R.color.colorAccentLight);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             protected void doInBack() throws AVException {
-                List<Post> data = LeanCloudHelper.getAnyPublicPostsByPage((pageIndex - 1) * pageSize, pageSize);
+                List<Post> data = LeanCloudDataService.getAnyPublicPostsByPage((pageIndex - 1) * pageSize, pageSize);
                 if (mPosts == null) {
                     mPosts = new ArrayList<Post>();
                 }

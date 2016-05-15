@@ -25,11 +25,11 @@ import android.widget.Toast;
 import com.way.heard.R;
 import com.way.heard.adapters.NineGridImageViewAdapter;
 import com.way.heard.internal.GlidePauseOnScrollListener;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.views.NineGridImageView;
 import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.GlideLocalImageLoader;
-import com.way.heard.utils.LeanCloudHelper;
 import com.way.heard.utils.LogUtil;
 import com.way.heard.utils.NetAsyncTask;
 
@@ -446,8 +446,8 @@ public class WritingActivity extends AppCompatActivity {
 
         @Override
         protected void doInBack() throws Exception {
-            //LeanCloudHelper.publishArticle(etTitle.getText().toString(), tagsData, photopaths, articleContent, AVUser.getCurrentUser());
-            LeanCloudHelper.test2(photopaths);
+            //LeanCloudDataService.publishArticle(etTitle.getText().toString(), tagsData, photopaths, articleContent, AVUser.getCurrentUser());
+            LeanCloudDataService.test2(photopaths);
         }
 
         @Override

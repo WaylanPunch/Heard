@@ -121,7 +121,7 @@ public class TestActivity extends AppCompatActivity {
 //                    @Override
 //                    protected void doInBack() throws AVException {
 //                        AVUser user = AVUser.getCurrentUser();
-//                        posts = LeanCloudHelper.getAnyPublicPostsByUserByPage(user.getObjectId(),0, 15);
+//                        posts = LeanCloudDataService.getAnyPublicPostsByUserByPage(user.getObjectId(),0, 15);
 //                    }
 //
 //                    @Override

@@ -21,8 +21,8 @@ import com.way.heard.R;
 import com.way.heard.models.Image;
 import com.way.heard.ui.activities.UserDisplayActivity;
 import com.way.heard.ui.views.swipecard.CardSlidePanel;
-import com.way.heard.utils.LeanCloudBackgroundTask;
-import com.way.heard.utils.LeanCloudHelper;
+import com.way.heard.services.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -150,7 +150,7 @@ public class FindFragment extends Fragment {
 
             @Override
             protected void doInBack() throws AVException {
-                List<Image> data = LeanCloudHelper.getAnyPublicImageByPage((pageIndex - 1) * pageSize, pageSize);
+                List<Image> data = LeanCloudDataService.getAnyPublicImageByPage((pageIndex - 1) * pageSize, pageSize);
                 if (dataList == null) {
                     dataList = new ArrayList<Image>();
                 }
