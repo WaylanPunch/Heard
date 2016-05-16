@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVFriendship;
+import com.avos.avoscloud.AVFriendshipQuery;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVRelation;
@@ -604,13 +606,16 @@ public class LeanCloudDataService {
         return banners;
     }
 
-    public static List<AVUser> followerQuery(String userObjectID) {
+    public static List<AVUser> followerQuery(String userObjectID, int skip, int limit) {
         List<AVUser> followers = new ArrayList<>();
         try {
             // 其中 userA 是 AVUser 对象，你也可以使用 AVUser 的子类化对象进行查询
             // vhaxun 粉丝
             //AVQuery<AVUser> followerQuery = user.followerQuery(AVUser.class);
             AVQuery<AVUser> followerQuery = AVUser.followerQuery(userObjectID, AVUser.class);// 也可以使用这个静态方法来获取非登录用户的好友关系
+            followerQuery.include("follower");
+            followerQuery.skip(skip);
+            followerQuery.limit(limit);
             followers = followerQuery.find();
         } catch (AVException e) {
             LogUtil.e(TAG, "followerQuery error", e);
@@ -619,15 +624,68 @@ public class LeanCloudDataService {
         return followers;
     }
 
-    public static List<AVUser> followeeQuery(String userObjectID) {
+    public static List<AVUser> followeeQuery(String userObjectID, int skip, int limit) {
         List<AVUser> followers = new ArrayList<>();
         try {
             //查询关注者
             AVQuery<AVUser> followeeQuery = AVUser.followeeQuery(userObjectID, AVUser.class);
             //AVQuery<AVUser> followeeQuery = userB.followeeQuery(AVUser.class);
+            followeeQuery.include("followee");
+            followeeQuery.skip(skip);
+            followeeQuery.limit(limit);
             followers = followeeQuery.find();
         } catch (AVException e) {
             LogUtil.e(TAG, "followerQuery error", e);
+            return null;
+        }
+        return followers;
+    }
+
+    public static void allFriendshipQuery(String userObjectId) {
+        try {
+            AVFriendshipQuery query = AVUser.friendshipQuery(userObjectId, AVUser.class);
+            query.include("followee");
+            query.include("follower");
+            AVFriendship friendship = query.get();
+            List<AVUser> followers = friendship.getFollowers(); //获取粉丝
+            List<AVUser> followees = friendship.getFollowees(); //获取关注列表
+            AVUser user = friendship.getUser(); //获取用户对象本身
+//        query.getInBackground(new AVFriendshipCallback() {
+//            @Override
+//            public void done(AVFriendship friendship, AVException e) {
+//                List<AVUser> followers = friendship.getFollowers(); //获取粉丝
+//                List<AVUser> followees = friendship.getFollowees(); //获取关注列表
+//                AVUser user = friendship.getUser(); //获取用户对象本身
+//            }
+//        });
+        } catch (AVException e) {
+            LogUtil.e(TAG, "allFriendshipQuery error", e);
+        }
+    }
+
+    public static List<AVUser> getAllFolloweesByUser(String userObjectId) {
+        List<AVUser> followees;
+        try {
+            AVFriendshipQuery query = AVUser.friendshipQuery(userObjectId, AVUser.class);
+            query.include("followee");
+            AVFriendship friendship = query.get();
+            followees = friendship.getFollowees(); //获取关注列表
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAllFolloweesByUser error", e);
+            return null;
+        }
+        return followees;
+    }
+
+    public static List<AVUser> getAllFollowersByUser(String userObjectId) {
+        List<AVUser> followers;
+        try {
+            AVFriendshipQuery query = AVUser.friendshipQuery(userObjectId, AVUser.class);
+            query.include("follower");
+            AVFriendship friendship = query.get();
+            followers = friendship.getFollowers(); //获取粉丝
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAllFollowersByUser error", e);
             return null;
         }
         return followers;

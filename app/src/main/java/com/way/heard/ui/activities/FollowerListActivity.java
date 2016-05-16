@@ -7,14 +7,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFriendship;
+import com.avos.avoscloud.AVFriendshipQuery;
 import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.adapters.FollowerAdapter;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.services.LeanCloudUserService;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
 import com.way.heard.utils.LogUtil;
@@ -27,8 +31,8 @@ public class FollowerListActivity extends AppCompatActivity {
 
     public final static String USER_OBJECT_ID = "UserObjectId";
     public final static String QUERY_TYPE = "QueryType";
-    public final static int QUERY_TYPE_FOLLOWEE = 0;
-    public final static int QUERY_TYPE_FOLLOWER = 1;
+    public final static int QUERY_TYPE_FOLLOWEE = 0;//关注的用户
+    public final static int QUERY_TYPE_FOLLOWER = 1;//我的粉丝
 
     private String userObjectID;
     private int queryType;
@@ -40,8 +44,10 @@ public class FollowerListActivity extends AppCompatActivity {
 
     private FollowerAdapter mAdapter;
     private int pageIndex = 1;
-    private final static int pageSize = 5;
-    private List<AVUser> mFollowers;
+    private final static int pageSize = 15;
+    private List<AVUser> mUsers;
+    private List<AVUser> mMyFollowers;
+    private List<AVUser> mMyFollowees;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +89,9 @@ public class FollowerListActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mFollowers = new ArrayList<>();
+        mUsers = new ArrayList<>();
+        mMyFollowers = new ArrayList<>();
+        mMyFollowees = new ArrayList<>();
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
             @Override
@@ -106,11 +114,16 @@ public class FollowerListActivity extends AppCompatActivity {
 
 
         mAdapter = new FollowerAdapter(context, queryType);
-        mAdapter.setOnImageClickListener(new FollowerAdapter.OnImageClickListener() {
+        mAdapter.setOnAvatarClickListener(new FollowerAdapter.OnAvatarClickListener() {
             @Override
-            public void onImageClick(int pos) {
-                LogUtil.d(TAG, "onImageClick debug, Position = " + pos);
-
+            public void onAvatarClick(int pos) {
+                UserDisplayActivity.go(context, mUsers.get(pos));
+            }
+        });
+        mAdapter.setOnFollowClickListener(new FollowerAdapter.OnFollowClickListener() {
+            @Override
+            public void onFollowClick(int pos, boolean followed) {
+                followOrUnfollow(followed, mUsers.get(pos));
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -140,27 +153,39 @@ public class FollowerListActivity extends AppCompatActivity {
 
             @Override
             protected void doInBack() throws AVException {
-                List<AVUser> data = new ArrayList<AVUser>();
-                if (queryType == QUERY_TYPE_FOLLOWEE) {//==1, public
-                    data = LeanCloudDataService.followeeQuery(userObjectID);
-                } else {//==0, all
-                    data = LeanCloudDataService.followerQuery(userObjectID);
+                List<AVUser> data;
+                if (queryType == QUERY_TYPE_FOLLOWEE) {//==0,followee
+                    data = LeanCloudDataService.followeeQuery(userObjectID, (pageIndex - 1) * pageSize, pageSize);
+                } else {//==0,follower
+                    data = LeanCloudDataService.followerQuery(userObjectID, (pageIndex - 1) * pageSize, pageSize);
                 }
-                if (mFollowers == null) {
-                    mFollowers = new ArrayList<AVUser>();
+                if (mUsers == null) {
+                    mUsers = new ArrayList<AVUser>();
                 }
                 if (pageIndex == 1) {
-                    mFollowers.clear();
-                    mFollowers = data;
+                    mUsers.clear();
+                    mUsers = data;
                 } else {
-                    mFollowers.addAll(data);
+                    mUsers.addAll(data);
                 }
 
+                if (pageIndex == 1) {
+                    AVFriendshipQuery query = AVUser.friendshipQuery(AVUser.getCurrentUser().getObjectId(), AVUser.class);
+                    query.include("followee");
+                    query.include("follower");
+                    AVFriendship friendship = query.get();
+                    mMyFollowees = friendship.getFollowees(); //获取关注列表
+                    mMyFollowers = friendship.getFollowers(); //获取粉丝
+                }
             }
 
             @Override
             protected void onPost(AVException e) {
-                mAdapter.setPosts(mFollowers);
+                mAdapter.setUsers(mUsers);
+                if (pageIndex == 1) {
+                    mAdapter.setMyFollowees(mMyFollowees);
+                    mAdapter.setMyFollowers(mMyFollowers);
+                }
                 mAdapter.notifyDataSetChanged();
                 loading.stop();
                 if (mSwipeRefreshLayout.isRefreshing()) {
@@ -170,8 +195,55 @@ public class FollowerListActivity extends AppCompatActivity {
         }.execute();
     }
 
+    private void followOrUnfollow(boolean isMyFollowee, final AVUser user) {
+        if (isMyFollowee) {//already followed
+            LeanCloudUserService.unfollowUser(AVUser.getCurrentUser(), user.getObjectId(), new LeanCloudUserService.LeanCloudUserServiceListener() {
+                @Override
+                public void onSuccess() {
+                    mMyFollowees.remove(user);
+                    mAdapter.notifyDataSetChanged();
+                    Toast.makeText(context, "Unfollowed", Toast.LENGTH_SHORT).show();
+                    LogUtil.d(TAG, "followOrUnfollow debug, unfollow succeeded.");
+                }
+
+                @Override
+                public void onErrorMatter(String msg) {
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                    LogUtil.e(TAG, "followOrUnfollow error, " + msg);
+                }
+
+                @Override
+                public void onErrorNoMatter(String msg) {
+
+                }
+            });
+        } else {//unfollow
+            LeanCloudUserService.followUser(AVUser.getCurrentUser(), user.getObjectId(), new LeanCloudUserService.LeanCloudUserServiceListener() {
+                @Override
+                public void onSuccess() {
+                    mMyFollowees.add(user);
+                    mAdapter.notifyDataSetChanged();
+                    Toast.makeText(context, "Followed", Toast.LENGTH_SHORT).show();
+                    LogUtil.d(TAG, "followOrUnfollow debug, follow succeeded.");
+                }
+
+                @Override
+                public void onErrorMatter(String msg) {
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                    LogUtil.e(TAG, "followOrUnfollow error, " + msg);
+                }
+
+                @Override
+                public void onErrorNoMatter(String msg) {
+                    Toast.makeText(context, "Already Followed", Toast.LENGTH_SHORT).show();
+                    LogUtil.d(TAG, "followOrUnfollow debug, Already followed.");
+                }
+            });
+        }
+    }
+
     public static void go(Context context, String userObjectID, int queryType) {
-        Intent intent = new Intent(context, UserPostActivity.class);
+        Intent intent = new Intent(context, FollowerListActivity.class);
         intent.putExtra(USER_OBJECT_ID, userObjectID);
         intent.putExtra(QUERY_TYPE, queryType);
         context.startActivity(intent);

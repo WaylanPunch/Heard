@@ -197,7 +197,7 @@ public class UserDisplayActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess() {
                                 isFollowed = true;
-                                tvFollowAction.setText("Followed");
+                                tvFollowAction.setText("Unfollow");
                                 tvFollowAction.setBackgroundResource(R.drawable.tag_background_accent);
                                 Toast.makeText(context, "Followed", Toast.LENGTH_SHORT).show();
                                 LogUtil.d(TAG, "followUser debug, follow succeeded.");
@@ -212,7 +212,7 @@ public class UserDisplayActivity extends AppCompatActivity {
                             @Override
                             public void onErrorNoMatter(String msg) {
                                 isFollowed = true;
-                                tvFollowAction.setText("Followed");
+                                tvFollowAction.setText("Unfollow");
                                 tvFollowAction.setBackgroundResource(R.drawable.tag_background_accent);
                                 Toast.makeText(context, "Already Followed", Toast.LENGTH_SHORT).show();
                                 LogUtil.d(TAG, "followUser debug, Already followed.");
