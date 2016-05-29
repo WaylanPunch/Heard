@@ -341,18 +341,32 @@ public class LeanCloudDataService {
         try {
             if (limit > 0) {
                 AVQuery<Post> query = AVQuery.getQuery("Post");
-                query.whereEqualTo("type", 1);// public article
+                query.whereEqualTo(Post.TYPE, 1);// public post
                 query.skip(skip);
                 query.limit(limit);
                 query.include(Post.AUTHOR);
+                query.include(Post.REPLYORIGINAL);
                 query.orderByDescending("createdAt");
                 posts = query.find();
 
                 for (Post post : posts) {
-                    AVRelation<Image> photos = post.getPhotos();
-                    AVQuery<Image> photoQuery = photos.getQuery();
-                    List<Image> images = photoQuery.find();
-                    post.trySetPhotoList(images);
+                    if (0 == post.getFrom()) {//original post
+                        AVRelation<Image> photos = post.getPhotos();
+                        AVQuery<Image> photoQuery = photos.getQuery();
+                        List<Image> images = photoQuery.find();
+                        post.trySetPhotoList(images);
+                    } else {//repost
+                        AVQuery<Post> repostQuery = AVQuery.getQuery("Post");
+                        repostQuery.include(Post.AUTHOR);
+                        Post repost = repostQuery.get(post.getReplyOriginal().getObjectId());
+
+                        AVRelation<Image> repostPhotos = repost.getPhotos();
+                        AVQuery<Image> repostPhotoQuery = repostPhotos.getQuery();
+                        List<Image> repostImages = repostPhotoQuery.find();
+                        repost.trySetPhotoList(repostImages);
+
+                        post.trySetPostOriginal(repost);
+                    }
                 }
             }
         } catch (AVException e) {
@@ -367,11 +381,12 @@ public class LeanCloudDataService {
         try {
             if (limit > 0) {
                 AVQuery<Post> query = AVQuery.getQuery("Post");
-                query.whereEqualTo("type", 1);// public post
-                query.whereEqualTo("author", AVObject.createWithoutData("_User", userObjectId));
+                query.whereEqualTo(Post.TYPE, 1);// public post
+                query.whereEqualTo(Post.AUTHOR, AVObject.createWithoutData("_User", userObjectId));
                 query.skip(skip);
                 query.limit(limit);
                 query.include(Post.AUTHOR);
+                query.include(Post.REPLYORIGINAL);
                 query.orderByDescending("createdAt");
                 posts = query.find();
 
@@ -398,6 +413,7 @@ public class LeanCloudDataService {
                 query.skip(skip);
                 query.limit(limit);
                 query.include(Post.AUTHOR);
+                query.include(Post.REPLYORIGINAL);
                 query.orderByDescending("createdAt");
                 posts = query.find();
 
@@ -478,6 +494,7 @@ public class LeanCloudDataService {
             }
 
             post.setAuthor(currentUser);
+            post.setFrom(0);
             if (!TextUtils.isEmpty(content)) {
                 post.setContent(content);
             }
@@ -516,6 +533,36 @@ public class LeanCloudDataService {
             return null;
         }
         return post;
+    }
+
+    public static Post saveRepost(AVUser currentUser, AVUser replyTo, Post replyFor, Post replOriginal, String newContent, boolean isPrivate) {
+        Post newPost;
+        try {
+            newPost = new Post();
+            newPost.setAuthor(currentUser);
+            newPost.setFrom(1);
+            if (!TextUtils.isEmpty(newContent)) {
+                newPost.setContent(newContent);
+            }
+            if (isPrivate) {
+                newPost.setType(0);//private
+            } else {
+                newPost.setType(1);//public
+            }
+            if (replyTo != null) {
+                newPost.setReplyTo(replyTo);
+            }
+            if (replyFor != null) {
+                newPost.setReplyFor(replyFor);
+            }
+            if (replOriginal != null) {
+                newPost.setReplyOriginal(replOriginal);
+            }
+            newPost.save();
+        } catch (AVException e) {
+            return null;
+        }
+        return newPost;
     }
 
     public static Comment saveComment(String postID, String content, AVUser replyTo, Comment replyFor) {

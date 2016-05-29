@@ -17,7 +17,6 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <TextView
-            android:id="@+id/tv_writing_toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
@@ -44,7 +43,6 @@
             android:layout_marginBottom="8dp"
             android:visibility="gone" />
         <RelativeLayout
-            android:id="@+id/rl_writing_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"

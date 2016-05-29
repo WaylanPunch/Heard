@@ -9,25 +9,27 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVAnalytics;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.way.heard.R;
-import com.way.heard.ui.fragments.TopicFragment;
 import com.way.heard.ui.fragments.FindFragment;
 import com.way.heard.ui.fragments.HomeFragment;
 import com.way.heard.ui.fragments.MeFragment;
 import com.way.heard.ui.fragments.MessageFragment;
 import com.way.heard.ui.fragments.SettingFragment;
+import com.way.heard.ui.fragments.TopicFragment;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private final static String TAG = MainActivity.class.getName();
 
@@ -45,6 +47,17 @@ public class MainActivity extends AppCompatActivity
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
+
+    /**
+     * 上一次点击 back 键的时间
+     * 用于双击退出的判断
+     */
+    private static long lastBackTime = 0;
+
+    /**
+     * 当双击 back 键在此间隔内是直接触发 onBackPressed
+     */
+    private final int BACK_INTERVAL = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +106,6 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * fragment 切换
-     *
      *
      * @param newFragment
      * @param position
@@ -219,7 +231,14 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastBackTime < BACK_INTERVAL) {
+                super.onBackPressed();
+            } else {
+                Toast.makeText(MainActivity.this, "Double Click To Exit", Toast.LENGTH_SHORT).show();
+            }
+            lastBackTime = currentTime;
         }
     }
 
@@ -242,13 +261,20 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.action_notification) {
             return true;
-        } else if (id == R.id.action_share) {
-            return true;
-        } else if (id == R.id.action_developer) {
-            Intent intent = new Intent(MainActivity.this,TestActivity.class);
-            startActivity(intent);
+        } else if (id == R.id.action_me) {
+//            Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
+//            startActivity(intent);
+            ProfileActivity.go(MainActivity.this, AVUser.getCurrentUser());
             return true;
         }
+//        else if (id == R.id.action_share) {
+//            return true;
+//        }
+//        else if (id == R.id.action_developer) {
+//            Intent intent = new Intent(MainActivity.this,TestActivity.class);
+//            startActivity(intent);
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -298,12 +324,17 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            toFeedbank();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void toFeedbank() {
+        FeedbackAgent agent = new FeedbackAgent(MainActivity.this);
+        agent.startDefaultThreadActivity();
     }
 
     @Override

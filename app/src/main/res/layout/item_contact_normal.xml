@@ -27,7 +27,6 @@
             android:textColor="@color/colorPrimaryText" />
 
         <TextView
-            android:id="@+id/tv_item_contact_normal_signature"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

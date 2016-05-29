@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,7 +16,7 @@ import com.way.heard.utils.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchTagActivity extends AppCompatActivity {
+public class SearchTagActivity extends BaseActivity {
     private final static String TAG = SearchTagActivity.class.getName();
 
     public final static String SEARCH_TYPE = "SearchType";

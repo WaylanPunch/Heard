@@ -9,6 +9,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by pc on 2016/4/26.
@@ -42,6 +43,7 @@ public class Util {
 
     public static String millisecs2DateString(long timestamp) {
         PrettyTime prettyTime = new PrettyTime();
+        prettyTime.setLocale(Locale.ENGLISH);
         long gap = System.currentTimeMillis() - timestamp;
         if (gap < 1000 * 60 * 60 * 24) {
             String s = prettyTime.format(new Date(timestamp));

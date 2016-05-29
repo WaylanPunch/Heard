@@ -96,7 +96,6 @@
                             android:textColor="@color/colorSecondaryText" />
 
                         <TextView
-                            android:id="@+id/tv_user_display_follower_tip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toStartOf="@+id/tv_user_display_follower_count"
@@ -139,7 +138,6 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tv_user_display_signature_tip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -170,7 +168,6 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tv_user_display_city_tip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -201,7 +198,6 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tv_user_display_photo_tip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

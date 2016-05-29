@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -26,7 +25,7 @@ import com.way.heard.utils.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FollowerListActivity extends AppCompatActivity {
+public class FollowerListActivity extends BaseActivity {
     private final static String TAG = FollowerListActivity.class.getName();
 
     public final static String USER_OBJECT_ID = "UserObjectId";

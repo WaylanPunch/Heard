@@ -20,7 +20,6 @@
             android:src="@drawable/ic_default_avatar" />
 
         <RelativeLayout
-            android:id="@+id/rl_comment_right_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 

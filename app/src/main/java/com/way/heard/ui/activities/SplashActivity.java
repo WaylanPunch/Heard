@@ -3,29 +3,41 @@ package com.way.heard.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.way.heard.R;
+import com.way.heard.base.HeardApp;
+import com.way.heard.utils.PreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        initView();
+        isFirstTimeInstallation();
+    }
+
+    private void isFirstTimeInstallation() {
+        boolean isFirstTime = PreferencesUtil.getBoolean(HeardApp.getContext(), "FIRST_TIME", true);
+        if (isFirstTime) {
+            PreferencesUtil.putBoolean(HeardApp.getContext(), "FIRST_TIME", false);
+            initView();
+        } else {
+            startActivity(new Intent(SplashActivity.this, IndexActivity.class));
+            finish();
+        }
     }
 
     private void initView() {
-        BGABanner banner = (BGABanner)findViewById(R.id.banner_splash_pager);
+        BGABanner banner = (BGABanner) findViewById(R.id.banner_splash_pager);
         // 用Java代码方式设置切换动画
         banner.setTransitionEffect(BGABanner.TransitionEffect.Rotate);
         // banner.setPageTransformer(new RotatePageTransformer());

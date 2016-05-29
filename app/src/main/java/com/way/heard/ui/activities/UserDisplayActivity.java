@@ -3,7 +3,6 @@ package com.way.heard.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,14 +21,14 @@ import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.models.Image;
+import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudUserService;
 import com.way.heard.utils.GlideImageLoader;
-import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.utils.LogUtil;
 
 import java.util.List;
 
-public class UserDisplayActivity extends AppCompatActivity {
+public class UserDisplayActivity extends BaseActivity {
     private final static String TAG = UserDisplayActivity.class.getName();
     private Context context;
 

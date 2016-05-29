@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 
@@ -15,16 +14,16 @@ import com.way.heard.R;
 import com.way.heard.adapters.PostAdapter;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
+import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
-import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserPostActivity extends AppCompatActivity {
+public class UserPostActivity extends BaseActivity {
     private final static String TAG = UserPostActivity.class.getName();
     public final static String USER_DETAIL = "UserDetail";
     public final static String DISPLAY_TYPE = "DisplayType";

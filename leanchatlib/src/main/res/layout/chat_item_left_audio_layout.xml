@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+    <com.avoscloud.leanchatlib.view.PlayButton
+        android:id="@+id/chat_item_audio_play_btn"
+        style="@style/chat_play_btn"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:background="@drawable/chat_left_qp"
+        custom:left="true" />
+
+    <TextView
+        android:id="@+id/chat_item_audio_duration_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/chat_horizontal_margin"
+        android:text="fff"/>
+</LinearLayout>

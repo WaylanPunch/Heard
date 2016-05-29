@@ -2,7 +2,6 @@ package com.way.heard.ui.activities;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +11,7 @@ import com.way.heard.models.Post;
 
 import java.util.List;
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends BaseActivity {
     private final static String TAG = TestActivity.class.getName();
     private static final int IMAGE_PICK_REQUEST = 0;
 

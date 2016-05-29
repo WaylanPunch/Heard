@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -21,16 +20,16 @@ import com.way.heard.R;
 import com.way.heard.adapters.CommentAdapter;
 import com.way.heard.models.Comment;
 import com.way.heard.models.Post;
+import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
-import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostDisplayActivity extends AppCompatActivity {
+public class PostDisplayActivity extends BaseActivity {
     private final static String TAG = PostDisplayActivity.class.getName();
 
     public final static String POST_DETAIL = "PostDetail";
@@ -229,10 +228,14 @@ public class PostDisplayActivity extends AppCompatActivity {
 
             @Override
             protected void doInBack() throws AVException {
+                LogUtil.d(TAG, "sendComment debug");
                 Comment comment = LeanCloudDataService.saveComment(postID, content, replyTo, replyFor);
+                LogUtil.d(TAG, "sendComment debug, Comment Count = " + mComments.size());
                 if (comment != null) {
                     mComments.add(0, comment);
                 }
+                LogUtil.d(TAG, "sendComment debug, Comment Count = " + mComments.size());
+
                 List<String> commentObjectIDs = new ArrayList<String>();
                 for (Comment item : mComments) {
                     commentObjectIDs.add(item.getObjectId());

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -46,7 +45,7 @@ import cn.finalteam.galleryfinal.widget.GFImageView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.github.mthli.knife.KnifeParser;
 
-public class WritingActivity extends AppCompatActivity {
+public class WritingActivity extends BaseActivity {
     private final static String TAG = WritingActivity.class.getName();
 
     private final int REQUEST_CODE_CAMERA = 1000;

@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.victor.loading.rotate.RotateLoading;
@@ -19,12 +20,13 @@ import com.way.heard.R;
 import com.way.heard.adapters.PostAdapter;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
-import com.way.heard.ui.activities.ImageDisplayActivity;
-import com.way.heard.ui.activities.PostActivity;
-import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
-import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.ui.activities.ImageDisplayActivity;
+import com.way.heard.ui.activities.PostActivity;
+import com.way.heard.ui.activities.RepostActivity;
+import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
+import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private final static String TAG = HomeFragment.class.getName();
     private static final int POST_PUBLISH_REQUEST = 1001;
-
+    public static final int POST_REPOST_REQUEST = 1006;
 
     public static final String CLOSE = "Close";
     public static final String HOME = "Home";
@@ -49,7 +51,7 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton fab;
 
     private PostAdapter mAdapter;
-    private int pageIndex = 1;
+    private static int pageIndex = 1;
     private final static int pageSize = 5;
     private List<Post> mPosts;
 
@@ -90,55 +92,90 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        context = getContext();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PostActivity.class);
-                startActivityForResult(intent, POST_PUBLISH_REQUEST); //这里用getActivity().startActivity(intent);
-            }
-        });
+        try {
+            context = getContext();
 
-        mPosts = new ArrayList<>();
-        mRecyclerView.setHasFixedSize(false);
-        mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
-            @Override
-            public void loadMore() {
-                loadNextPage();
-            }
-        });
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccentLight,
-                R.color.colorAccent,
-                R.color.colorAccentDark,
-                R.color.colorAccentLight);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadFirst();
-            }
-        });
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.setOnPauseListenerParams(context, false, true);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), PostActivity.class);
+                    startActivityForResult(intent, POST_PUBLISH_REQUEST); //这里用getActivity().startActivity(intent);
+                }
+            });
+
+            mPosts = new ArrayList<>();
+            mRecyclerView.setHasFixedSize(false);
+            mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
+                @Override
+                public void loadMore() {
+                    loadNextPage();
+                }
+            });
+            mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccentLight,
+                    R.color.colorAccent,
+                    R.color.colorAccentDark,
+                    R.color.colorAccentLight);
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    loadFirst();
+                }
+            });
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            mRecyclerView.setOnPauseListenerParams(context, false, true);
 
 
-        mAdapter = new PostAdapter(getContext());
-        mAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
-            @Override
-            public void onImageClick(int pos) {
-                LogUtil.d(TAG, "onImageClick debug, Position = " + pos);
-                Post post = mPosts.get(pos);
-                Image image = post.tryGetPhotoList().get(0);
-                Intent intent = new Intent(context, ImageDisplayActivity.class);
-                intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
-                intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
-                startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
-        loadFirst();
-
+            mAdapter = new PostAdapter(getContext());
+            mAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
+                @Override
+                public void onImageClick(int pos) {
+                    LogUtil.d(TAG, "onImageClick debug, Position = " + pos);
+                    Post post = mPosts.get(pos);
+                    if (0 == post.getFrom()) {
+                        Image image = post.tryGetPhotoList().get(0);
+                        Intent intent = new Intent(context, ImageDisplayActivity.class);
+                        intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
+                        intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+                        startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+                    } else {
+                        Post postOriginal = post.tryGetPostOriginal();
+                        Image image = postOriginal.tryGetPhotoList().get(0);
+                        Intent intent = new Intent(context, ImageDisplayActivity.class);
+                        intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
+                        intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+                        startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+                    }
+                }
+            });
+            mAdapter.setOnRepostClickListener(new PostAdapter.OnRepostClickListener() {
+                @Override
+                public void onRepostClick(int pos) {
+                    LogUtil.d(TAG, "onRepostClick debug, Position = " + pos);
+                    Post post = mPosts.get(pos);
+                    if (0 == post.getFrom()) {
+                        Intent intent = new Intent(context, RepostActivity.class);
+                        intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
+                        intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post);
+                        intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPhotoList());
+                        startActivityForResult(intent, POST_REPOST_REQUEST);
+                    } else {
+                        Intent intent = new Intent(context, RepostActivity.class);
+                        intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
+                        intent.putExtra(RepostActivity.REPOST_DETAIL, post);
+                        intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post.tryGetPostOriginal());
+                        intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPostOriginal().tryGetPhotoList());
+                        startActivityForResult(intent, POST_REPOST_REQUEST);
+                    }
+                }
+            });
+            mRecyclerView.setAdapter(mAdapter);
+            loadFirst();
+        } catch (Exception e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            LogUtil.e(TAG, "onActivityCreated error", e);
+        }
     }
 
     public void loadFirst() {
@@ -197,18 +234,20 @@ public class HomeFragment extends Fragment {
                 loadFirst();
             } else if (requestCode == ImageDisplayActivity.IMAGE_DISPLAY_REQUEST) {
                 try {
-                    Bundle bundle = data.getExtras();
-                    Image image = bundle.getParcelable(ImageDisplayActivity.IMAGE_DETAIL);
-                    int pos = data.getIntExtra(ImageDisplayActivity.IMAGE_POST_INDEX, 0);//bundle.getInt(ImageDisplayActivity.IMAGE_POST_INDEX);
-                    List<Image> images = new ArrayList<Image>();
-                    images.add(image);
-                    mPosts.get(pos).trySetPhotoList(images);
-                    mAdapter.setPosts(mPosts);
-                    mAdapter.notifyDataSetChanged();
-                    LogUtil.d(TAG, "Position = " + pos);
+//                    Bundle bundle = data.getExtras();
+//                    Image image = bundle.getParcelable(ImageDisplayActivity.IMAGE_DETAIL);
+//                    int pos = data.getIntExtra(ImageDisplayActivity.IMAGE_POST_INDEX, 0);//bundle.getInt(ImageDisplayActivity.IMAGE_POST_INDEX);
+//                    List<Image> images = new ArrayList<Image>();
+//                    images.add(image);
+//                    mPosts.get(pos).trySetPhotoList(images);
+//                    mAdapter.setPosts(mPosts);
+//                    mAdapter.notifyDataSetChanged();
+//                    LogUtil.d(TAG, "Position = " + pos);
                 } catch (Exception e) {
                     LogUtil.e(TAG, "onActivityResult error", e);
                 }
+            } else if (requestCode == POST_REPOST_REQUEST) {
+                loadFirst();
             }
         }
     }

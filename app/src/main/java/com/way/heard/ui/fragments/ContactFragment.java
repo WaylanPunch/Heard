@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
 import com.way.heard.adapters.ContactTabAdapter;
 
@@ -72,8 +73,8 @@ public class ContactFragment extends Fragment{
     }
 
     private void initData() {
-        followeeFragment = FolloweeFragment.newInstance(0);
-        followerFragment = FollowerFragment.newInstance(1);
+        followeeFragment = FolloweeFragment.newInstance(AVUser.getCurrentUser().getObjectId());
+        followerFragment = FollowerFragment.newInstance(AVUser.getCurrentUser().getObjectId());
         //将fragment装进列表中
         list_fragment = new ArrayList<>();
         list_fragment.add(followeeFragment);

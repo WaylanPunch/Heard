@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 
 import com.way.heard.R;
 import com.way.heard.ui.views.waveview.WaveView;
@@ -12,7 +11,7 @@ import com.way.heard.ui.views.waveview.WaveView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class IndexActivity extends AppCompatActivity {
+public class IndexActivity extends BaseActivity {
 
     private WaveView waveView;
     private static int mProgress;

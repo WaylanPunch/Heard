@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff">
+
+    <com.avoscloud.leanchatlib.view.RefreshableView
+        android:id="@+id/chat_layout_refreshableview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/chat_layout_inputbottombar"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/chat_layout_lv_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:cacheColorHint="#0000"
+            android:divider="@null"
+            android:dividerHeight="5dp"
+            android:scrollbarStyle="outsideOverlay"/>
+
+    </com.avoscloud.leanchatlib.view.RefreshableView>
+
+    <com.avoscloud.leanchatlib.activity.InputBottomBar
+        android:id="@+id/chat_layout_inputbottombar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/chat_layout_home_bg_bottombar"/>
+</RelativeLayout>

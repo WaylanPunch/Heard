@@ -16,13 +16,11 @@
 
 
         <Button
-            android:id="@+id/btn_test_query"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Query" />
 
         <TextView
-            android:id="@+id/tv_test_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Large Text"
@@ -30,13 +28,11 @@
 
 
         <Button
-            android:id="@+id/btn_test_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Avatar" />
 
         <ImageView
-            android:id="@+id/iv_test_avatar"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_picture_default"
             android:layout_height="wrap_content" />

@@ -3,7 +3,6 @@ package com.way.heard.ui.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,7 +27,7 @@ import com.yancy.imageselector.ImageSelectorActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditPostActivity extends AppCompatActivity {
+public class EditPostActivity extends BaseActivity {
     private final static String TAG = EditPostActivity.class.getName();
     public final static int REQUEST_CODE = 1000;
 

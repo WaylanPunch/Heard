@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,8 +22,8 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
-import com.way.heard.utils.InternetUtil;
 import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.utils.InternetUtil;
 import com.way.heard.utils.LogUtil;
 
 import java.util.List;
@@ -36,7 +35,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private final static String TAG = LoginActivity.class.getName();
 
     private static final int SIGNUPEVENT = 0;

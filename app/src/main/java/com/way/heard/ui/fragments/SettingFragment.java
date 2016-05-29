@@ -84,6 +84,7 @@ public class SettingFragment extends Fragment{
                     LeanCloudDataService.logout();
                 }
                 LoginActivity.go(getContext());
+                getActivity().finish();
             }
         });
     }

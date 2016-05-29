@@ -20,7 +20,10 @@ public class Post extends AVObject {
     public static final String TYPE = "type";
     public static final String LIKES = "likes";
     public static final String COMMENTS = "comments";
-
+    public static final String REPLYTO = "replyto";
+    public static final String REPLYFOR = "replyfor";
+    public static final String REPLYORIGINAL = "replyoriginal";
+    public static final String FROM = "from";
 
     public List<String> getTags() {
         return getList(TAGS);
@@ -78,12 +81,56 @@ public class Post extends AVObject {
         put(COMMENTS, commentObjectIDs);
     }
 
+    public AVUser getReplyTo() {
+        return getAVUser(REPLYTO);
+    }
+
+    public void setReplyTo(AVUser author) {
+        put(REPLYTO, author);
+    }
+
+    public Post getReplyFor() {
+        return getAVObject(REPLYFOR);
+    }
+
+    public void setReplyFor(Post post) {
+        put(REPLYFOR, post);
+    }
+
+    public Post getReplyOriginal() {
+        return getAVObject(REPLYORIGINAL);
+    }
+
+    public void setReplyOriginal(Post post) {
+        put(REPLYORIGINAL, post);
+    }
+
+    public int getFrom() {
+        return getInt(FROM);
+    }
+
+    public void setFrom(int from) {
+        put(FROM, from);
+    }
+
     /*************************/
     private List<Image> images;
-    public void trySetPhotoList(List<Image> images){
+
+    public void trySetPhotoList(List<Image> images) {
         this.images = images;
     }
-    public List<Image> tryGetPhotoList(){
+
+    public List<Image> tryGetPhotoList() {
         return this.images;
+    }
+
+    private Post postOriginal;
+
+    public Post tryGetPostOriginal() {
+        return postOriginal;
+    }
+
+    public void trySetPostOriginal(Post postOriginal) {
+        this.postOriginal = postOriginal;
     }
 }

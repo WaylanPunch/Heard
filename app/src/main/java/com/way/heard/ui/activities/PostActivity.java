@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -23,16 +22,16 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
-import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.ui.views.TagCloudView;
 import com.way.heard.utils.LogUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostActivity extends AppCompatActivity {
+public class PostActivity extends BaseActivity {
     private final static String TAG = PostActivity.class.getName();
 
     private static final int IMAGE_PICK_REQUEST = 1002;

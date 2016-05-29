@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,14 +15,14 @@ import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.models.Image;
-import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.services.LeanCloudBackgroundTask;
+import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageDisplayActivity extends AppCompatActivity {
+public class ImageDisplayActivity extends BaseActivity {
     private final static String TAG = ImageDisplayActivity.class.getName();
     public final static String IMAGE_DETAIL = "ImageDetail";
     public final static String IMAGE_POST_INDEX = "ImagePostIndex";

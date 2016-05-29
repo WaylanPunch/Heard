@@ -1,1 +1,1 @@
-include ':app', ':refreshlayout', ':imageselector'
+include ':app', ':refreshlayout', ':imageselector', ':leanchatlib'

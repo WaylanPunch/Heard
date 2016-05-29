@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryLight">#BBDEFB</color>
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentDark">#F00050</color>
     <color name="colorAccentLight">#FF6699</color>
     <color name="colorWhite">@android:color/white</color>
-    <color name="colorBlack">@android:color/black</color>
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
+    <color name="colorThirdText">#9C9C9C</color>
     <color name="colorHintText">#DDDDDD</color>
+    <color name="colorHintTextLight">#F2F2F2</color>
     <color name="colorIcon">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
     <color name="colorBackgroundDefault">#DDDDDD</color>

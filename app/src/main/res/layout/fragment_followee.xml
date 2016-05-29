@@ -1,13 +1,21 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_layout"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.way.heard.ui.fragments.FollowerFragment">
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/listview"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_profile_followee_swiperefreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent">
 
-</android.support.v4.widget.SwipeRefreshLayout>
+        <com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView
+            android:id="@+id/alrv_profile_followee_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+
+        </com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/common_loading"></include>
+</FrameLayout>

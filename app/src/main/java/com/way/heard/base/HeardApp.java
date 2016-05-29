@@ -6,12 +6,15 @@ import android.content.Context;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.way.heard.R;
 import com.way.heard.models.Article;
 import com.way.heard.models.Comment;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
 import com.way.heard.models.Tag;
 import com.way.heard.utils.LogUtil;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by pc on 2016/4/19.
@@ -42,6 +45,13 @@ public class HeardApp extends Application {
         AVOSCloud.setLastModifyEnabled(CONFIG.LeanCloudIsLastModifyEnabled);
         // 应该放在 Application 的 onCreate 中，设置网络超时限制
         AVOSCloud.setNetworkTimeout(AVOSCloud.DEFAULT_NETWORK_TIMEOUT);//15秒的网络超时限制
+
+        // Font
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/RobotoSlab-Thin.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     public static Context getContext() {

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="70dp"
+              android:orientation="horizontal"
+              android:paddingBottom="5dp"
+              android:paddingTop="5dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp">
+
+    <RelativeLayout
+        android:id="@+id/conversation_item_layout_avatar"
+        android:layout_width="60dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/conversation_item_iv_avatar"
+            style="@style/Avatar.Large"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:id="@+id/conversation_item_tv_unread"
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:background="@drawable/red_badge"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="3dp"
+            android:textSize="10sp"
+            android:textColor="@android:color/white"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/conversation_item_layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/conversation_item_tv_name"
+                style="@android:style/TextAppearance.Large"
+                android:textColor="@android:color/black"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/conversation_item_tv_time"
+                style="@style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/conversation_item_tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="fsadf"
+            android:gravity="center_vertical"
+            style="@style/TextAppearance.Normal.Gray"/>
+    </LinearLayout>
+</LinearLayout>
