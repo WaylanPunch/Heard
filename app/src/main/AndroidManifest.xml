@@ -104,6 +104,10 @@
         <activity
             android:name=".ui.activities.RepostActivity"
             android:label="@string/title_activity_repost"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activities.MeEditActivity"
+            android:label="@string/title_activity_me_edit"
             android:theme="@style/AppTheme"></activity>
     </application>
 

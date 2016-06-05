@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
 
     private PostAdapter mAdapter;
     private static int pageIndex = 1;
-    private final static int pageSize = 5;
+    private final static int pageSize = 10;
     private List<Post> mPosts;
 
     public static HomeFragment newInstance(int param) {

@@ -139,4 +139,5 @@
     <string name="title_activity_repost">RepostActivity</string>
     <string name="action_repost">Repost</string>
     <string name="repost_content">//@%1$s:%2$s</string>
+    <string name="title_activity_me_edit">MeEditActivity</string>
 </resources>

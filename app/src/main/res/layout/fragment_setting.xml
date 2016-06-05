@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorHintText">
+    android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorTransparent">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/bullet_gap_width"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dip"
-                android:layout_marginRight="8dip">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -29,32 +25,118 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:weightSum="1"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="36dip"
                             android:layout_height="36dip"
-                            android:src="@drawable/ic_message"
                             android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip" />
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_message_gray" />
 
                         <TextView
                             style="?android:textAppearanceSmall"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dip"
                             android:layout_height="36dip"
+                            android:layout_weight="1"
                             android:layout_gravity="center"
-                            android:layout_margin="8dip"
+                            android:layout_margin="@dimen/bullet_gap_width"
                             android:gravity="start|center_vertical"
-                            android:text="Message" />
+                            android:text="MESSAGE" />
 
+                        <Switch
+                            android:id="@+id/switch1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_gravity="center_vertical" />
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
-                        android:layout_marginLeft="8dip"
-                        android:layout_marginRight="8dip"
+                        android:layout_marginLeft="@dimen/bullet_gap_width"
+                        android:layout_marginRight="@dimen/bullet_gap_width"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_comment_gray" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="0dip"
+                            android:layout_height="36dip"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:gravity="start|center_vertical"
+                            android:text="CHAT" />
+
+                        <Switch
+                            android:id="@+id/switch2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_gravity="center_vertical" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="@dimen/bullet_gap_width"
+                        android:layout_marginRight="@dimen/bullet_gap_width"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36dip"
+                            android:layout_height="36dip"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_privacy_gray" />
+
+                        <TextView
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="0dip"
+                            android:layout_height="36dip"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:gravity="start|center_vertical"
+                            android:text="PRIVACY" />
+
+                        <Switch
+                            android:id="@+id/switch3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_gravity="center_vertical" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="@dimen/bullet_gap_width"
+                        android:layout_marginRight="@dimen/bullet_gap_width"
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
@@ -65,18 +147,18 @@
                         <ImageView
                             android:layout_width="36dip"
                             android:layout_height="36dip"
-                            android:src="@drawable/ic_comment"
                             android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip" />
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_security_gray" />
 
                         <TextView
                             style="?android:textAppearanceSmall"
                             android:layout_width="match_parent"
                             android:layout_height="36dip"
                             android:layout_gravity="center"
-                            android:layout_margin="8dip"
+                            android:layout_margin="@dimen/bullet_gap_width"
                             android:gravity="start|center_vertical"
-                            android:text="Chat" />
+                            android:text="SECURITY" />
 
 
                     </LinearLayout>
@@ -84,8 +166,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
-                        android:layout_marginLeft="8dip"
-                        android:layout_marginRight="8dip"
+                        android:layout_marginLeft="@dimen/bullet_gap_width"
+                        android:layout_marginRight="@dimen/bullet_gap_width"
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
@@ -96,96 +178,33 @@
                         <ImageView
                             android:layout_width="36dip"
                             android:layout_height="36dip"
-                            android:src="@drawable/ic_privacy"
                             android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip" />
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_cache_gray" />
 
                         <TextView
                             style="?android:textAppearanceSmall"
                             android:layout_width="match_parent"
                             android:layout_height="36dip"
                             android:layout_gravity="center"
-                            android:layout_margin="8dip"
+                            android:layout_margin="@dimen/bullet_gap_width"
                             android:gravity="start|center_vertical"
-                            android:text="Privacy" />
-
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="8dip"
-                        android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:src="@drawable/ic_security"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="match_parent"
-                            android:layout_height="36dip"
-                            android:layout_gravity="center"
-                            android:layout_margin="8dip"
-                            android:gravity="start|center_vertical"
-                            android:text="Security" />
-
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="8dip"
-                        android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:src="@drawable/ic_cache"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="match_parent"
-                            android:layout_height="36dip"
-                            android:layout_gravity="center"
-                            android:layout_margin="8dip"
-                            android:gravity="start|center_vertical"
-                            android:text="Cache" />
+                            android:text="CACHE" />
 
 
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="36dip"
-                android:background="@color/colorHintText"></View>
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="36dip"-->
+            <!--android:background="@color/colorHintText"></View>-->
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dip"
-                android:layout_marginRight="8dip">
+                android:layout_marginTop="@dimen/bullet_gap_width">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -200,18 +219,18 @@
                         <ImageView
                             android:layout_width="36dip"
                             android:layout_height="36dip"
-                            android:src="@drawable/ic_about"
                             android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip" />
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_about_gray" />
 
                         <TextView
                             style="?android:textAppearanceSmall"
                             android:layout_width="match_parent"
                             android:layout_height="36dip"
                             android:layout_gravity="center"
-                            android:layout_margin="8dip"
+                            android:layout_margin="@dimen/bullet_gap_width"
                             android:gravity="start|center_vertical"
-                            android:text="About" />
+                            android:text="ABOUT" />
 
 
                     </LinearLayout>
@@ -219,8 +238,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
-                        android:layout_marginLeft="8dip"
-                        android:layout_marginRight="8dip"
+                        android:layout_marginLeft="@dimen/bullet_gap_width"
+                        android:layout_marginRight="@dimen/bullet_gap_width"
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
@@ -231,18 +250,18 @@
                         <ImageView
                             android:layout_width="36dip"
                             android:layout_height="36dip"
-                            android:src="@drawable/ic_send_accent"
                             android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip" />
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_send_gray" />
 
                         <TextView
                             style="?android:textAppearanceSmall"
                             android:layout_width="match_parent"
                             android:layout_height="36dip"
                             android:layout_gravity="center"
-                            android:layout_margin="8dip"
+                            android:layout_margin="@dimen/bullet_gap_width"
                             android:gravity="start|center_vertical"
-                            android:text="Feedback" />
+                            android:text="FEEDBACK" />
 
 
                     </LinearLayout>
@@ -250,8 +269,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
-                        android:layout_marginLeft="8dip"
-                        android:layout_marginRight="8dip"
+                        android:layout_marginLeft="@dimen/bullet_gap_width"
+                        android:layout_marginRight="@dimen/bullet_gap_width"
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
@@ -264,9 +283,9 @@
                             android:id="@+id/iv_setting_login_icon"
                             android:layout_width="36dip"
                             android:layout_height="36dip"
-                            android:src="@drawable/ic_login"
                             android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip" />
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_login_gray" />
 
                         <TextView
                             android:id="@+id/tv_setting_login_tip"
@@ -274,9 +293,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="36dip"
                             android:layout_gravity="center"
-                            android:layout_margin="8dip"
+                            android:layout_margin="@dimen/bullet_gap_width"
                             android:gravity="start|center_vertical"
-                            android:text="Exit" />
+                            android:textAllCaps="true"
+                            android:text="EXIT" />
 
 
                     </LinearLayout>
@@ -285,5 +305,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
-</FrameLayout>
+        <include layout="@layout/common_loading"></include>
+    </FrameLayout>
+</ScrollView>

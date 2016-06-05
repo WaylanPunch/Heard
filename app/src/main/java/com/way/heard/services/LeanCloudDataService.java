@@ -737,4 +737,86 @@ public class LeanCloudDataService {
         }
         return followers;
     }
+
+
+    public static int getPostCountByUser(String userObjectId) {
+        int COUNT = 0;
+        try {
+            AVQuery<Post> query = AVQuery.getQuery("Post");
+            query.whereEqualTo(Post.AUTHOR, AVObject.createWithoutData("_User", userObjectId));
+            COUNT = query.count();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getPostCountByUser error", e);
+            COUNT = 0;
+        }
+        return COUNT;
+    }
+
+    public static int getRepostCountByUser(String userObjectId) {
+        int COUNT = 0;
+        try {
+            AVQuery<Post> query = AVQuery.getQuery("Post");
+            query.whereEqualTo(Post.AUTHOR, AVObject.createWithoutData("_User", userObjectId));
+            query.whereEqualTo(Post.FROM, 1);
+            COUNT = query.count();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getRepostCountByUser error", e);
+            COUNT = 0;
+        }
+        return COUNT;
+    }
+
+    public static int getLikeCountByUser(String userObjectId) {
+        int COUNT = 0;
+        try {
+            AVQuery<Post> query = AVQuery.getQuery("Post");
+            query.whereContains(Post.LIKES, userObjectId);
+            COUNT = query.count();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getLikeCountByUser error", e);
+            COUNT = 0;
+        }
+        return COUNT;
+    }
+
+    public static int getCommentCountByUser(String userObjectId) {
+        int COUNT = 0;
+        try {
+            AVQuery<Comment> query = AVQuery.getQuery("Comment");
+            query.whereEqualTo(Comment.AUTHOR, AVObject.createWithoutData("_User", userObjectId));
+            COUNT = query.count();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getCommentCountByUser error", e);
+            COUNT = 0;
+        }
+        return COUNT;
+    }
+
+    public static int getFollowerCountByUser(String userObjectID) {
+        int COUNT = 0;
+        try {
+            AVQuery<AVUser> followerQuery = AVUser.followerQuery(userObjectID, AVUser.class);
+            followerQuery.include("follower");
+            COUNT = followerQuery.count();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getFollowerCountByUser error", e);
+            COUNT = 0;
+        }
+        return COUNT;
+    }
+
+    public static int getFolloweeCountByUser(String userObjectID) {
+        int COUNT = 0;
+        try {
+            AVQuery<AVUser> followeeQuery = AVUser.followeeQuery(userObjectID, AVUser.class);
+            followeeQuery.include("followee");
+            COUNT = followeeQuery.count();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getFolloweeCountByUser error", e);
+            COUNT = 0;
+        }
+        return COUNT;
+    }
+
+
 }

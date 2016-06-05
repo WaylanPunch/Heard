@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.way.heard.ui.activities.MeEditActivity"
+    tools:showIn="@layout/activity_me_edit">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_me_edit_avatar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/bullet_gap_width">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_me_edit_avatar"
+                        android:layout_width="60dip"
+                        android:layout_height="60dip"
+                        android:visibility="visible"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_margin="@dimen/bullet_gap_width" />
+
+                    <ImageView
+                        android:id="@+id/iv_me_edit_avatar_new"
+                        android:layout_width="60dip"
+                        android:layout_height="60dip"
+                        android:layout_margin="@dimen/bullet_gap_width"
+                        android:layout_toEndOf="@+id/iv_me_edit_avatar"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_me_edit_avatar_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/bullet_gap_width"
+                        android:layout_toEndOf="@+id/iv_me_edit_avatar_new"
+                        android:gravity="start|center_vertical"
+                        android:text="CHANGE AVATAR" />
+
+                    <ImageView
+                        android:id="@+id/iv_me_edit_avatar_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/bullet_gap_width"
+                        android:src="@drawable/ic_chevron_right_gray" />
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_me_edit_others_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_me_edit_avatar_container"
+                android:layout_margin="@dimen/bullet_gap_width">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dip"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <TextView
+                            android:id="@+id/tv_me_edit_displayname_tip"
+                            android:layout_width="80dip"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:text="NICKNAME" />
+
+                        <EditText
+                            android:id="@+id/et_me_edit_displayname_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_toEndOf="@+id/tv_me_edit_displayname_tip"
+                            android:background="@null" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dip"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <TextView
+                            android:id="@+id/tv_me_edit_username_tip"
+                            android:layout_width="80dip"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:text="USERNAME" />
+
+                        <TextView
+                            android:id="@+id/tv_me_edit_username_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_toEndOf="@+id/tv_me_edit_username_tip"
+                            android:layout_toStartOf="@+id/iv_me_edit_username_validation" />
+
+                        <ImageView
+                            android:id="@+id/iv_me_edit_username_validation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_security_gray" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dip"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <TextView
+                            android:id="@+id/tv_me_edit_email_tip"
+                            android:layout_width="80dip"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:text="EMAIL" />
+
+                        <EditText
+                            android:id="@+id/et_me_edit_email_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_toEndOf="@+id/tv_me_edit_email_tip"
+                            android:layout_toStartOf="@+id/iv_me_edit_email_validation"
+                            android:background="@null" />
+
+                        <ImageView
+                            android:id="@+id/iv_me_edit_email_validation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:src="@drawable/ic_security_gray" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dip"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <TextView
+                            android:id="@+id/tv_me_edit_gender_tip"
+                            android:layout_width="80dip"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:text="GENDER" />
+
+                        <EditText
+                            android:id="@+id/et_me_edit_gender_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_toEndOf="@+id/tv_me_edit_gender_tip"
+                            android:background="@null" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dip"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <TextView
+                            android:id="@+id/tv_me_edit_city_tip"
+                            android:layout_width="80dip"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:text="CITY" />
+
+                        <EditText
+                            android:id="@+id/et_me_edit_city_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_toEndOf="@+id/tv_me_edit_city_tip"
+                            android:background="@null" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+
+                        <TextView
+                            android:id="@+id/tv_me_edit_signature_tip"
+                            android:layout_width="80dip"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:text="SIGNATURE" />
+
+                        <EditText
+                            android:id="@+id/et_me_edit_signature_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:layout_toEndOf="@+id/tv_me_edit_signature_tip"
+                            android:background="@null"
+                            android:gravity="start"
+                            android:minHeight="100dip" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+        <include layout="@layout/common_loading"></include>
+    </FrameLayout>
+
+
+</ScrollView>

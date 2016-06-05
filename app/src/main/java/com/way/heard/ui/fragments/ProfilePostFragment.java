@@ -21,6 +21,7 @@ import com.way.heard.models.Post;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.activities.ImageDisplayActivity;
+import com.way.heard.ui.activities.RepostActivity;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
 import com.way.heard.utils.LogUtil;
@@ -118,6 +119,29 @@ public class ProfilePostFragment extends Fragment {
                     intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
                     intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
                     startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+                }
+            });
+            mAdapter.setOnRepostClickListener(new PostAdapter.OnRepostClickListener() {
+                @Override
+                public void onRepostClick(int pos) {
+                    LogUtil.d(TAG, "onRepostClick debug, Position = " + pos);
+                    Post post = mPosts.get(pos);
+                    if (0 == post.getFrom()) {
+                        Intent intent = new Intent(context, RepostActivity.class);
+                        intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
+                        intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post);
+                        intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPhotoList());
+                        startActivity(intent);
+                        //startActivityForResult(intent, POST_REPOST_REQUEST);
+                    } else {
+                        Intent intent = new Intent(context, RepostActivity.class);
+                        intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
+                        intent.putExtra(RepostActivity.REPOST_DETAIL, post);
+                        intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post.tryGetPostOriginal());
+                        intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPostOriginal().tryGetPhotoList());
+                        startActivity(intent);
+                        //startActivityForResult(intent, POST_REPOST_REQUEST);
+                    }
                 }
             });
             mRecyclerView.setAdapter(mAdapter);

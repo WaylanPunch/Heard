@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorHintText">
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:background="@color/colorTransparent">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,105 +15,176 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dip"
-                android:layout_marginRight="8dip">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/ll_me_head_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
                     android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_me_displayname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/colorWhite"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_me_username"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text=""
+                                android:textColor="@color/colorWhite"
+                                android:textSize="13sp" />
+                        </LinearLayout>
 
                         <ImageView
                             android:id="@+id/iv_me_avatar"
-                            android:layout_width="80dip"
-                            android:layout_height="80dip"
-                            android:layout_margin="8dip"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/ic_picture_default" />
-
-                        <TextView
-                            android:id="@+id/tv_me_nickname"
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dip"
-                            android:layout_marginTop="30dip"
-                            android:layout_toRightOf="@+id/iv_me_avatar"
-                            android:text="Nickname"
-                            android:textColor="@color/colorPrimaryText" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_me_nickname"
-                            android:layout_marginLeft="8dip"
-                            android:layout_toRightOf="@+id/iv_me_avatar"
-                            android:text="Signature" />
                     </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_me_signature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="40dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text=""
+                        android:textColor="@color/colorWhite"
+                        android:textSize="12sp" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="20dp">
 
-                        <TextView
-                            android:id="@+id/tv_me_follower_value"
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="36dip"
-                            android:layout_height="24dip"
-                            android:layout_marginLeft="8dip"
-                            android:layout_marginTop="8dip"
-                            android:gravity="start|center_vertical"
-                            android:text="0"
-                            android:textColor="@color/colorPrimaryText" />
-
-                        <TextView
-                            android:id="@+id/tv_me_follower_tip"
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="72dip"
-                            android:layout_height="24dip"
-                            android:layout_below="@+id/tv_me_follower_value"
-                            android:layout_marginLeft="8dip"
-                            android:layout_marginTop="8dip"
-                            android:gravity="start|center_vertical"
-                            android:text="Follower" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="36dip"
-                            android:layout_height="24dip"
-                            android:layout_above="@+id/tv_me_followee_tip"
-                            android:layout_alignLeft="@+id/tv_me_followee_tip"
-                            android:gravity="start|center_vertical"
-                            android:text="0"
-                            android:textColor="@color/colorPrimaryText" />
-
-                        <TextView
-                            android:id="@+id/tv_me_followee_tip"
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="72dip"
-                            android:layout_height="24dip"
-                            android:layout_alignBottom="@+id/tv_me_follower_tip"
-                            android:layout_marginLeft="8dip"
-                            android:layout_marginTop="8dip"
-                            android:layout_toEndOf="@+id/tv_me_follower_tip"
-                            android:gravity="start|center_vertical"
-                            android:text="Followee" />
-
-                        <Button
-                            android:textColor="@color/colorWhite"
+                        <LinearLayout
+                            android:id="@+id/one"
                             android:layout_width="wrap_content"
-                            android:layout_height="36dip"
-                            android:layout_alignParentEnd="true"
-                            android:layout_margin="8dip"
-                            android:background="@drawable/background_tag_selector"
-                            android:text="Write" />
-                    </RelativeLayout>
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
 
+                            <TextView
+                                android:id="@+id/tv_me_sharetip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SHARE"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_me_sharecount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@id/one"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_me_liketip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Like"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_me_likecount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/three"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@id/two"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_me_commenttip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Comment"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_me_commentcount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_me_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/shape_button_border"
+                            android:drawableLeft="@drawable/ic_plus"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:paddingTop="3dp"
+                            android:text="EDIT"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -140,49 +209,24 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip"
-                            android:text="Article" />
-
-                        <ImageView
-                            android:layout_width="80dip"
-                            android:layout_height="80dip"
-                            android:layout_gravity="end|center_vertical"
-                            android:layout_margin="8dip"
-                            android:src="@drawable/ic_picture_default" />
-                    </FrameLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="8dip"
-                        android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
+                            android:id="@+id/tv_me_post_tip"
                             style="?android:textAppearanceSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="36dip"
                             android:layout_gravity="start|center_vertical"
                             android:layout_margin="8dip"
                             android:gravity="center_vertical"
-                            android:text="Username" />
+                            android:text="POST" />
 
                         <TextView
+                            android:id="@+id/tv_me_post_value"
                             style="?android:textAppearanceSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="36dip"
                             android:layout_gravity="end|center_vertical"
                             android:layout_margin="8dip"
                             android:gravity="center_vertical"
-                            android:text="Username"
+                            android:text="0"
                             android:textColor="@color/colorHintText" />
                     </FrameLayout>
 
@@ -198,22 +242,24 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/tv_me_followee_tip"
                             style="?android:textAppearanceSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="36dip"
                             android:layout_gravity="start|center_vertical"
                             android:layout_margin="8dip"
                             android:gravity="center_vertical"
-                            android:text="Email" />
+                            android:text="FOLLOWEE" />
 
                         <TextView
+                            android:id="@+id/tv_me_followee_value"
                             style="?android:textAppearanceSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="36dip"
                             android:layout_gravity="end|center_vertical"
                             android:layout_margin="8dip"
                             android:gravity="center_vertical"
-                            android:text="Email"
+                            android:text="0"
                             android:textColor="@color/colorHintText" />
                     </FrameLayout>
 
@@ -229,15 +275,160 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/tv_me_follower_tip"
                             style="?android:textAppearanceSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="36dip"
                             android:layout_gravity="start|center_vertical"
                             android:layout_margin="8dip"
                             android:gravity="center_vertical"
-                            android:text="QRcode" />
+                            android:text="FOLLOWER" />
+
+                        <TextView
+                            android:id="@+id/tv_me_follower_value"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dip"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_margin="8dip"
+                            android:gravity="center_vertical"
+                            android:text="0"
+                            android:textColor="@color/colorHintText" />
+                    </FrameLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="36dip"
+                android:background="@color/colorHintText"></View>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_me_email_tip"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dip"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip"
+                            android:gravity="center_vertical"
+                            android:text="EMAIL" />
+
+                        <TextView
+                            android:id="@+id/tv_me_email_value"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dip"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_margin="8dip"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@color/colorHintText" />
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_me_gender_tip"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dip"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip"
+                            android:gravity="center_vertical"
+                            android:text="GENDER" />
+
+                        <TextView
+                            android:id="@+id/tv_me_gender_value"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dip"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_margin="8dip"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@color/colorHintText" />
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_me_city_tip"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dip"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip"
+                            android:gravity="center_vertical"
+                            android:text="CITY" />
+
+                        <TextView
+                            android:id="@+id/tv_me_city_value"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dip"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_margin="8dip"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@color/colorHintText" />
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:background="@drawable/ic_divider_dots_vertical"></View>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_me_qrcode_tip"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dip"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_margin="8dip"
+                            android:gravity="center_vertical"
+                            android:text="QRCODE" />
 
                         <ImageView
+                            android:id="@+id/iv_me_qrcode_value"
                             android:layout_width="36dip"
                             android:layout_height="36dip"
                             android:layout_gravity="end|center_vertical"
@@ -252,80 +443,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="36dip"
                 android:background="@color/colorHintText"></View>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dip"
-                android:layout_marginRight="8dip">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip"
-                            android:gravity="center_vertical"
-                            android:text="Gender" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dip"
-                            android:layout_gravity="end|center_vertical"
-                            android:layout_margin="8dip"
-                            android:gravity="center_vertical"
-                            android:text="Gender"
-                            android:textColor="@color/colorHintText" />
-                    </FrameLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="8dip"
-                        android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="8dip"
-                            android:gravity="center_vertical"
-                            android:text="City" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dip"
-                            android:layout_gravity="end|center_vertical"
-                            android:layout_margin="8dip"
-                            android:gravity="center_vertical"
-                            android:text="City"
-                            android:textColor="@color/colorHintText" />
-                    </FrameLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="36dip"
-                android:background="@color/colorHintText"></View>
         </LinearLayout>
 
-    </ScrollView>
-</FrameLayout>
+        <include layout="@layout/common_loading"></include>
+    </FrameLayout>
+
+</ScrollView>

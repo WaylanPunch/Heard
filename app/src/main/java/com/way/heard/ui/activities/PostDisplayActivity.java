@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
@@ -240,8 +241,12 @@ public class PostDisplayActivity extends BaseActivity {
                 for (Comment item : mComments) {
                     commentObjectIDs.add(item.getObjectId());
                 }
-                post.setComments(commentObjectIDs);
-                post.save();
+
+                AVObject latestPost = AVObject.createWithoutData("Post", post.getObjectId()).fetchIfNeeded();
+                latestPost.put(Post.COMMENTS, commentObjectIDs);
+                latestPost.save();
+//                post.setComments(commentObjectIDs);
+//                post.save();
             }
 
             @Override

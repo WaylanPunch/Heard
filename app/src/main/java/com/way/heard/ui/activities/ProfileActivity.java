@@ -98,7 +98,7 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset <= -head_layout.getHeight() / 2) {
-                    mCollapsingToolbarLayout.setTitle("涩郎");
+                    mCollapsingToolbarLayout.setTitle(currentUser.getUsername() + "");
                 } else {
                     mCollapsingToolbarLayout.setTitle(" ");
                 }

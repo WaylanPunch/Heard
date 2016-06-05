@@ -70,11 +70,11 @@ public class SettingFragment extends Fragment{
         AVUser currentUser = AVUser.getCurrentUser();
         if (currentUser != null) {
             isLogin = true;
-            iv_LoginIcon.setImageResource(R.drawable.ic_logout);
+            iv_LoginIcon.setImageResource(R.drawable.ic_logout_gray);
             tv_LoginTip.setText("Sign Out");
         } else {
             isLogin = false;
-            iv_LoginIcon.setImageResource(R.drawable.ic_login);
+            iv_LoginIcon.setImageResource(R.drawable.ic_login_gray);
             tv_LoginTip.setText("Sign In");
         }
         ll_LoginContainer.setOnClickListener(new View.OnClickListener() {
