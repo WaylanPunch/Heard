@@ -4,27 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:background="@color/colorTransparent"
-        android:orientation="vertical">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_contact_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:tabIndicatorColor="@color/colorWhite"
-            app:tabSelectedTextColor="@color/colorWhite"
-            app:tabTextColor="@color/colorHintText" />
-
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_contact_pager"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
 </FrameLayout>
