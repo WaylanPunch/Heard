@@ -19,8 +19,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.way.heard.R;
 import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.utils.InternetUtil;
@@ -28,6 +32,7 @@ import com.way.heard.utils.LogUtil;
 
 import java.util.List;
 
+import cn.leancloud.chatkit.LCChatKit;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -132,7 +137,7 @@ public class LoginActivity extends BaseActivity {
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    private void goAction(){
+    private void goAction() {
         AVUser currentUser = AVUser.getCurrentUser();
         if (currentUser != null) {
             startMainActivity();
@@ -140,9 +145,21 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void startMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        LogUtil.d(TAG, "startMainActivity debug");
+        String clientId = AVUser.getCurrentUser().getUsername();
+        LogUtil.d(TAG, "startMainActivity debug, ClientID = " + clientId);
+        LCChatKit.getInstance().open(clientId, new AVIMClientCallback() {
+            @Override
+            public void done(AVIMClient avimClient, AVIMException e) {
+                if (null == e) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void populateAutoComplete() {

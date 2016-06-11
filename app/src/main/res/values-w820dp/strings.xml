@@ -18,4 +18,6 @@
     <string name="action_me">Me</string>
     <string name="action_chat">CHAT</string>
     <string name="action_repost">Repost</string>
+    <string name="action_square">SQUARE</string>
+    <string name="square">SQUARE</string>
 </resources>

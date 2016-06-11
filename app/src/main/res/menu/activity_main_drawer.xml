@@ -16,9 +16,9 @@
             android:icon="@drawable/ic_bookmark"
             android:title="Topic" />
         <item
-            android:id="@+id/nav_message"
-            android:icon="@drawable/ic_message"
-            android:title="Message" />
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_notification"
+            android:title="Notification" />
         <item
             android:id="@+id/nav_me"
             android:icon="@drawable/ic_me"

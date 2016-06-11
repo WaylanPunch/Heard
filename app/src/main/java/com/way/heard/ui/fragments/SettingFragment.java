@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
@@ -26,8 +24,8 @@ public class SettingFragment extends Fragment{
     public static final String SETTING = "Setting";
     private static boolean isLogin = false;
 
-    private LinearLayout ll_LoginContainer;
-    private ImageView iv_LoginIcon;
+//    private LinearLayout ll_LoginContainer;
+//    private ImageView iv_LoginIcon;
     private TextView tv_LoginTip;
 
     public SettingFragment() {
@@ -59,8 +57,8 @@ public class SettingFragment extends Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ll_LoginContainer = (LinearLayout) view.findViewById(R.id.ll_setting_login_container);
-        iv_LoginIcon = (ImageView) view.findViewById(R.id.iv_setting_login_icon);
+//        ll_LoginContainer = (LinearLayout) view.findViewById(R.id.ll_setting_login_container);
+//        iv_LoginIcon = (ImageView) view.findViewById(R.id.iv_setting_login_icon);
         tv_LoginTip = (TextView) view.findViewById(R.id.tv_setting_login_tip);
 
         initData();
@@ -70,14 +68,14 @@ public class SettingFragment extends Fragment{
         AVUser currentUser = AVUser.getCurrentUser();
         if (currentUser != null) {
             isLogin = true;
-            iv_LoginIcon.setImageResource(R.drawable.ic_logout_gray);
+            //iv_LoginIcon.setImageResource(R.drawable.ic_logout_gray);
             tv_LoginTip.setText("Sign Out");
         } else {
             isLogin = false;
-            iv_LoginIcon.setImageResource(R.drawable.ic_login_gray);
+            //iv_LoginIcon.setImageResource(R.drawable.ic_login_gray);
             tv_LoginTip.setText("Sign In");
         }
-        ll_LoginContainer.setOnClickListener(new View.OnClickListener() {
+        tv_LoginTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isLogin){

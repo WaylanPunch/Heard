@@ -67,7 +67,6 @@ dependencies {
     //compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
     //compile 'com.yancy.imageselector:imageselector:1.3.3'
     compile project(':imageselector')
-    compile project(':leanchatlib')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.yalantis:sidemenu:1.0'
@@ -93,4 +92,7 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'cn.bingoogolapple:bga-banner:2.0.4@aar'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile files('libs/prettytime-3.2.5.Final.jar')
+    compile project(':leancloudchatkit')
+    compile 'com.github.stuxuhai:jpinyin:1.1.5'
 }

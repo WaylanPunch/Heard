@@ -108,6 +108,10 @@
         <activity
             android:name=".ui.activities.MeEditActivity"
             android:label="@string/title_activity_me_edit"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activities.ChatActivity"
+            android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme"></activity>
     </application>
 

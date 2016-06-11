@@ -260,6 +260,7 @@ public class MainActivity extends BaseActivity
         if (id == R.id.action_search) {
             return true;
         } else if (id == R.id.action_notification) {
+            ChatActivity.go(MainActivity.this);
             return true;
         } else if (id == R.id.action_me) {
 //            Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
@@ -303,7 +304,7 @@ public class MainActivity extends BaseActivity
                 topicFragment = TopicFragment.newInstance(2);
             }
             switchContent(topicFragment, 2);
-        } else if (id == R.id.nav_message) {
+        } else if (id == R.id.nav_notification) {
             //replaceFragment(4);
             if (messageFragment == null) {
                 messageFragment = MessageFragment.newInstance(3);

@@ -12,8 +12,10 @@ import com.way.heard.models.Comment;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
 import com.way.heard.models.Tag;
+import com.way.heard.services.CustomUserProvider;
 import com.way.heard.utils.LogUtil;
 
+import cn.leancloud.chatkit.LCChatKit;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -32,8 +34,12 @@ public class HeardApp extends Application {
         // Tencent Bugly
         CrashReport.initCrashReport(getApplicationContext(), CONFIG.BuglyAppId, false);
 
+        // 关于 CustomUserProvider 可以参看后面的文档
+        LCChatKit.getInstance().setProfileProvider(CustomUserProvider.getInstance());
+        LCChatKit.getInstance().init(mContext, CONFIG.LeanCloudAppID, CONFIG.LeanCloudAppKey);
+
         // 初始化参数依次为 this, AppId, AppKey
-        AVOSCloud.initialize(this, CONFIG.LeanCloudAppID, CONFIG.LeanCloudAppKey);
+        //AVOSCloud.initialize(mContext, CONFIG.LeanCloudAppID, CONFIG.LeanCloudAppKey);
         AVObject.registerSubclass(Article.class);
         AVObject.registerSubclass(Comment.class);
         AVObject.registerSubclass(Post.class);

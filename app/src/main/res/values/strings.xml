@@ -143,4 +143,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="action_square">SQUARE</string>
+    <string name="square">SQUARE</string>
 </resources>

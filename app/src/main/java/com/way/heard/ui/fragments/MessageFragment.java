@@ -3,21 +3,12 @@ package com.way.heard.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.way.heard.R;
-import com.way.heard.utils.LogUtil;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -27,8 +18,8 @@ public class MessageFragment extends Fragment {
     private final static String TAG = MessageFragment.class.getName();
 
     public static final String MESSAGE = "Message";
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
+//    private ViewPager viewPager;
+//    private TabLayout tabLayout;
 
 
     public MessageFragment() {
@@ -59,16 +50,17 @@ public class MessageFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewPager = (ViewPager) view.findViewById(R.id.pager);
-        tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
+//        viewPager = (ViewPager) view.findViewById(R.id.pager);
+//        tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initTabLayout();
+//        initTabLayout();
     }
 
+    /*
     private void initTabLayout() {
         LogUtil.d(TAG, "initTabLayout debug");
         try {
@@ -107,7 +99,9 @@ public class MessageFragment extends Fragment {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+    */
 
+    /*
     public class TabFragmentAdapter extends FragmentStatePagerAdapter {
 
         private List<Fragment> mFragments;
@@ -134,4 +128,5 @@ public class MessageFragment extends Fragment {
             return mTitles.get(position);
         }
     }
+    */
 }
