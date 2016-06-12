@@ -14,13 +14,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.way.heard.R;
 import com.way.heard.services.CustomUserProvider;
+import com.way.heard.services.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.fragments.ContactFragment;
+import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,13 +65,13 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void initView() {
-        viewPager = (ViewPager)findViewById(R.id.vp_chat_pager);
-        tabLayout = (TabLayout)findViewById(R.id.tl_chat_tablayout);
+        viewPager = (ViewPager) findViewById(R.id.vp_chat_pager);
+        tabLayout = (TabLayout) findViewById(R.id.tl_chat_tablayout);
     }
 
     private void initTabLayout() {
         String[] tabList = new String[]{"会话", "联系人"};
-        final Fragment[] fragmentList = new Fragment[] {new LCIMConversationListFragment(),
+        final Fragment[] fragmentList = new Fragment[]{new LCIMConversationListFragment(),
                 new ContactFragment()};
 
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -138,21 +144,84 @@ public class ChatActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     private void gotoSquareConversation() {
+        LogUtil.d(TAG, "gotoSquareConversation debug");
+
         List<LCChatKitUser> userList = CustomUserProvider.getInstance().getAllUsers();
-        List<String> idList = new ArrayList<>();
-        for (LCChatKitUser user : userList) {
-            idList.add(user.getUserId());
-        }
-        LCChatKit.getInstance().getClient().createConversation(
-                idList, getString(R.string.square), null, false, true, new AVIMConversationCreatedCallback() {
-                    @Override
-                    public void done(AVIMConversation avimConversation, AVIMException e) {
-                        Intent intent = new Intent(ChatActivity.this, LCIMConversationActivity.class);
-                        intent.putExtra(LCIMConstants.CONVERSATION_ID, avimConversation.getConversationId());
-                        startActivity(intent);
+        if (userList != null && userList.size() > 0) {
+            LogUtil.d(TAG, "gotoSquareConversation debug, CustomUserProvider.getInstance().getAllUsers() != NULL");
+            List<String> idList = new ArrayList<>();
+            for (LCChatKitUser user : userList) {
+                idList.add(user.getUserId());
+            }
+
+            LCChatKit.getInstance().getClient().createConversation(
+                    idList, getString(R.string.square), null, false, true, new AVIMConversationCreatedCallback() {
+                        @Override
+                        public void done(AVIMConversation avimConversation, AVIMException e) {
+                            Intent intent = new Intent(ChatActivity.this, LCIMConversationActivity.class);
+                            intent.putExtra(LCIMConstants.CONVERSATION_ID, avimConversation.getConversationId());
+                            startActivity(intent);
+                        }
+                    });
+        } else {
+            LogUtil.d(TAG, "gotoSquareConversation debug, CustomUserProvider.getInstance().getAllUsers() == NULL, Retrieve.");
+            new LeanCloudBackgroundTask(ChatActivity.this) {
+                List<LCChatKitUser> partUsers = new ArrayList<LCChatKitUser>();
+
+                @Override
+                protected void onPre() {
+
+                }
+
+                @Override
+                protected void doInBack() throws AVException {
+                    if (partUsers == null) {
+                        partUsers = new ArrayList<LCChatKitUser>();
                     }
-                });
+                    List<AVUser> friends = LeanCloudDataService.getAllMyFriends(AVUser.getCurrentUser().getObjectId());
+                    if (friends != null && friends.size() > 0) {
+                        for (AVUser user : friends) {
+                            String userid = user.getUsername();
+                            String username = user.getUsername();
+                            String avatar = user.getString("avatar");
+                            LCChatKitUser chatKitUser = new LCChatKitUser(userid, username, avatar);
+                            partUsers.add(chatKitUser);
+                        }
+                    }
+                }
+
+                @Override
+                protected void onPost(AVException e) {
+                    if (e == null) {
+                        CustomUserProvider.getInstance().setAllUsers(partUsers);
+                        if (partUsers != null && partUsers.size() > 0) {
+                            List<String> idList = new ArrayList<>();
+                            for (LCChatKitUser user : partUsers) {
+                                idList.add(user.getUserId());
+                            }
+
+                            LCChatKit.getInstance().getClient().createConversation(
+                                    idList, getString(R.string.square), null, false, true, new AVIMConversationCreatedCallback() {
+                                        @Override
+                                        public void done(AVIMConversation avimConversation, AVIMException e) {
+                                            Intent intent = new Intent(ChatActivity.this, LCIMConversationActivity.class);
+                                            intent.putExtra(LCIMConstants.CONVERSATION_ID, avimConversation.getConversationId());
+                                            startActivity(intent);
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(ChatActivity.this, "No Friends At All", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(ChatActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }.execute();
+        }
+
+
     }
 
     public static void go(Context context) {

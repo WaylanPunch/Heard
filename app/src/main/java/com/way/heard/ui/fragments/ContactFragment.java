@@ -10,28 +10,40 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
+import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.adapters.MembersAdapter;
 import com.way.heard.services.CustomUserProvider;
+import com.way.heard.services.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.views.letterview.MemberLetterEvent;
+import com.way.heard.utils.LogUtil;
 
-import cn.leancloud.chatkit.view.LCIMDividerItemDecoration;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.leancloud.chatkit.LCChatKitUser;
 import de.greenrobot.event.EventBus;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactFragment extends Fragment{
-    //private final static String TAG = ContactFragment.class.getName();
+public class ContactFragment extends Fragment {
+    private final static String TAG = ContactFragment.class.getName();
 
     public static final String CONTACT = "Contact";
     protected SwipeRefreshLayout refreshLayout;
     protected RecyclerView recyclerView;
+    protected RotateLoading loading;
 
     private MembersAdapter itemAdapter;
-    LinearLayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
+    private List<LCChatKitUser> partUsers = new ArrayList<LCChatKitUser>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,7 @@ public class ContactFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.contact_fragment_srl_list);
         recyclerView = (RecyclerView) view.findViewById(R.id.contact_fragment_rv_list);
+        loading = (RotateLoading) view.findViewById(R.id.loading);
     }
 
     @Override
@@ -59,7 +72,7 @@ public class ContactFragment extends Fragment{
 //        initTabLayout();
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new LCIMDividerItemDecoration(getActivity()));
+        //recyclerView.addItemDecoration(new LCIMDividerItemDecoration(getActivity()));
         itemAdapter = new MembersAdapter();
         recyclerView.setAdapter(itemAdapter);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -97,9 +110,51 @@ public class ContactFragment extends Fragment{
 //    }
 
     private void refreshMembers() {
-        itemAdapter.setMemberList(CustomUserProvider.getInstance().getAllUsers());
-        itemAdapter.notifyDataSetChanged();
-        refreshLayout.setRefreshing(false);
+        LogUtil.d(TAG, "refreshMembers debug");
+        List<LCChatKitUser> allfriends = CustomUserProvider.getInstance().getAllUsers();
+        if (allfriends != null && allfriends.size() > 0) {
+            itemAdapter.setMemberList(CustomUserProvider.getInstance().getAllUsers());
+            itemAdapter.notifyDataSetChanged();
+            refreshLayout.setRefreshing(false);
+        } else {
+            new LeanCloudBackgroundTask(getContext()) {
+
+                @Override
+                protected void onPre() {
+                    loading.start();
+                }
+
+                @Override
+                protected void doInBack() throws AVException {
+                    if (partUsers == null) {
+                        partUsers = new ArrayList<LCChatKitUser>();
+                    }
+                    List<AVUser> friends = LeanCloudDataService.getAllMyFriends(AVUser.getCurrentUser().getObjectId());
+                    if (friends != null && friends.size() > 0) {
+                        for (AVUser user : friends) {
+                            String userid = user.getUsername();
+                            String username = user.getUsername();
+                            String avatar = user.getString("avatar");
+                            LCChatKitUser chatKitUser = new LCChatKitUser(userid, username, avatar);
+                            partUsers.add(chatKitUser);
+                        }
+                    }
+                }
+
+                @Override
+                protected void onPost(AVException e) {
+                    loading.stop();
+                    refreshLayout.setRefreshing(false);
+                    if (e == null) {
+                        CustomUserProvider.getInstance().setAllUsers(partUsers);
+                        itemAdapter.setMemberList(partUsers);
+                        itemAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }.execute();
+        }
     }
 
     /**

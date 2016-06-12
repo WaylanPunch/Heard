@@ -688,6 +688,24 @@ public class LeanCloudDataService {
         return followers;
     }
 
+    public static List<AVUser> getAllMyFriends(String userObjectID) {
+        List<AVUser> friends = new ArrayList<>();
+        try {
+            AVQuery<AVUser> followerQuery = AVUser.followerQuery(userObjectID, AVUser.class);
+            followerQuery.include("follower");
+            List<AVUser> followers = followerQuery.find();
+
+            AVQuery<AVUser> followeeQuery = AVUser.followeeQuery(userObjectID, AVUser.class);
+            followeeQuery.include("followee");
+            followeeQuery.whereContainedIn("followee",followers);
+            friends = followeeQuery.find();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAllMyFriends error", e);
+            return null;
+        }
+        return friends;
+    }
+
     public static void allFriendshipQuery(String userObjectId) {
         try {
             AVFriendshipQuery query = AVUser.friendshipQuery(userObjectId, AVUser.class);
@@ -697,14 +715,6 @@ public class LeanCloudDataService {
             List<AVUser> followers = friendship.getFollowers(); //获取粉丝
             List<AVUser> followees = friendship.getFollowees(); //获取关注列表
             AVUser user = friendship.getUser(); //获取用户对象本身
-//        query.getInBackground(new AVFriendshipCallback() {
-//            @Override
-//            public void done(AVFriendship friendship, AVException e) {
-//                List<AVUser> followers = friendship.getFollowers(); //获取粉丝
-//                List<AVUser> followees = friendship.getFollowees(); //获取关注列表
-//                AVUser user = friendship.getUser(); //获取用户对象本身
-//            }
-//        });
         } catch (AVException e) {
             LogUtil.e(TAG, "allFriendshipQuery error", e);
         }

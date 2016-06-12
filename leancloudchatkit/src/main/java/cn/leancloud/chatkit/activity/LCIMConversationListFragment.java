@@ -20,7 +20,6 @@ import cn.leancloud.chatkit.adapter.LCIMCommonListAdapter;
 import cn.leancloud.chatkit.cache.LCIMConversationItemCache;
 import cn.leancloud.chatkit.event.LCIMIMTypeMessageEvent;
 import cn.leancloud.chatkit.event.LCIMOfflineMessageCountChangeEvent;
-import cn.leancloud.chatkit.view.LCIMDividerItemDecoration;
 import cn.leancloud.chatkit.viewholder.LCIMConversationItemHolder;
 import de.greenrobot.event.EventBus;
 
@@ -45,7 +44,7 @@ public class LCIMConversationListFragment extends Fragment {
     refreshLayout.setEnabled(false);
     layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
-    recyclerView.addItemDecoration(new LCIMDividerItemDecoration(getActivity()));
+    //recyclerView.addItemDecoration(new LCIMDividerItemDecoration(getActivity()));
     itemAdapter = new LCIMCommonListAdapter<AVIMConversation>(LCIMConversationItemHolder.class);
     recyclerView.setAdapter(itemAdapter);
     EventBus.getDefault().register(this);

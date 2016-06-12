@@ -27,11 +27,11 @@ public class CustomUserProvider  implements LCChatProfileProvider {
     private static List<LCChatKitUser> partUsers = new ArrayList<LCChatKitUser>();
 
     // 此数据均为 fake，仅供参考
-    static {
-        partUsers.add(new LCChatKitUser("test", "test", "http://www.avatarsdb.com/avatars/tom_and_jerry2.jpg"));
-        partUsers.add(new LCChatKitUser("test1", "test1", "http://www.avatarsdb.com/avatars/jerry.jpg"));
-        partUsers.add(new LCChatKitUser("test2", "test2", "http://www.avatarsdb.com/avatars/young_harry.jpg"));
-    }
+//    static {
+//        partUsers.add(new LCChatKitUser("test", "test", "http://www.avatarsdb.com/avatars/tom_and_jerry2.jpg"));
+//        partUsers.add(new LCChatKitUser("test1", "test1", "http://www.avatarsdb.com/avatars/jerry.jpg"));
+//        partUsers.add(new LCChatKitUser("test2", "test2", "http://www.avatarsdb.com/avatars/young_harry.jpg"));
+//    }
 
     @Override
     public void fetchProfiles(List<String> list, LCChatProfilesCallBack callBack) {
@@ -49,5 +49,9 @@ public class CustomUserProvider  implements LCChatProfileProvider {
 
     public List<LCChatKitUser> getAllUsers() {
         return partUsers;
+    }
+
+    public void setAllUsers(List<LCChatKitUser> users){
+        this.partUsers = users;
     }
 }
