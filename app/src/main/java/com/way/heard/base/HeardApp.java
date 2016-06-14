@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
+import com.orm.androrm.DatabaseAdapter;
+import com.orm.androrm.Model;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.way.heard.R;
 import com.way.heard.models.Article;
@@ -13,7 +15,11 @@ import com.way.heard.models.Image;
 import com.way.heard.models.Post;
 import com.way.heard.models.Tag;
 import com.way.heard.services.CustomUserProvider;
+import com.way.heard.utils.LogQuickSearchData.LogQuickSearch;
 import com.way.heard.utils.LogUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.leancloud.chatkit.LCChatKit;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -58,9 +64,20 @@ public class HeardApp extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
+
+        initializeDatabase();
     }
 
     public static Context getContext() {
         return mContext;
+    }
+
+    private void initializeDatabase() {
+        List<Class<? extends Model>> models = new ArrayList<>(0);
+        models.add(LogQuickSearch.class);
+        String dbName = CONFIG.DATABASE_NAME;
+        DatabaseAdapter.setDatabaseName(dbName);
+        DatabaseAdapter adapter = new DatabaseAdapter(mContext);
+        adapter.setModels(models);
     }
 }

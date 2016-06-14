@@ -23,6 +23,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:weightSum="1"
@@ -55,6 +56,7 @@
                     </LinearLayout>
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
                         android:layout_marginLeft="@dimen/bullet_gap_width"
@@ -62,6 +64,7 @@
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:weightSum="1"
@@ -94,6 +97,7 @@
                     </LinearLayout>
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
                         android:layout_marginLeft="@dimen/bullet_gap_width"
@@ -101,6 +105,7 @@
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:weightSum="1"
@@ -133,6 +138,7 @@
                     </LinearLayout>
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
                         android:layout_marginLeft="@dimen/bullet_gap_width"
@@ -140,6 +146,7 @@
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -164,6 +171,7 @@
                     </LinearLayout>
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
                         android:layout_marginLeft="@dimen/bullet_gap_width"
@@ -171,11 +179,13 @@
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
+                        android:id="@+id/ll_setting_cache_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/iv_setting_cache_icon"
                             android:layout_width="36dip"
                             android:layout_height="36dip"
                             android:layout_gravity="start|center_vertical"
@@ -183,14 +193,23 @@
                             android:src="@drawable/ic_cache_gray" />
 
                         <TextView
+                            android:id="@+id/tv_setting_cache_tip"
                             style="?android:textAppearanceSmall"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
                             android:layout_height="36dip"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/bullet_gap_width"
                             android:gravity="start|center_vertical"
                             android:text="CACHE" />
 
+                        <TextView
+                            android:id="@+id/tv_setting_cache_value"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/bullet_gap_width"
+                            android:text="0"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -207,16 +226,19 @@
                 android:layout_marginTop="@dimen/bullet_gap_width">
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ll_setting_about_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/iv_setting_about_icon"
                             android:layout_width="36dip"
                             android:layout_height="36dip"
                             android:layout_gravity="start|center_vertical"
@@ -224,6 +246,7 @@
                             android:src="@drawable/ic_about_gray" />
 
                         <TextView
+                            android:id="@+id/tv_setting_about_tip"
                             style="?android:textAppearanceSmall"
                             android:layout_width="match_parent"
                             android:layout_height="36dip"
@@ -236,6 +259,7 @@
                     </LinearLayout>
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
                         android:layout_marginLeft="@dimen/bullet_gap_width"
@@ -243,6 +267,7 @@
                         android:background="@drawable/ic_divider_dots_vertical"></View>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">

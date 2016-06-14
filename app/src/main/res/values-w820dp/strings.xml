@@ -20,4 +20,8 @@
     <string name="action_repost">Repost</string>
     <string name="action_square">SQUARE</string>
     <string name="square">SQUARE</string>
+    <string name="string_filler">Filter</string>
+    <string name="imate_back">Back</string>
+    <string name="edit_text_search">SEARCH</string>
+    <string name="voice_cancel">Voice Cancel</string>
 </resources>

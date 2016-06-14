@@ -47,7 +47,7 @@ public class ContactItemHolder extends LCIMCommonViewHolder<LCChatKitUser> {
     @Override
     public void bindData(LCChatKitUser lcChatKitUser) {
         this.lcChatKitUser = lcChatKitUser;
-        Picasso.with(getContext()).load(lcChatKitUser.getAvatarUrl()).into(avatarView);
+        Picasso.with(getContext()).load(lcChatKitUser.getAvatarUrl()).placeholder(R.drawable.lcim_default_avatar_icon).error(R.drawable.lcim_default_avatar_icon).into(avatarView);
         nameView.setText(lcChatKitUser.getUserName());
     }
 

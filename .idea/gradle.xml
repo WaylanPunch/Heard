@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/imageselector" />
             <option value="$PROJECT_DIR$/leancloudchatkit" />
+            <option value="$PROJECT_DIR$/searchview" />
           </set>
         </option>
         <option name="myModules">
@@ -20,6 +21,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/imageselector" />
             <option value="$PROJECT_DIR$/leancloudchatkit" />
+            <option value="$PROJECT_DIR$/searchview" />
           </set>
         </option>
       </GradleProjectSettings>

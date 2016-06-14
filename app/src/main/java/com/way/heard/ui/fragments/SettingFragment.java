@@ -1,7 +1,9 @@
 package com.way.heard.ui.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,10 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
+import com.way.heard.base.HeardApp;
 import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.ui.activities.AboutActivity;
 import com.way.heard.ui.activities.LoginActivity;
+import com.way.heard.utils.FileUtil;
+import com.way.heard.utils.LogUtil;
 
 
 /**
@@ -27,25 +35,15 @@ public class SettingFragment extends Fragment{
 //    private LinearLayout ll_LoginContainer;
 //    private ImageView iv_LoginIcon;
     private TextView tv_LoginTip;
-
-    public SettingFragment() {
-        // Required empty public constructor
-    }
-
-    public static SettingFragment newInstance(int param) {
-        SettingFragment settingFragment = new SettingFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("SettingParam", param);
-        settingFragment.setArguments(bundle);
-        return settingFragment;
-    }
+    private TextView tv_CacheTip;
+    private TextView tv_CacheValue;
+    private TextView tv_AboutTip;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int param = getArguments().getInt("SettingParam");
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,11 +58,79 @@ public class SettingFragment extends Fragment{
 //        ll_LoginContainer = (LinearLayout) view.findViewById(R.id.ll_setting_login_container);
 //        iv_LoginIcon = (ImageView) view.findViewById(R.id.iv_setting_login_icon);
         tv_LoginTip = (TextView) view.findViewById(R.id.tv_setting_login_tip);
+        tv_CacheTip = (TextView) view.findViewById(R.id.tv_setting_cache_tip);
+        tv_CacheValue = (TextView) view.findViewById(R.id.tv_setting_cache_value);
+        tv_AboutTip = (TextView) view.findViewById(R.id.tv_setting_about_tip);
 
-        initData();
     }
 
-    private void initData() {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initCache();
+        initAbout();
+        initLoginButton();
+    }
+
+    private void initCache() {
+        String cacheValue="0B";
+        try {
+            cacheValue = FileUtil.getTotalCacheSize(HeardApp.getContext());
+        } catch (Exception e) {
+            cacheValue="0B";
+            LogUtil.e(TAG,"onActivityCreated error",e);
+        }
+        tv_CacheValue.setText(cacheValue);
+        tv_CacheTip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(getContext())
+                        .title("Clear All Cache Data?")
+                        .content(tv_CacheValue.getText().toString())
+                        .positiveText("OK")
+                        .negativeText("CANCEL")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                FileUtil.clearAllCache(getContext());
+                                tv_CacheValue.setText("0B");
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
+    }
+
+    private void initAbout() {
+        tv_AboutTip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), AboutActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public SettingFragment() {
+        // Required empty public constructor
+    }
+
+    public static SettingFragment newInstance(int param) {
+        SettingFragment settingFragment = new SettingFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("SettingParam", param);
+        settingFragment.setArguments(bundle);
+        return settingFragment;
+    }
+
+
+    private void initLoginButton() {
         AVUser currentUser = AVUser.getCurrentUser();
         if (currentUser != null) {
             isLogin = true;

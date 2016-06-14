@@ -2,31 +2,31 @@
 <resources>
 
     <declare-styleable name="TagCloudView">
-        <attr name="tcvBackground" format="reference"/>
-        <attr name="tcvTextColor" format="color"/>
-        <attr name="tcvBorder" format="dimension"/>
-        <attr name="tcvTextSize" format="integer"/>
-        <attr name="tcvBorderItem" format="dimension"/>
-        <attr name="tcvItemBorderVertical" format="dimension"/>
-        <attr name="tcvItemBorderHorizontal" format="dimension"/>
+        <attr name="tcvBackground" format="reference" />
+        <attr name="tcvTextColor" format="color" />
+        <attr name="tcvBorder" format="dimension" />
+        <attr name="tcvTextSize" format="integer" />
+        <attr name="tcvBorderItem" format="dimension" />
+        <attr name="tcvItemBorderVertical" format="dimension" />
+        <attr name="tcvItemBorderHorizontal" format="dimension" />
 
-        <attr name="tcvSingleLine" format="boolean"/>
-        <attr name="tcvShowEndText" format="boolean"/>
-        <attr name="tcvShowRightImg" format="boolean"/>
-        <attr name="tcvEndText" format="string"/>
-        <attr name="tcvRightResId" format="reference"/>
-        <attr name="tcvCanTagClick" format="boolean"/>
+        <attr name="tcvSingleLine" format="boolean" />
+        <attr name="tcvShowEndText" format="boolean" />
+        <attr name="tcvShowRightImg" format="boolean" />
+        <attr name="tcvEndText" format="string" />
+        <attr name="tcvRightResId" format="reference" />
+        <attr name="tcvCanTagClick" format="boolean" />
 
-        <attr name="tcvTagResId" format="reference"/>
+        <attr name="tcvTagResId" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="NineGridImageView">
-        <attr format="dimension" name="singleImgSize"/>
-        <attr format="dimension" name="imgGap"/>
-        <attr format="integer" name="maxSize"/>
-        <attr format="enum" name="showStyle">
-            <enum name="grid" value="0"/>
-            <enum name="fill" value="1"/>
+        <attr name="singleImgSize" format="dimension" />
+        <attr name="imgGap" format="dimension" />
+        <attr name="maxSize" format="integer" />
+        <attr name="showStyle" format="enum">
+            <enum name="grid" value="0" />
+            <enum name="fill" value="1" />
         </attr>
     </declare-styleable>
 
@@ -36,27 +36,36 @@
     </declare-styleable>
 
     <declare-styleable name="WaveView">
-        <attr name="above_wave_color" format="color"/>
-        <attr name="blow_wave_color" format="color"/>
-        <attr name="progress" format="integer"/>
+        <attr name="above_wave_color" format="color" />
+        <attr name="blow_wave_color" format="color" />
+        <attr name="progress" format="integer" />
         <attr name="wave_length" format="enum">
-            <enum name="large" value="1"/>
-            <enum name="middle" value="2"/>
-            <enum name="little" value="3"/>
+            <enum name="large" value="1" />
+            <enum name="middle" value="2" />
+            <enum name="little" value="3" />
         </attr>
         <attr name="wave_height" format="enum">
-            <enum name="large" value="1"/>
-            <enum name="middle" value="2"/>
-            <enum name="little" value="3"/>
+            <enum name="large" value="1" />
+            <enum name="middle" value="2" />
+            <enum name="little" value="3" />
         </attr>
         <attr name="wave_hz" format="enum">
-            <enum name="fast" value="1"/>
-            <enum name="normal" value="2"/>
-            <enum name="slow" value="3"/>
+            <enum name="fast" value="1" />
+            <enum name="normal" value="2" />
+            <enum name="slow" value="3" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="Themes">
-        <attr name="waveViewStyle" format="reference"/>
+        <attr name="waveViewStyle" format="reference" />
+    </declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 </resources>

@@ -697,7 +697,7 @@ public class LeanCloudDataService {
 
             AVQuery<AVUser> followeeQuery = AVUser.followeeQuery(userObjectID, AVUser.class);
             followeeQuery.include("followee");
-            followeeQuery.whereContainedIn("followee",followers);
+            followeeQuery.whereContainedIn("followee", followers);
             friends = followeeQuery.find();
         } catch (AVException e) {
             LogUtil.e(TAG, "getAllMyFriends error", e);
@@ -828,5 +828,17 @@ public class LeanCloudDataService {
         return COUNT;
     }
 
+    public static List<AVUser> getAnyUserByUsernameFuzy(String username) {
+        List<AVUser> users;
+        try {
+            AVQuery<AVUser> query = AVUser.getQuery();
+            query.whereContains("username", username);
+            users = query.find();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAnyUserByUsername error", e);
+            return null;
+        }
+        return users;
+    }
 
 }

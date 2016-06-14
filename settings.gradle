@@ -1,1 +1,1 @@
-include ':app', ':imageselector', ':leancloudchatkit'
+include ':app', ':imageselector', ':leancloudchatkit', ':searchview'

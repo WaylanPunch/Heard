@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_search_tag" />
+    <include layout="@layout/common_loading" />
 
     <com.lapism.searchview.SearchView
         android:id="@+id/searchView"

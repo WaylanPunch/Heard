@@ -112,6 +112,15 @@
         <activity
             android:name=".ui.activities.ChatActivity"
             android:label="@string/title_activity_chat"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activities.AboutActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_about"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".ui.activities.SearchUserActivity"
+            android:label="@string/title_activity_search_user"
             android:theme="@style/AppTheme"></activity>
     </application>
 
