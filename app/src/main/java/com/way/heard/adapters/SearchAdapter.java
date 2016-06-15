@@ -39,4 +39,21 @@ public class SearchAdapter extends ArrayAdapter<SearchItem> {
         return v;
     }
 
+    @Override
+    public int getCount() {
+        if (mSearchItem == null) {
+            return 0;
+        } else {
+            return mSearchItem.size();
+        }
+    }
+
+    @Override
+    public SearchItem getItem(int position) {
+        if (mSearchItem == null || mSearchItem.size() == 0) {
+            return null;
+        } else {
+            return mSearchItem.get(position);
+        }
+    }
 }

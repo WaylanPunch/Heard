@@ -19,8 +19,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.way.heard.R;
 import com.way.heard.adapters.ProfileViewPagerAdapter;
 import com.way.heard.ui.fragments.FolloweeFragment;
@@ -31,6 +35,10 @@ import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.leancloud.chatkit.LCChatKit;
+import cn.leancloud.chatkit.activity.LCIMConversationActivity;
+import cn.leancloud.chatkit.utils.LCIMConstants;
 
 public class ProfileActivity extends BaseActivity {
     private final static String TAG = ProfileActivity.class.getName();
@@ -164,6 +172,20 @@ public class ProfileActivity extends BaseActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_chat) {
+            LCChatKit.getInstance().open(AVUser.getCurrentUser().getUsername(), new AVIMClientCallback() {
+                @Override
+                public void done(AVIMClient avimClient, AVIMException e) {
+                    if (e != null) {
+                        Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    Intent intent = new Intent(ProfileActivity.this, LCIMConversationActivity.class);
+                    intent.putExtra(LCIMConstants.PEER_ID, currentUser.getUsername());
+                    startActivity(intent);
+                }
+            });
+//            Intent intent = new Intent(ProfileActivity.this, LCIMConversationActivity.class);
+//            intent.putExtra(LCIMConstants.PEER_ID, currentUser.getUsername());
+//            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

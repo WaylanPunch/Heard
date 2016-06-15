@@ -164,6 +164,11 @@ public class RepostActivity extends BaseActivity {
                     Toast.makeText(RepostActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
+            }
         }.execute();
     }
 

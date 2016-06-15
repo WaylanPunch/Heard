@@ -285,6 +285,11 @@ public class UserDisplayActivity extends BaseActivity {
                 }
                 setMoreData();
             }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
+            }
         }.execute();
     }
 

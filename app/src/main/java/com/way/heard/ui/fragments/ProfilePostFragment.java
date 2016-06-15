@@ -1,5 +1,6 @@
 package com.way.heard.ui.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ import java.util.List;
  */
 public class ProfilePostFragment extends Fragment {
     private final static String TAG = ProfilePostFragment.class.getName();
-
+    public static final int POST_REPOST_REQUEST = 1012;
     public static final String ARG_PAGE = "ARG_PAGE";
     private String userObjextId;
 
@@ -62,6 +63,7 @@ public class ProfilePostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userObjextId = getArguments().getString(ARG_PAGE);
+        LogUtil.d(TAG, "UserObjectId = " + userObjextId);
     }
 
     @Override
@@ -113,12 +115,29 @@ public class ProfilePostFragment extends Fragment {
             mAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
                 @Override
                 public void onImageClick(int pos) {
+//                    Post post = mPosts.get(pos);
+//                    Image image = post.tryGetPhotoList().get(0);
+//                    Intent intent = new Intent(context, ImageDisplayActivity.class);
+//                    intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
+//                    intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+//                    startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+
+                    LogUtil.d(TAG, "onImageClick debug, Position = " + pos);
                     Post post = mPosts.get(pos);
-                    Image image = post.tryGetPhotoList().get(0);
-                    Intent intent = new Intent(context, ImageDisplayActivity.class);
-                    intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
-                    intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
-                    startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+                    if (0 == post.getFrom()) {
+                        Image image = post.tryGetPhotoList().get(0);
+                        Intent intent = new Intent(context, ImageDisplayActivity.class);
+                        intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
+                        intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+                        startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+                    } else {
+                        Post postOriginal = post.tryGetPostOriginal();
+                        Image image = postOriginal.tryGetPhotoList().get(0);
+                        Intent intent = new Intent(context, ImageDisplayActivity.class);
+                        intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
+                        intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+                        startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+                    }
                 }
             });
             mAdapter.setOnRepostClickListener(new PostAdapter.OnRepostClickListener() {
@@ -131,16 +150,14 @@ public class ProfilePostFragment extends Fragment {
                         intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
                         intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post);
                         intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPhotoList());
-                        startActivity(intent);
-                        //startActivityForResult(intent, POST_REPOST_REQUEST);
+                        startActivityForResult(intent, POST_REPOST_REQUEST);
                     } else {
                         Intent intent = new Intent(context, RepostActivity.class);
                         intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
                         intent.putExtra(RepostActivity.REPOST_DETAIL, post);
                         intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post.tryGetPostOriginal());
                         intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPostOriginal().tryGetPhotoList());
-                        startActivity(intent);
-                        //startActivityForResult(intent, POST_REPOST_REQUEST);
+                        startActivityForResult(intent, POST_REPOST_REQUEST);
                     }
                 }
             });
@@ -174,7 +191,7 @@ public class ProfilePostFragment extends Fragment {
 
             @Override
             protected void doInBack() throws AVException {
-                List<Post> data = LeanCloudDataService.getAnyPublicPostsByPage((pageIndex - 1) * pageSize, pageSize);
+                List<Post> data = LeanCloudDataService.getAnyPublicPostsByUserByPage(userObjextId, (pageIndex - 1) * pageSize, pageSize);
                 if (mPosts == null) {
                     mPosts = new ArrayList<Post>();
                 }
@@ -195,6 +212,40 @@ public class ProfilePostFragment extends Fragment {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }
+
         }.execute();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.d(TAG, "onActivityResult debug, Request Code = " + requestCode + ", Result Code = " + resultCode);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ImageDisplayActivity.IMAGE_DISPLAY_REQUEST) {
+                try {
+//                    Bundle bundle = data.getExtras();
+//                    Image image = bundle.getParcelable(ImageDisplayActivity.IMAGE_DETAIL);
+//                    int pos = data.getIntExtra(ImageDisplayActivity.IMAGE_POST_INDEX, 0);//bundle.getInt(ImageDisplayActivity.IMAGE_POST_INDEX);
+//                    List<Image> images = new ArrayList<Image>();
+//                    images.add(image);
+//                    mPosts.get(pos).trySetPhotoList(images);
+//                    mAdapter.setPosts(mPosts);
+//                    mAdapter.notifyDataSetChanged();
+//                    LogUtil.d(TAG, "Position = " + pos);
+                } catch (Exception e) {
+                    LogUtil.e(TAG, "onActivityResult error", e);
+                }
+            } else if (requestCode == POST_REPOST_REQUEST) {
+                loadFirst();
+            }
+        }
     }
 }

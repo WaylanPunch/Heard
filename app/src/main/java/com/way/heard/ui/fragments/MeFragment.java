@@ -181,6 +181,11 @@ public class MeFragment extends Fragment {
                     initDataDelay();
                 }
             }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
+            }
         }.execute();
     }
 

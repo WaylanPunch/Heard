@@ -191,6 +191,11 @@ public class FollowerListActivity extends BaseActivity {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
+            }
         }.execute();
     }
 

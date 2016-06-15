@@ -268,5 +268,10 @@ public class PostActivity extends BaseActivity {
                 Toast.makeText(PostActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+
+        @Override
+        protected void onCancel() {
+            loading.stop();
+        }
     }
 }

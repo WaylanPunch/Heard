@@ -121,7 +121,8 @@
         <activity
             android:name=".ui.activities.SearchUserActivity"
             android:label="@string/title_activity_search_user"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.activities.SearchPostActivity"></activity>
     </application>
 
 </manifest>

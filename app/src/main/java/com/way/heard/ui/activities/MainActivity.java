@@ -258,6 +258,7 @@ public class MainActivity extends BaseActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
+            SearchPostActivity.go(MainActivity.this);
             return true;
         } else if (id == R.id.action_notification) {
             ChatActivity.go(MainActivity.this);

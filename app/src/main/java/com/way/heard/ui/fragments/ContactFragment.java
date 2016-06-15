@@ -153,6 +153,14 @@ public class ContactFragment extends Fragment {
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                @Override
+                protected void onCancel() {
+                    loading.stop();
+                    if (refreshLayout.isRefreshing()) {
+                        refreshLayout.setRefreshing(false);
+                    }
+                }
             }.execute();
         }
     }

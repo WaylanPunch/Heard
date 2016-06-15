@@ -174,6 +174,14 @@ public class UserPostActivity extends BaseActivity {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }
         }.execute();
     }
 

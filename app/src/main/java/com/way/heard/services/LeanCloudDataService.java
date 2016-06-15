@@ -391,14 +391,27 @@ public class LeanCloudDataService {
                 posts = query.find();
 
                 for (Post post : posts) {
-                    AVRelation<Image> photos = post.getPhotos();
-                    AVQuery<Image> photoQuery = photos.getQuery();
-                    List<Image> images = photoQuery.find();
-                    post.trySetPhotoList(images);
+                    if (0 == post.getFrom()) {//original post
+                        AVRelation<Image> photos = post.getPhotos();
+                        AVQuery<Image> photoQuery = photos.getQuery();
+                        List<Image> images = photoQuery.find();
+                        post.trySetPhotoList(images);
+                    } else {//repost
+                        AVQuery<Post> repostQuery = AVQuery.getQuery("Post");
+                        repostQuery.include(Post.AUTHOR);
+                        Post repost = repostQuery.get(post.getReplyOriginal().getObjectId());
+
+                        AVRelation<Image> repostPhotos = repost.getPhotos();
+                        AVQuery<Image> repostPhotoQuery = repostPhotos.getQuery();
+                        List<Image> repostImages = repostPhotoQuery.find();
+                        repost.trySetPhotoList(repostImages);
+
+                        post.trySetPostOriginal(repost);
+                    }
                 }
             }
         } catch (AVException e) {
-            LogUtil.e(TAG, "getAnyPublicPostsByPage debug, Failed", e);
+            LogUtil.e(TAG, "getAnyPublicPostsByUserByPage debug, Failed", e);
             return null;
         }
         return posts;
@@ -839,6 +852,57 @@ public class LeanCloudDataService {
             return null;
         }
         return users;
+    }
+
+    public static List<Tag> getAnyTagByContentFuzy(String content) {
+        List<Tag> tags;
+        try {
+            AVQuery<Tag> query = AVQuery.getQuery("Tag");
+            query.whereContains(Tag.CONTENT, content);
+            tags = query.find();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAnyTagByContentFuzy error", e);
+            return null;
+        }
+        return tags;
+    }
+
+    public static List<Post> getAnyPublicPostsByContentFuzy(String content) {
+        List<Post> posts = new ArrayList<>();
+        try {
+            AVQuery<Post> query = AVQuery.getQuery("Post");
+            query.whereEqualTo(Post.TYPE, 1);// public post
+            query.whereExists(Post.CONTENT);
+            query.whereContains(Post.CONTENT, content);
+            query.include(Post.AUTHOR);
+            query.include(Post.REPLYORIGINAL);
+            query.orderByDescending("createdAt");
+            posts = query.find();
+
+            for (Post post : posts) {
+                if (0 == post.getFrom()) {//original post
+                    AVRelation<Image> photos = post.getPhotos();
+                    AVQuery<Image> photoQuery = photos.getQuery();
+                    List<Image> images = photoQuery.find();
+                    post.trySetPhotoList(images);
+                } else {//repost
+                    AVQuery<Post> repostQuery = AVQuery.getQuery("Post");
+                    repostQuery.include(Post.AUTHOR);
+                    Post repost = repostQuery.get(post.getReplyOriginal().getObjectId());
+
+                    AVRelation<Image> repostPhotos = repost.getPhotos();
+                    AVQuery<Image> repostPhotoQuery = repostPhotos.getQuery();
+                    List<Image> repostImages = repostPhotoQuery.find();
+                    repost.trySetPhotoList(repostImages);
+
+                    post.trySetPostOriginal(repost);
+                }
+            }
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAnyPublicPostsByContentFuzy debug, Failed", e);
+            return null;
+        }
+        return posts;
     }
 
 }

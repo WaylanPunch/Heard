@@ -102,6 +102,7 @@ public class LCIMConversationFragment extends Fragment {
       @Override
       public void onRefresh() {
         AVIMMessage message = itemAdapter.getFirstMessage();
+
         if (null == message) {
           refreshLayout.setRefreshing(false);
         } else {

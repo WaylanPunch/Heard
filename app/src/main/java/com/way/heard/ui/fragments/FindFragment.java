@@ -175,6 +175,11 @@ public class FindFragment extends Fragment {
                     Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
+            }
         }.execute();
     }
 
@@ -215,6 +220,11 @@ public class FindFragment extends Fragment {
                 if (e != null) {
                     Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
             }
         }.execute();
     }

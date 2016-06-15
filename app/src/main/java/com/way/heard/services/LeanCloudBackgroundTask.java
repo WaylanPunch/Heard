@@ -45,10 +45,18 @@ public abstract class LeanCloudBackgroundTask extends AsyncTask<Void, Void, Void
         onPost(exception);
     }
 
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        onCancel();
+    }
+
     protected abstract void onPre();
 
     protected abstract void doInBack() throws AVException;
 
     protected abstract void onPost(AVException e);
+
+    protected abstract void onCancel();
 }
 

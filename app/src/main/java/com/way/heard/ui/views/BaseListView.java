@@ -114,6 +114,11 @@ public class BaseListView<T> extends XListView implements XListView.IXListViewLi
                     }
                 }
             }
+
+            @Override
+            protected void onCancel() {
+                //loading.stop();
+            }
         }.execute();
     }
 

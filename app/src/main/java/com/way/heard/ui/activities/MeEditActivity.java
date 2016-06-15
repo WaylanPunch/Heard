@@ -177,6 +177,11 @@ public class MeEditActivity extends AppCompatActivity {
                     finish();
                 }
             }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
+            }
         }.execute();
     }
 

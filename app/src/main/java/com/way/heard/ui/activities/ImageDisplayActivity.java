@@ -144,6 +144,11 @@ public class ImageDisplayActivity extends BaseActivity {
             mIntent.putExtra(IMAGE_DETAIL, photo);
             setResult(RESULT_OK, mIntent);
         }
+
+        @Override
+        protected void onCancel() {
+            loading.stop();
+        }
     }
 
     class SaveTask extends LeanCloudBackgroundTask {
@@ -168,6 +173,11 @@ public class ImageDisplayActivity extends BaseActivity {
             if (e != null) {
                 Toast.makeText(ImageDisplayActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        }
+
+        @Override
+        protected void onCancel() {
+            loading.stop();
         }
     }
 

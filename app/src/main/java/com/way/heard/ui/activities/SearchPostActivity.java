@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -25,9 +28,9 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
-import com.way.heard.adapters.SearchAdapter;
-import com.way.heard.models.SearchItem;
-import com.way.heard.models.Tag;
+import com.way.heard.adapters.PostAdapter;
+import com.way.heard.models.Image;
+import com.way.heard.models.Post;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.utils.InitiateSearch;
@@ -41,13 +44,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SearchTagActivity extends BaseActivity {
-    private final static String TAG = SearchTagActivity.class.getName();
-
-    public final static String SEARCH_TYPE = "SearchType";
-    public final static String SEARCH_RESULT = "SearchResult";
-    public final static int SEARCH_TYPE_TAG = 0;
-    public final static int SEARCH_TYPE_LOCATION = 1;
+public class SearchPostActivity extends AppCompatActivity {
+    private final static String TAG = SearchPostActivity.class.getName();
+    public static final int POST_REPOST_REQUEST = 1010;
 
     private InitiateSearch initiateSearch;
     private View line_divider;
@@ -55,30 +54,21 @@ public class SearchTagActivity extends BaseActivity {
     private CardView card_search;
     private ImageView image_search_back, clearSearch;
     private EditText edit_text_search;
-    private ListView listView, listContainer;
+    private ListView listView;
+    private RecyclerView listContainer;
     private LogQuickSearchAdapter logQuickSearchAdapter;
     private Set<String> set;
-    private ArrayList<SearchItem> mSearchItem;
+    private List<Post> searchPosts;
+    private PostAdapter searchPostAdapter;
     private RotateLoading loading;
-    private SearchAdapter searchAdapter;
     private LeanCloudBackgroundTask backgroundTask;
-    private Intent mIntent;
-    private static String mSearchResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_tag);
-
-        getParamData();
+        setContentView(R.layout.activity_search_post);
 
         initView();
-    }
-
-    private void getParamData() {
-        mIntent = getIntent();
-        int searchtype = mIntent.getIntExtra(SEARCH_TYPE, -1);
-        LogUtil.d(TAG, "getParamData debug, SEARCH_TYPE = " + searchtype);
     }
 
     private void initView() {
@@ -90,19 +80,67 @@ public class SearchTagActivity extends BaseActivity {
         image_search_back = (ImageView) findViewById(R.id.image_search_back);
         clearSearch = (ImageView) findViewById(R.id.clearSearch);
         listView = (ListView) findViewById(R.id.listView);
-        listContainer = (ListView) findViewById(R.id.listContainer);
+        listContainer = (RecyclerView) findViewById(R.id.listContainer);
         loading = (RotateLoading) findViewById(R.id.loading);
         logQuickSearchAdapter = new LogQuickSearchAdapter(this, 0, LogQuickSearch.all());
-        mSearchItem = new ArrayList<>();
-        searchAdapter = new SearchAdapter(this, mSearchItem);
+
+        searchPosts = new ArrayList<>();
         listView.setAdapter(logQuickSearchAdapter);
-        listContainer.setAdapter(searchAdapter);
         set = new HashSet<>();
 
+        initAdapter();
         initTypeFace();
         initSearchView();
         initSearchHandle();
         isAdapterEmpty();
+    }
+
+    private void initAdapter(){
+        searchPostAdapter = new PostAdapter(SearchPostActivity.this);
+        searchPostAdapter.setPosts(searchPosts);
+        searchPostAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
+            @Override
+            public void onImageClick(int pos) {
+                LogUtil.d(TAG, "onImageClick debug, Position = " + pos);
+                Post post = searchPosts.get(pos);
+                if (0 == post.getFrom()) {
+                    Image image = post.tryGetPhotoList().get(0);
+                    Intent intent = new Intent(SearchPostActivity.this, ImageDisplayActivity.class);
+                    intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
+                    intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+                    startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+                } else {
+                    Post postOriginal = post.tryGetPostOriginal();
+                    Image image = postOriginal.tryGetPhotoList().get(0);
+                    Intent intent = new Intent(SearchPostActivity.this, ImageDisplayActivity.class);
+                    intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
+                    intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
+                    startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
+                }
+            }
+        });
+        searchPostAdapter.setOnRepostClickListener(new PostAdapter.OnRepostClickListener() {
+            @Override
+            public void onRepostClick(int pos) {
+                LogUtil.d(TAG, "onRepostClick debug, Position = " + pos);
+                Post post = searchPosts.get(pos);
+                if (0 == post.getFrom()) {
+                    Intent intent = new Intent(SearchPostActivity.this, RepostActivity.class);
+                    intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
+                    intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post);
+                    intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPhotoList());
+                    startActivityForResult(intent, POST_REPOST_REQUEST);
+                } else {
+                    Intent intent = new Intent(SearchPostActivity.this, RepostActivity.class);
+                    intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
+                    intent.putExtra(RepostActivity.REPOST_DETAIL, post);
+                    intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post.tryGetPostOriginal());
+                    intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPostOriginal().tryGetPhotoList());
+                    startActivityForResult(intent, POST_REPOST_REQUEST);
+                }
+            }
+        });
+        listContainer.setAdapter(searchPostAdapter);
     }
 
     private void initTypeFace() {
@@ -119,20 +157,18 @@ public class SearchTagActivity extends BaseActivity {
                 listView.setVisibility(View.GONE);
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(edit_text_search.getWindowToken(), 0);
 
-                searchAllTags(logQuickSearch.getName(), 0);
+                getSearchResult(logQuickSearch.getName());
             }
         });
-        listContainer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SearchItem item = searchAdapter.getItem(position);
-                if (item != null) {
-                    mSearchResult = item.getTitle();
-                    turnBack();
-                }
-            }
-        });
-
+        listContainer.setHasFixedSize(false);
+        listContainer.setLayoutManager(new LinearLayoutManager(SearchPostActivity.this));
+//        listContainer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                AVUser user = searchUserAdapter.getItem(position);
+//                ProfileActivity.go(SearchPostActivity.this, user);
+//            }
+//        });
 
         edit_text_search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -143,12 +179,12 @@ public class SearchTagActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (edit_text_search.getText().toString().length() == 0) {
-                    logQuickSearchAdapter = new LogQuickSearchAdapter(SearchTagActivity.this, 0, LogQuickSearch.all());
+                    logQuickSearchAdapter = new LogQuickSearchAdapter(SearchPostActivity.this, 0, LogQuickSearch.all());
                     listView.setAdapter(logQuickSearchAdapter);
                     clearSearch.setImageResource(R.drawable.ic_microphone_gray);
                     isAdapterEmpty();
                 } else {
-                    logQuickSearchAdapter = new LogQuickSearchAdapter(SearchTagActivity.this, 0, LogQuickSearch.FilterByName(edit_text_search.getText().toString()));
+                    logQuickSearchAdapter = new LogQuickSearchAdapter(SearchPostActivity.this, 0, LogQuickSearch.FilterByName(edit_text_search.getText().toString()));
                     listView.setAdapter(logQuickSearchAdapter);
                     clearSearch.setImageResource(R.drawable.ic_close_gray);
                     isAdapterEmpty();
@@ -170,7 +206,7 @@ public class SearchTagActivity extends BaseActivity {
                     edit_text_search.setText("");
                     listView.setVisibility(View.VISIBLE);
                     clearItems();
-                    ((InputMethodManager) SearchTagActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    ((InputMethodManager) SearchPostActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                     isAdapterEmpty();
                 }
             }
@@ -181,7 +217,7 @@ public class SearchTagActivity extends BaseActivity {
         image_search_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initiateSearch.handleNoToolBar(SearchTagActivity.this, card_search, view_search, listView, edit_text_search, line_divider);
+                initiateSearch.handleNoToolBar(SearchPostActivity.this, card_search, view_search, listView, edit_text_search, line_divider);
                 listContainer.setVisibility(View.GONE);
 
                 clearItems();
@@ -196,10 +232,9 @@ public class SearchTagActivity extends BaseActivity {
                     if (edit_text_search.getText().toString().trim().length() > 0) {
                         clearItems();
                         ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(edit_text_search.getWindowToken(), 0);
-                        UpdateQuickSearch(edit_text_search.getText().toString());
+                        updateQuickSearch(edit_text_search.getText().toString());
                         listView.setVisibility(View.GONE);
-                        searchAllTags(edit_text_search.getText().toString(), 0);
-
+                        getSearchResult(edit_text_search.getText().toString());
                     }
                     return true;
                 }
@@ -208,7 +243,7 @@ public class SearchTagActivity extends BaseActivity {
         });
     }
 
-    private void UpdateQuickSearch(String item) {
+    private void updateQuickSearch(String item) {
         for (int i = 0; i < logQuickSearchAdapter.getCount(); i++) {
             LogQuickSearch ls = logQuickSearchAdapter.getItem(i);
             String name = ls.getName();
@@ -226,8 +261,8 @@ public class SearchTagActivity extends BaseActivity {
 
     private void clearItems() {
         listContainer.setVisibility(View.GONE);
-        mSearchItem.clear();
-        searchAdapter.notifyDataSetChanged();
+        searchPosts.clear();
+        searchPostAdapter.notifyDataSetChanged();
     }
 
     private void isAdapterEmpty() {
@@ -238,9 +273,10 @@ public class SearchTagActivity extends BaseActivity {
         }
     }
 
-    private void searchAllTags(final String query, final int page_num) {
+    private void getSearchResult(final String query) {
+        LogUtil.d(TAG, "getSearchResult debug");
+        backgroundTask = new LeanCloudBackgroundTask(SearchPostActivity.this) {
 
-        backgroundTask = new LeanCloudBackgroundTask(SearchTagActivity.this) {
             @Override
             protected void onPre() {
                 loading.start();
@@ -248,28 +284,21 @@ public class SearchTagActivity extends BaseActivity {
 
             @Override
             protected void doInBack() throws AVException {
-                for (int i = 0; i < 9; i++) {
-                    if (mSearchItem == null) {
-                        mSearchItem = new ArrayList<>();
-                    }
-                    mSearchItem.clear();
-                    mSearchItem.add(new SearchItem(query, "", "Please Insert Your Tag", ""));
-                    List<Tag> tags = LeanCloudDataService.getAnyTagByContentFuzy(query);
-                    if (tags != null && tags.size() > 0) {
-                        for (Tag tag : tags) {
-                            mSearchItem.add(new SearchItem(tag.getContent(), "", tag.getUsage() + "", ""));
-                        }
-                    }
+                searchPosts = LeanCloudDataService.getAnyPublicPostsByContentFuzy(query);
+                if (searchPosts == null) {
+                    searchPosts = new ArrayList<Post>();
                 }
             }
 
             @Override
             protected void onPost(AVException e) {
                 loading.stop();
-                searchAdapter.notifyDataSetChanged();
+                LogUtil.d(TAG, "getSearchResult debug, Result Count = " + searchPosts.size());
                 if (e == null) {
-                    if (mSearchItem.size() > 0) {
-
+                    searchPostAdapter.setPosts(searchPosts);
+                    searchPostAdapter.notifyDataSetChanged();
+                    if (searchPosts != null && searchPosts.size() > 0) {
+                        LogUtil.d(TAG, "getSearchResult debug, View.VISIBLE");
                         TranslateAnimation slide = new TranslateAnimation(0, 0, listContainer.getHeight(), 0);
                         slide.setAnimationListener(new Animation.AnimationListener() {
                             @Override
@@ -290,13 +319,13 @@ public class SearchTagActivity extends BaseActivity {
                         slide.setDuration(300);
                         listContainer.startAnimation(slide);
                         listContainer.setVerticalScrollbarPosition(0);
-                        listContainer.setSelection(0);
+                        //listContainer.setSelected(true);
                     } else {
                         listContainer.setVisibility(View.GONE);
                     }
                 } else {
                     listContainer.setVisibility(View.GONE);
-                    Toast.makeText(SearchTagActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchPostActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -305,18 +334,37 @@ public class SearchTagActivity extends BaseActivity {
                 loading.stop();
             }
         };
+
         backgroundTask.execute();
     }
 
-    public static void go(Activity activity, int searchType, int requestCode) {
-        Intent intent = new Intent(activity, SearchTagActivity.class);
-        intent.putExtra(SearchTagActivity.SEARCH_TYPE, searchType);
-        activity.startActivityForResult(intent, requestCode);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.d(TAG, "onActivityResult debug, Request Code = " + requestCode + ", Result Code = " + resultCode);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == ImageDisplayActivity.IMAGE_DISPLAY_REQUEST) {
+                try {
+//                    Bundle bundle = data.getExtras();
+//                    Image image = bundle.getParcelable(ImageDisplayActivity.IMAGE_DETAIL);
+//                    int pos = data.getIntExtra(ImageDisplayActivity.IMAGE_POST_INDEX, 0);//bundle.getInt(ImageDisplayActivity.IMAGE_POST_INDEX);
+//                    List<Image> images = new ArrayList<Image>();
+//                    images.add(image);
+//                    mPosts.get(pos).trySetPhotoList(images);
+//                    mAdapter.setPosts(mPosts);
+//                    mAdapter.notifyDataSetChanged();
+//                    LogUtil.d(TAG, "Position = " + pos);
+                } catch (Exception e) {
+                    LogUtil.e(TAG, "onActivityResult error", e);
+                }
+            } else if (requestCode == POST_REPOST_REQUEST) {
+                getSearchResult(edit_text_search.getText().toString());
+            }
+        }
     }
 
-    private void turnBack() {
-        mIntent.putExtra(SEARCH_RESULT, mSearchResult);
-        setResult(RESULT_OK, mIntent);
-        finish();
+    public static void go(Context context) {
+        Intent intent = new Intent(context, SearchPostActivity.class);
+        context.startActivity(intent);
     }
 }

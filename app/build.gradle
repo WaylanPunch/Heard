@@ -96,6 +96,5 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.github.stuxuhai:jpinyin:1.1.5'
     compile 'com.afollestad.material-dialogs:core:0.8.5.9'
-    compile project(':searchview')
     compile files('libs/androrm.jar')
 }

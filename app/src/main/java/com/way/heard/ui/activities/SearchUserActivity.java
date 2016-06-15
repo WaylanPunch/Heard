@@ -105,6 +105,14 @@ public class SearchUserActivity extends AppCompatActivity {
                 getSearchResult(logQuickSearch.getName());
             }
         });
+        listContainer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AVUser user = searchUserAdapter.getItem(position);
+                ProfileActivity.go(SearchUserActivity.this, user);
+            }
+        });
+
         edit_text_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -261,6 +269,11 @@ public class SearchUserActivity extends AppCompatActivity {
                     listContainer.setVisibility(View.GONE);
                     Toast.makeText(SearchUserActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            protected void onCancel() {
+                loading.stop();
             }
         }.execute();
     }

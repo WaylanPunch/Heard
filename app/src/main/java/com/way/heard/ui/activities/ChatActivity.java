@@ -228,6 +228,11 @@ public class ChatActivity extends BaseActivity {
                         Toast.makeText(ChatActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                @Override
+                protected void onCancel() {
+                    //loading.stop();
+                }
             }.execute();
         }
 
