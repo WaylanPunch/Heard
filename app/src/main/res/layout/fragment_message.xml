@@ -5,19 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<android.support.design.widget.TabLayout-->
-        <!--android:id="@+id/tablayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--app:tabIndicatorColor="@android:color/white"-->
-        <!--app:tabSelectedTextColor="@android:color/white"-->
-        <!--app:tabTextColor="@color/colorHintText" />-->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_message_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@color/colorHintText" />
 
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/pager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"></android.support.v4.view.ViewPager>-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_message_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></android.support.v4.view.ViewPager>
 
 </LinearLayout>

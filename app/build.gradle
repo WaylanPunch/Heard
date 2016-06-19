@@ -8,7 +8,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 4
-        versionName '4.1'
+        versionName '4.6'
 
         ndk {
             //设置支持的SO库架构

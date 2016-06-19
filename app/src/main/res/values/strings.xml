@@ -155,4 +155,5 @@
     <string name="imate_back">Back</string>
     <string name="edit_text_search">SEARCH</string>
     <string name="voice_cancel">Voice Cancel</string>
+    <string name="title_activity_notification">NotificationActivity</string>
 </resources>

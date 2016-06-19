@@ -7,10 +7,12 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVFriendship;
 import com.avos.avoscloud.AVFriendshipQuery;
+import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
+import com.way.heard.base.CONFIG;
 import com.way.heard.models.Article;
 import com.way.heard.models.BannerModel;
 import com.way.heard.models.Comment;
@@ -267,7 +269,18 @@ public class LeanCloudDataService {
 
     public static boolean loginWithUsername(String username, String password) {
         try {
+            LogUtil.d(TAG, "loginWithUsername");
             AVUser.logIn(username, password);
+
+            //AVInstallation
+            AVInstallation.getCurrentInstallation().save();
+            String installationId = AVInstallation.getCurrentInstallation().getInstallationId();
+            LogUtil.d(TAG, "loginWithUsername, InstallationId = " + installationId);
+            if(!TextUtils.isEmpty(installationId)) {
+                AVUser currentuser = AVUser.getCurrentUser();
+                currentuser.put(CONFIG.AVUser_InstallationId, installationId);
+                currentuser.save();
+            }
         } catch (AVException e) {
             LogUtil.e(TAG, "loginWithUsername debug, Failed", e);
             return false;
@@ -277,11 +290,20 @@ public class LeanCloudDataService {
 
     public static boolean signUpWithUsername(String username, String password) {
         try {
-            AVUser user = new AVUser();// 新建 AVUser 对象实例
-            user.setUsername(username);// 设置用户名
-            user.setPassword(password);// 设置密码
-            //user.setEmail("tom@leancloud.cn");// 设置邮箱
-            user.signUp();
+            LogUtil.d(TAG, "signUpWithUsername");
+            //AVInstallation
+            AVInstallation.getCurrentInstallation().save();
+            String installationId = AVInstallation.getCurrentInstallation().getInstallationId();
+            LogUtil.d(TAG, "loginWithUsername, InstallationId = " + installationId);
+            if(!TextUtils.isEmpty(installationId)) {
+                AVUser user = new AVUser();// 新建 AVUser 对象实例
+                user.setUsername(username);// 设置用户名
+                user.setPassword(password);// 设置密码
+                //user.setEmail("tom@leancloud.cn");// 设置邮箱
+
+                user.put(CONFIG.AVUser_InstallationId, installationId);
+                user.signUp();
+            }
         } catch (AVException e) {
             LogUtil.e(TAG, "signUpWithUsername debug, Failed", e);
             return false;

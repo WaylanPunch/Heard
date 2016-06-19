@@ -261,7 +261,7 @@ public class MainActivity extends BaseActivity
             SearchPostActivity.go(MainActivity.this);
             return true;
         } else if (id == R.id.action_notification) {
-            ChatActivity.go(MainActivity.this);
+            NotificationActivity.go(MainActivity.this);
             return true;
         } else if (id == R.id.action_me) {
 //            Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
@@ -305,7 +305,7 @@ public class MainActivity extends BaseActivity
                 topicFragment = TopicFragment.newInstance(2);
             }
             switchContent(topicFragment, 2);
-        } else if (id == R.id.nav_notification) {
+        } else if (id == R.id.nav_message) {
             //replaceFragment(4);
             if (messageFragment == null) {
                 messageFragment = MessageFragment.newInstance(3);

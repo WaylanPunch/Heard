@@ -3,12 +3,21 @@ package com.way.heard.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.way.heard.R;
+
+import java.util.Arrays;
+import java.util.List;
+
+import cn.leancloud.chatkit.activity.LCIMConversationListFragment;
 
 
 /**
@@ -18,9 +27,9 @@ public class MessageFragment extends Fragment {
     private final static String TAG = MessageFragment.class.getName();
 
     public static final String MESSAGE = "Message";
-//    private ViewPager viewPager;
-//    private TabLayout tabLayout;
 
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     public MessageFragment() {
         // Required empty public constructor
@@ -50,58 +59,49 @@ public class MessageFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        viewPager = (ViewPager) view.findViewById(R.id.pager);
-//        tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
+        viewPager = (ViewPager) view.findViewById(R.id.vp_message_pager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tl_message_tablayout);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        initTabLayout();
+        initTabLayout();
     }
 
-    /*
     private void initTabLayout() {
-        LogUtil.d(TAG, "initTabLayout debug");
-        try {
-            String[] tabList = new String[]{"会话", "联系人", "我"};
-            final Fragment[] fragmentList = new Fragment[]{new ConversationFragment(),
-                    new ContactFragment(), new PersonalProfileFragment()};
+        String[] tabList = new String[]{"会话", "联系人"};
+        final Fragment[] fragmentList = new Fragment[]{new LCIMConversationListFragment(),
+                new ContactFragment()};
 
-            tabLayout.setTabMode(TabLayout.MODE_FIXED);
-            for (int i = 0; i < tabList.length; i++) {
-                tabLayout.addTab(tabLayout.newTab().setText(tabList[i]));
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        for (int i = 0; i < tabList.length; i++) {
+            tabLayout.addTab(tabLayout.newTab().setText(tabList[i]));
+        }
+
+        TabFragmentAdapter adapter = new TabFragmentAdapter(getChildFragmentManager(),
+                Arrays.asList(fragmentList), Arrays.asList(tabList));
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
-            TabFragmentAdapter adapter = new TabFragmentAdapter(getChildFragmentManager(),
-                    Arrays.asList(fragmentList), Arrays.asList(tabList));
-            viewPager.setAdapter(adapter);
-            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            @Override
+            public void onPageSelected(int position) {
+                if (0 == position) {
+                    // EventBus.getDefault().post(new ConversationFragmentUpdateEvent());
                 }
+            }
 
-                @Override
-                public void onPageSelected(int position) {
-                    if (0 == position) {
-                        //EventBus.getDefault().post(new ConversationFragmentUpdateEvent());
-                    }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                }
-            });
-            tabLayout.setupWithViewPager(viewPager);
-            tabLayout.setTabsFromPagerAdapter(adapter);
-        } catch (Exception e) {
-            LogUtil.e(TAG, "initTabLayout error", e);
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabsFromPagerAdapter(adapter);
     }
-    */
 
-    /*
     public class TabFragmentAdapter extends FragmentStatePagerAdapter {
 
         private List<Fragment> mFragments;
@@ -128,5 +128,4 @@ public class MessageFragment extends Fragment {
             return mTitles.get(position);
         }
     }
-    */
 }
