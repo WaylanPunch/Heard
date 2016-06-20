@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class RepostActivity extends BaseActivity {
     public final static String REPOST_FROM = "RepostFrom";
     public final static String REPOST_DETAIL = "RepostDetail";
 
+    private Toolbar toolbar;
     private Context context;
     private EditText etContent;
     private ImageView ivOrinPhoto;
@@ -49,8 +51,7 @@ public class RepostActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repost);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initToolBar();
         context = this;
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +64,19 @@ public class RepostActivity extends BaseActivity {
         getParamData();
         initView();
         initData();
+    }
+
+    private void initToolBar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Repost");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void getParamData() {

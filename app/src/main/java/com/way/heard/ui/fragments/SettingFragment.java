@@ -93,7 +93,7 @@ public class SettingFragment extends Fragment{
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 FileUtil.clearAllCache(getContext());
-                                tv_CacheValue.setText("0B");
+                                tv_CacheValue.setText("0K");
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {

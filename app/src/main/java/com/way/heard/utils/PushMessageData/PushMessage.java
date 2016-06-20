@@ -88,6 +88,11 @@ public class PushMessage extends Model {
         return PushMessage.objects().all().orderBy("-date").toList();
     }
 
+//    public static void deleteAll(){
+//        DeleteStatement mDelete=new DeleteStatement();
+//        mDelete.from("PushMessage");
+//    }
+
     public static List<PushMessage> FilterByMessageContent(String content) {
         Filter filter = new Filter();
         filter.contains("message_content", content);

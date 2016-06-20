@@ -3,6 +3,7 @@ package com.way.heard.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,26 +12,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVInstallation;
-import com.avos.avoscloud.AVPush;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.SendCallback;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.avos.avoscloud.AVUser;
 import com.way.heard.R;
 import com.way.heard.adapters.PushMessageAdapter;
-import com.way.heard.base.CONFIG;
 import com.way.heard.utils.LogUtil;
 import com.way.heard.utils.PushMessageData.PushMessage;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
 public class NotificationActivity extends AppCompatActivity {
     private static final String TAG = NotificationActivity.class.getName();
+
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
+    private RecyclerView recyclerView;
+    private List<PushMessage> messages;
+    private PushMessageAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,28 +40,40 @@ public class NotificationActivity extends AppCompatActivity {
         LogUtil.d(TAG, "onCreate debug");
 
         initToolBar();
-
+        initFloatingActionButton();
         initView();
     }
 
     private void initToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    }
-
-    private RecyclerView recyclerView;
-    private List<PushMessage> messages;
-    private PushMessageAdapter adapter;
-
-    private void initView() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Notification");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                clearAllPushMessage();
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
+    }
 
+    private void initFloatingActionButton() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        String testAdminUsername = AVUser.getCurrentUser().getUsername();
+        if (testAdminUsername.equalsIgnoreCase("test")) {// == test
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NotificationSendActivity.go(NotificationActivity.this);
+                }
+            });
+        } else {// != test
+            fab.setVisibility(View.GONE);
+        }
+    }
+
+    private void initView() {
         recyclerView = (RecyclerView) findViewById(R.id.id_notification_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(NotificationActivity.this);
         recyclerView.setLayoutManager(layoutManager);
@@ -85,11 +98,6 @@ public class NotificationActivity extends AppCompatActivity {
             LogUtil.e(TAG, "refreshData error", e);
         }
     }
-
-    private void clearAllPushMessage() {
-
-    }
-
 
     @Override
     protected void onRestart() {
@@ -139,85 +147,40 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_notification_pushtoall) {
-            sendTestPushToAll();
-            return true;
-        } else if (id == R.id.action_notification_pushtochannel) {
-            sendTestPushToChannel();
-            return true;
-        } else if (id == R.id.action_notification_pushtouser) {
-            sendTestPushToUser();
+        if (id == R.id.action_notification_clearall) {
+            int count = messages == null ? 0 : messages.size();
+            new MaterialDialog.Builder(NotificationActivity.this)
+                    .title("Clear All Notifications?")
+                    .content(count+" " + "Notifications")
+                    .positiveText("DELETE")
+                    .negativeText("CANCEL")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            clearAllPushMessage();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendTestPushToAll() {
-        try {
-            AVPush push = new AVPush();
-            JSONObject object = new JSONObject();
-            object.put("alert", "Push To All, push message to all android device directly");
-            push.setPushToAndroid(true);
-            push.setData(object);
-            push.sendInBackground(new SendCallback() {
-                @Override
-                public void done(AVException e) {
-                    if (e == null) {
-                        Toast.makeText(NotificationActivity.this, "Push To All Successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(NotificationActivity.this, "Push To All Failed," + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            Toast.makeText(NotificationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void sendTestPushToChannel() {
-        try {
-            AVQuery pushQuery = AVInstallation.getQuery();
-            pushQuery.whereEqualTo("channels", CONFIG.Push_Channel_Public);
-            AVPush push = new AVPush();
-            push.setQuery(pushQuery);
-            //push.setMessage("Push To Channel, push message to public channel");
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("action", "com.way.heard.ui.activities.NotificationActivity.action");
-            jsonObject.put("alert", "Push To Channel, push message to public channel");
-
-            push.setData(jsonObject);
-            push.setPushToAndroid(true);
-            push.sendInBackground(new SendCallback() {
-                @Override
-                public void done(AVException e) {
-                    if (e == null) {
-                        Toast.makeText(NotificationActivity.this, "Push To Channel Successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(NotificationActivity.this, "Push To Channel Failed," + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            Toast.makeText(NotificationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void sendTestPushToUser() {
-        AVQuery pushQuery = AVInstallation.getQuery();
-        // 假设 THE_INSTALLATION_ID 是保存在用户表里的 installationId，
-        // 可以在应用启动的时候获取并保存到用户表
-        pushQuery.whereEqualTo("installationId", AVInstallation.getCurrentInstallation().getInstallationId());
-        AVPush.sendMessageInBackground("Push To User, push message to installation", pushQuery, new SendCallback() {
-            @Override
-            public void done(AVException e) {
-                if (e == null) {
-                    Toast.makeText(NotificationActivity.this, "Push To User Successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(NotificationActivity.this, "Push To User Failed," + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+    private void clearAllPushMessage() {
+        if(messages!=null&&messages.size()>0){
+            for(PushMessage item :messages){
+                item.delete();
             }
-        });
+        }
+        refreshData();
     }
+
 
     public static void go(Context context) {
         Intent intent = new Intent(context, NotificationActivity.class);

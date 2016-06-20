@@ -32,6 +32,10 @@
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_simple.xml"
     },
     {
+        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
+        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_material.xml",
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_alert_dialog_material.xml"
     },
@@ -42,10 +46,6 @@
     {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\lcim_bottom_bar_action_layout.xml",
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\src\\main\\res\\layout\\lcim_bottom_bar_action_layout.xml"
-    },
-    {
-        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
-        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
     },
     {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\lcim_conversation_item.xml",
@@ -192,12 +192,12 @@
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\src\\main\\res\\layout\\lcim_chat_image_brower_layout.xml"
     },
     {
-        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\support_simple_spinner_dropdown_item.xml",
-        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\support_simple_spinner_dropdown_item.xml"
-    },
-    {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_up_container.xml",
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_action_bar_up_container.xml"
+    },
+    {
+        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\support_simple_spinner_dropdown_item.xml",
+        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\support_simple_spinner_dropdown_item.xml"
     },
     {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_item_material.xml",

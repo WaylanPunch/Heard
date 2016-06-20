@@ -36,6 +36,7 @@ public class PostDisplayActivity extends BaseActivity {
     public final static String POST_DETAIL = "PostDetail";
     private static String postObjectID;
 
+    private Toolbar toolbar;
     private Context context;
     private LinearLayout llCommentContainer;
     private EditText etCommentContent;
@@ -79,12 +80,13 @@ public class PostDisplayActivity extends BaseActivity {
 
     private void setToolBar() {
         try {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setHomeButtonEnabled(true);
+            //getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            //getSupportActionBar().setDisplayShowTitleEnabled(false);
             //mToolbar.setNavigationIcon(R.drawable.btn_back);
+            getSupportActionBar().setTitle("Comment");
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

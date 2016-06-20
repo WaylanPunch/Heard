@@ -35,6 +35,7 @@ public class MeEditActivity extends AppCompatActivity {
     public final static int ME_EDIT_REQUEST = 1008;
     public static final int IMAGE_PICK_REQUEST = 1010;
 
+    private Toolbar toolbar;
     private ImageView ivAvatar;
     private ImageView ivAvatarNew;
     private ImageView ivAvatarAction;
@@ -56,9 +57,16 @@ public class MeEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_edit);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Edit Me");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Update");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         getParamData();
         initView();

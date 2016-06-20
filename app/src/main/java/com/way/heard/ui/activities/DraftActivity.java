@@ -37,7 +37,7 @@ public class DraftActivity extends BaseActivity {
     private static final String EXAMPLE = BOLD + ITALIT + UNDERLINE + STRIKETHROUGH + BULLET + QUOTE + LINK;
 
     private KnifeText knife;
-
+    private Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +61,11 @@ public class DraftActivity extends BaseActivity {
 
     private void setToolBar() {
         LogUtil.d(TAG, "setToolBar debug, Title = " + title);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.tb_draft_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.tb_draft_toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         mToolbar.setTitle(title);
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

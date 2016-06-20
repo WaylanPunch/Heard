@@ -128,12 +128,12 @@
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_seekbar_thumb_material.xml"
     },
     {
-        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
-        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_btn_colored_material.xml"
-    },
-    {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_edit_text_material.xml",
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_edit_text_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
+        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_btn_colored_material.xml"
     },
     {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",

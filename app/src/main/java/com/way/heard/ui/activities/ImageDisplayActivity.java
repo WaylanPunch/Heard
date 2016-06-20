@@ -37,6 +37,7 @@ public class ImageDisplayActivity extends BaseActivity {
     private List<String> likeObjectIDs;
     private boolean isLiked = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

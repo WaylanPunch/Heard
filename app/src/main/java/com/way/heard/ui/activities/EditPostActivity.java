@@ -39,7 +39,7 @@ public class EditPostActivity extends BaseActivity {
     private EditText etTag;
     private CheckBox cbPrivate;
 
-
+    private Toolbar toolbar;
     private PhotoViewAdapter adapter;
 
     private ArrayList<String> photopaths = new ArrayList<>();
@@ -48,8 +48,16 @@ public class EditPostActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Edit");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         initView();
         initData();

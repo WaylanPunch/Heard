@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
@@ -34,7 +35,7 @@ public class UserPostActivity extends BaseActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AutoLoadRecyclerView mRecyclerView;
     private RotateLoading loading;
-
+    private Toolbar toolbar;
     private String userobjectId;
     private int displayType = 1;
     private PostAdapter mAdapter;
@@ -47,8 +48,7 @@ public class UserPostActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_post);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initToolBar();
 
         context = this;
 
@@ -63,6 +63,19 @@ public class UserPostActivity extends BaseActivity {
         getParamData();
         initView();
         initData();
+    }
+
+    private void initToolBar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Post");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void getParamData() {

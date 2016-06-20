@@ -53,13 +53,16 @@ public class UserDisplayActivity extends BaseActivity {
     private TextView tvChatAction;
     private TextView tvFollowAction;
     private RotateLoading loading;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_display);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        getParamData();
+        initToolBar();
+
         context = this;
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +73,7 @@ public class UserDisplayActivity extends BaseActivity {
 //            }
 //        });
 
-        getParamData();
+
         initView();
     }
 
@@ -84,6 +87,22 @@ public class UserDisplayActivity extends BaseActivity {
             LogUtil.e(TAG, "getParamData error", e);
         }
     }
+
+    private void initToolBar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (user != null) {
+            getSupportActionBar().setTitle(user.getUsername());
+        }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
 
     private void initView() {
         ivCover = (ImageView) findViewById(R.id.iv_user_display_cover);

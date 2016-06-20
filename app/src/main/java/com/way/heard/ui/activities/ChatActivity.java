@@ -42,7 +42,7 @@ public class ChatActivity extends BaseActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +54,10 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void initToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setTitle(getString(R.string.title_activity_chat));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Chat");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

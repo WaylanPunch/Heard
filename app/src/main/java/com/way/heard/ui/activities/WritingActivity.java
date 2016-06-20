@@ -52,7 +52,7 @@ public class WritingActivity extends BaseActivity {
     private final int REQUEST_CODE_GALLERY = 1001;
     private final int REQUEST_CODE_CROP = 1002;
     private final int REQUEST_CODE_EDIT = 1003;
-
+    private Toolbar mToolbar;
     private static String articleContent;
     private static List<String> tagsData = null;
     private ProgressBar progressBar;
@@ -78,12 +78,13 @@ public class WritingActivity extends BaseActivity {
 
     private void setToolBar() {
         LogUtil.d(TAG, "setToolBar debug");
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.tb_writing_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.tb_writing_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         //mToolbar.setNavigationIcon(R.drawable.btn_back);
+        getSupportActionBar().setTitle("Send");
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

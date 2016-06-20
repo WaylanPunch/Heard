@@ -3,21 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.way.heard.ui.activities.NotificationActivity">
     <item
-        android:id="@+id/action_notification_pushtoall"
+        android:id="@+id/action_notification_clearall"
         android:orderInCategory="100"
-        android:title="PUSH TO ALL"
-        android:icon="@drawable/ic_message"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_notification_pushtochannel"
-        android:orderInCategory="101"
-        android:title="PUSH TO CHANNEL"
-        android:icon="@drawable/ic_message"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_notification_pushtouser"
-        android:orderInCategory="102"
-        android:title="PUSH TO USER"
-        android:icon="@drawable/ic_message"
-        app:showAsAction="never" />
+        android:title="CLEAR ALL"
+        android:icon="@drawable/ic_notification_clear_all_white"
+        app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/action_notification_pushtoall"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="PUSH TO ALL"-->
+        <!--android:icon="@drawable/ic_message"-->
+        <!--app:showAsAction="never" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_notification_pushtochannel"-->
+        <!--android:orderInCategory="101"-->
+        <!--android:title="PUSH TO CHANNEL"-->
+        <!--android:icon="@drawable/ic_message"-->
+        <!--app:showAsAction="never" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_notification_pushtouser"-->
+        <!--android:orderInCategory="102"-->
+        <!--android:title="PUSH TO USER"-->
+        <!--android:icon="@drawable/ic_message"-->
+        <!--app:showAsAction="never" />-->
 </menu>

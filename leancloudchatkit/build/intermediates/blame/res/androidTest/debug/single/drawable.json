@@ -44,12 +44,12 @@
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_cab_background_top_material.xml"
     },
     {
-        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\lcim_bottom_bar_picture_button_bg.xml",
-        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\bundles\\debug\\res\\drawable\\lcim_bottom_bar_picture_button_bg.xml"
-    },
-    {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\lcim_chat_resend_bg.xml",
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\bundles\\debug\\res\\drawable\\lcim_chat_resend_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\lcim_bottom_bar_picture_button_bg.xml",
+        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\bundles\\debug\\res\\drawable\\lcim_bottom_bar_picture_button_bg.xml"
     },
     {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_holo_dark.xml",
@@ -80,12 +80,12 @@
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\bundles\\debug\\res\\drawable\\lcim_bottom_bar_location_button_bg.xml"
     },
     {
-        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
-        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
-    },
-    {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_switch_thumb_material.xml",
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_switch_thumb_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
+        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
     },
     {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_holo_light.xml",
@@ -148,11 +148,11 @@
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_cab_background_internal_bg.xml"
     },
     {
-        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_light.xml",
-        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_item_background_holo_light.xml"
-    },
-    {
         "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_dark.xml",
         "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_item_background_holo_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_light.xml",
+        "source": "C:\\Users\\Workspace\\AndroidStudio\\Heard\\leancloudchatkit\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_item_background_holo_light.xml"
     }
 ]

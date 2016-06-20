@@ -30,29 +30,28 @@ public class MyCustomReceiver extends BroadcastReceiver {
         LogUtil.log.d(TAG, "onReceive debug");
         try {
             String action = intent.getAction();
-            if (action.equals("com.way.heard.ui.activities.NotificationActivity.action")) {
-                String channel = intent.getExtras().getString("com.avos.avoscloud.Channel");
-                LogUtil.log.d(TAG, "onReceive debug, Channel = " + channel);
+            String channel = intent.getExtras().getString("com.avos.avoscloud.Channel");
+            LogUtil.log.d(TAG, "onReceive debug, Action = " + action);
+            LogUtil.log.d(TAG, "onReceive debug, Channel = " + channel);
 
-                JSONObject json = new JSONObject(intent.getExtras().getString("com.avos.avoscloud.Data"));
-                final String message = json.getString("alert");
+            JSONObject json = new JSONObject(intent.getExtras().getString("com.avos.avoscloud.Data"));
+            final String message = json.getString("alert");
 
-                savePushMessage("test", message);
+            savePushMessage("test", message);
 
-                Intent resultIntent = new Intent(AVOSCloud.applicationContext, NotificationActivity.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(AVOSCloud.applicationContext, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(AVOSCloud.applicationContext)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(AVOSCloud.applicationContext.getResources().getString(R.string.app_name))
-                        .setContentText(message)
-                        .setTicker(message);
-                mBuilder.setContentIntent(pendingIntent);
-                mBuilder.setAutoCancel(true);
+            Intent resultIntent = new Intent(AVOSCloud.applicationContext, NotificationActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(AVOSCloud.applicationContext, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(AVOSCloud.applicationContext)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(AVOSCloud.applicationContext.getResources().getString(R.string.app_name))
+                    .setContentText(message)
+                    .setTicker(message);
+            mBuilder.setContentIntent(pendingIntent);
+            mBuilder.setAutoCancel(true);
 
-                int mNotificationId = 10086;
-                NotificationManager mNotifyMgr = (NotificationManager) AVOSCloud.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotifyMgr.notify(mNotificationId, mBuilder.build());
-            }
+            int mNotificationId = 10086;
+            NotificationManager mNotifyMgr = (NotificationManager) AVOSCloud.applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotifyMgr.notify(mNotificationId, mBuilder.build());
         } catch (JSONException e) {
             Log.e(TAG, "onReceive error, JSONException: " + e.getMessage());
         }

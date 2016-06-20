@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.way.heard.R;
 import com.way.heard.utils.PushMessageData.PushMessage;
+import com.way.heard.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,9 +72,18 @@ public class PushMessageAdapter extends RecyclerView.Adapter<PushMessageAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //1. Get Item
-
+        PushMessage item = messageList.get(position);
         //2. Get Data From Item
-
+        if (item != null) {
+            String username = item.getMessageFrom();
+            String content = item.getMessageContent();
+            String dateStr = "";
+            long longCreateAt = item.getDate().getTime();
+            dateStr = Util.millisecs2DateString(longCreateAt);
+            holder.tvUsername.setText(username);
+            holder.tvMessage.setText(content);
+            holder.tvDate.setText(dateStr);
+        }
 
         //3.Set Data
 
@@ -91,13 +101,14 @@ public class PushMessageAdapter extends RecyclerView.Adapter<PushMessageAdapter.
         ImageView ivAvatar;
         TextView tvUsername;
         TextView tvMessage;
-
+        TextView tvDate;
         public ViewHolder(View contentView) {
             super(contentView);
             cvContainer = (CardView) contentView.findViewById(R.id.cv_item_notification_container);
             ivAvatar = (ImageView) contentView.findViewById(R.id.iv_item_notification_normal_avatar);
             tvUsername = (TextView) contentView.findViewById(R.id.tv_item_notification_normal_username);
             tvMessage = (TextView) contentView.findViewById(R.id.tv_item_notification_normal_message);
+            tvDate = (TextView) contentView.findViewById(R.id.tv_item_notification_normal_date);
         }
     }
 

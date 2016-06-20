@@ -50,13 +50,13 @@
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service android:name="com.avos.avoscloud.PushService" />
 
-        <!--<receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
-                <!--<action android:name="android.intent.action.USER_PRESENT" />-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
+        <!-- <action android:name="android.intent.action.USER_PRESENT" /> -->
+        <!-- <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <receiver android:name=".services.MyCustomReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -137,7 +137,8 @@
         <activity
             android:name=".ui.activities.NotificationActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.activities.NotificationSendActivity"></activity>
     </application>
 
 </manifest>

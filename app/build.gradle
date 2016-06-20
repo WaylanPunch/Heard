@@ -53,9 +53,9 @@ dependencies {
     }
     //avoscloud-sdk 为 LeanCloud基础包
     //avoscloud-push 为推送与实时聊天需要的包
-    //    compile('cn.leancloud.android:avoscloud-push:v3.+@aar') {
-    //        transitive = true
-    //    }
+        compile('cn.leancloud.android:avoscloud-push:v3.+@aar') {
+            transitive = true
+        }
     //avoscloud-statistics 为 LeanCloud 统计包
     //avoscloud-feedback 为 LeanCloud 用户反馈包
     //avoscloud-sns 为 LeanCloud 第三方登录包

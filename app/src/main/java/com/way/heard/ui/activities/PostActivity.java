@@ -38,6 +38,8 @@ public class PostActivity extends BaseActivity {
     private static final int TAG_SEARCH_REQUEST = 1003;
     private static final int LOCATION_SEARCH_REQUEST = 1004;
 
+    private Toolbar toolbar;
+
     private ImageView ivPhoto;
     private EditText etContent;
     private CheckBox cbPrivate;
@@ -60,12 +62,13 @@ public class PostActivity extends BaseActivity {
 
     private void setToolBar() {
         LogUtil.d(TAG, "setToolBar debug");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         //mToolbar.setNavigationIcon(R.drawable.btn_back);
+        getSupportActionBar().setTitle("Edit");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.way.heard.ui.activities.NotificationSendActivity"
+    tools:showIn="@layout/activity_notification_send">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_notification_send_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/activity_vertical_margin">
+
+        <EditText
+            android:id="@+id/et_notification_send_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:background="@null"
+            android:gravity="start"
+            android:hint="Say Something"
+            android:padding="@dimen/activity_vertical_margin"
+            android:textColorHint="@color/colorHintText" />
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_notification_send_action"
+        android:layout_width="match_parent"
+        android:layout_height="52dip"
+        android:layout_below="@+id/cv_notification_send_content_container"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:background="@drawable/selector_btn_shape_primary"
+        android:elevation="4dip"
+        android:gravity="center"
+        android:text="SEND"
+        android:textColor="@color/colorWhite" />
+
+</RelativeLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -35,7 +36,7 @@ public class FollowerListActivity extends BaseActivity {
 
     private String userObjectID;
     private int queryType;
-
+    private Toolbar toolbar;
     private Context context;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AutoLoadRecyclerView mRecyclerView;
@@ -52,8 +53,16 @@ public class FollowerListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follower_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Follower");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         context = this;
 
