@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,7 +43,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SearchPostActivity extends AppCompatActivity {
+public class SearchPostActivity extends BaseActivity {
     private final static String TAG = SearchPostActivity.class.getName();
     public static final int POST_REPOST_REQUEST = 1010;
 

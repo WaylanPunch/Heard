@@ -13,321 +13,94 @@
             android:layout_margin="@dimen/bullet_gap_width"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="1"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:src="@drawable/ic_message_gray" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="0dip"
-                            android:layout_height="36dip"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:gravity="start|center_vertical"
-                            android:text="MESSAGE" />
-
-                        <Switch
-                            android:id="@+id/switch1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:layout_gravity="center_vertical" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="@dimen/bullet_gap_width"
-                        android:layout_marginRight="@dimen/bullet_gap_width"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="1"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:src="@drawable/ic_comment_gray" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="0dip"
-                            android:layout_height="36dip"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:gravity="start|center_vertical"
-                            android:text="CHAT" />
-
-                        <Switch
-                            android:id="@+id/switch2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:layout_gravity="center_vertical" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="@dimen/bullet_gap_width"
-                        android:layout_marginRight="@dimen/bullet_gap_width"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="1"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:src="@drawable/ic_privacy_gray" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="0dip"
-                            android:layout_height="36dip"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:gravity="start|center_vertical"
-                            android:text="PRIVACY" />
-
-                        <Switch
-                            android:id="@+id/switch3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:layout_gravity="center_vertical" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="@dimen/bullet_gap_width"
-                        android:layout_marginRight="@dimen/bullet_gap_width"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:src="@drawable/ic_security_gray" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="match_parent"
-                            android:layout_height="36dip"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:gravity="start|center_vertical"
-                            android:text="SECURITY" />
-
-
-                    </LinearLayout>
-
-                    <View
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="@dimen/bullet_gap_width"
-                        android:layout_marginRight="@dimen/bullet_gap_width"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <LinearLayout
-                        android:id="@+id/ll_setting_cache_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/iv_setting_cache_icon"
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:src="@drawable/ic_cache_gray" />
-
-                        <TextView
-                            android:id="@+id/tv_setting_cache_tip"
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="0dip"
-                            android:layout_weight="1"
-                            android:layout_height="36dip"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:gravity="start|center_vertical"
-                            android:text="CACHE" />
-
-                        <TextView
-                            android:id="@+id/tv_setting_cache_value"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:text="0"/>
-
-                    </LinearLayout>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="36dip"-->
-            <!--android:background="@color/colorHintText"></View>-->
-
-            <android.support.v7.widget.CardView
+            <LinearLayout
+                android:id="@+id/ll_setting_cache_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/bullet_gap_width">
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/iv_setting_cache_icon"
+                    android:layout_width="36dip"
+                    android:layout_height="36dip"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_margin="@dimen/bullet_gap_width"
+                    android:src="@drawable/ic_cache_gray" />
 
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_setting_cache_tip"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="0dip"
+                    android:layout_height="36dip"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/bullet_gap_width"
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical"
+                    android:text="CACHE" />
+
+                <TextView
+                    android:id="@+id/tv_setting_cache_value"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/bullet_gap_width"
+                    android:text="0KB" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_setting_about_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+            </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/iv_setting_about_icon"
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:src="@drawable/ic_about_gray" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_margin="@dimen/bullet_gap_width"
+                android:background="@drawable/ic_divider_dots_vertical"
+                android:visibility="visible"></View>
 
-                        <TextView
-                            android:id="@+id/tv_setting_about_tip"
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="match_parent"
-                            android:layout_height="36dip"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:gravity="start|center_vertical"
-                            android:text="ABOUT" />
+            <LinearLayout
+                android:id="@+id/ll_setting_about_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/iv_setting_about_icon"
+                    android:layout_width="36dip"
+                    android:layout_height="36dip"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_margin="@dimen/bullet_gap_width"
+                    android:src="@drawable/ic_about_gray" />
 
-                    </LinearLayout>
-
-                    <View
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dip"
-                        android:layout_marginLeft="@dimen/bullet_gap_width"
-                        android:layout_marginRight="@dimen/bullet_gap_width"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="36dip"
-                            android:layout_height="36dip"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:src="@drawable/ic_send_gray" />
-
-                        <TextView
-                            style="?android:textAppearanceSmall"
-                            android:layout_width="match_parent"
-                            android:layout_height="36dip"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/bullet_gap_width"
-                            android:gravity="start|center_vertical"
-                            android:text="FEEDBACK" />
+                <TextView
+                    android:id="@+id/tv_setting_about_tip"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dip"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/bullet_gap_width"
+                    android:gravity="start|center_vertical"
+                    android:text="ABOUT" />
 
 
-                    </LinearLayout>
+            </LinearLayout>
 
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_margin="@dimen/bullet_gap_width"
+                android:background="@drawable/ic_divider_dots_vertical"
+                android:visibility="visible"></View>
 
-            <android.support.v7.widget.CardView
+
+            <TextView
+                android:id="@+id/tv_setting_login_tip"
+                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="52dip"
-                android:layout_marginTop="@dimen/bullet_gap_width">
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/ll_setting_login_container"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@color/colorAccent"-->
-                    <!--android:orientation="horizontal">-->
-
-                    <!--<ImageView-->
-                        <!--android:id="@+id/iv_setting_login_icon"-->
-                        <!--android:layout_width="36dip"-->
-                        <!--android:layout_height="36dip"-->
-                        <!--android:layout_gravity="start|center_vertical"-->
-                        <!--android:layout_margin="@dimen/bullet_gap_width"-->
-                        <!--android:src="@drawable/ic_login_gray" />-->
-
-                    <TextView
-                        android:id="@+id/tv_setting_login_tip"
-                        style="?android:textAppearanceSmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dip"
-                        android:layout_gravity="center"
-                        android:background="@color/colorAccent"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textAllCaps="true"
-                        android:text="EXIT" />
-
-
-                <!--</LinearLayout>-->
-                </android.support.v7.widget.CardView>
+                android:layout_gravity="center"
+                android:background="@drawable/background_tag_selector"
+                android:gravity="center"
+                android:text="EXIT"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite" />
         </LinearLayout>
 
         <include layout="@layout/common_loading"></include>

@@ -138,7 +138,17 @@
             android:name=".ui.activities.NotificationActivity"
             android:label="@string/title_activity_notification"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.activities.NotificationSendActivity"></activity>
+        <activity android:name=".ui.activities.NotificationSendActivity" />
+        <activity android:name=".ui.activities.ResetPasswordActivity" />
+        <activity android:name=".ui.activities.SignUpActivity" />
+        <activity
+            android:name=".ui.activities.CommentsActivity"
+            android:label="@string/title_activity_comments"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activities.TopicResultActivity"
+            android:label="@string/title_activity_topic_result"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

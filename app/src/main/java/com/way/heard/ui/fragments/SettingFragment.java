@@ -73,7 +73,7 @@ public class SettingFragment extends Fragment{
     }
 
     private void initCache() {
-        String cacheValue="0B";
+        String cacheValue="0KB";
         try {
             cacheValue = FileUtil.getTotalCacheSize(HeardApp.getContext());
         } catch (Exception e) {

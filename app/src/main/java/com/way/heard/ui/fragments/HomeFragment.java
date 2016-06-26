@@ -25,6 +25,7 @@ import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.activities.ImageDisplayActivity;
 import com.way.heard.ui.activities.PostActivity;
 import com.way.heard.ui.activities.RepostActivity;
+import com.way.heard.ui.views.RecycleViewDivider;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
 import com.way.heard.utils.LogUtil;
@@ -170,6 +171,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
             });
+            mRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
             mRecyclerView.setAdapter(mAdapter);
             loadFirst();
         } catch (Exception e) {

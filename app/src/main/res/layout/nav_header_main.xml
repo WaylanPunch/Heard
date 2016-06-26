@@ -15,7 +15,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iv_header_avatar"
             android:layout_width="80dip"
             android:layout_height="80dip"
             android:layout_gravity="center_horizontal"
@@ -23,6 +23,7 @@
             android:src="@drawable/ic_default_avatar" />
 
         <TextView
+            android:id="@+id/tv_header_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -31,7 +32,7 @@
             android:textColor="@color/colorPrimaryText" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

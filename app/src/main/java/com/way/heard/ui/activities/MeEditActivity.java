@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,7 +27,7 @@ import com.way.heard.utils.LogUtil;
 
 import java.io.IOException;
 
-public class MeEditActivity extends AppCompatActivity {
+public class MeEditActivity extends BaseActivity {
     private final static String TAG = MeEditActivity.class.getName();
 
     public final static String USER_DETAIL = "UserDetail";
@@ -123,6 +122,8 @@ public class MeEditActivity extends AppCompatActivity {
             String email = currentUser.getEmail();
             if (!TextUtils.isEmpty(email)) {
                 etEmail.setText(email);
+                etEmail.setEnabled(false);
+                etEmail.setFocusable(false);
             }
             String gender = currentUser.getString("gender");
             if (!TextUtils.isEmpty(gender)) {

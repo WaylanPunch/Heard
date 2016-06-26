@@ -276,7 +276,7 @@ public class LeanCloudDataService {
             AVInstallation.getCurrentInstallation().save();
             String installationId = AVInstallation.getCurrentInstallation().getInstallationId();
             LogUtil.d(TAG, "loginWithUsername, InstallationId = " + installationId);
-            if(!TextUtils.isEmpty(installationId)) {
+            if (!TextUtils.isEmpty(installationId)) {
                 AVUser currentuser = AVUser.getCurrentUser();
                 currentuser.put(CONFIG.AVUser_InstallationId, installationId);
                 currentuser.save();
@@ -295,7 +295,7 @@ public class LeanCloudDataService {
             AVInstallation.getCurrentInstallation().save();
             String installationId = AVInstallation.getCurrentInstallation().getInstallationId();
             LogUtil.d(TAG, "loginWithUsername, InstallationId = " + installationId);
-            if(!TextUtils.isEmpty(installationId)) {
+            if (!TextUtils.isEmpty(installationId)) {
                 AVUser user = new AVUser();// 新建 AVUser 对象实例
                 user.setUsername(username);// 设置用户名
                 user.setPassword(password);// 设置密码
@@ -306,6 +306,21 @@ public class LeanCloudDataService {
             }
         } catch (AVException e) {
             LogUtil.e(TAG, "signUpWithUsername debug, Failed", e);
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean updateEmail(String email) {
+        try {
+            LogUtil.d(TAG, "updateEmail");
+            AVUser user = AVUser.getCurrentUser();
+            if (null != user && !TextUtils.isEmpty(email)) {
+                user.setEmail(email);// 设置邮箱
+                user.save();
+            }
+        } catch (AVException e) {
+            LogUtil.e(TAG, "updateEmail debug, Failed", e);
             return false;
         }
         return true;
@@ -922,6 +937,44 @@ public class LeanCloudDataService {
             }
         } catch (AVException e) {
             LogUtil.e(TAG, "getAnyPublicPostsByContentFuzy debug, Failed", e);
+            return null;
+        }
+        return posts;
+    }
+
+    public static List<Post> getAnyPublicPostsByTag(String tag) {
+        List<Post> posts = new ArrayList<>();
+        try {
+            AVQuery<Post> query = AVQuery.getQuery("Post");
+            query.whereEqualTo(Post.TYPE, 1);// public post
+            query.whereExists(Post.CONTENT);
+            query.whereContains(Post.TAGS, tag);
+            query.include(Post.AUTHOR);
+            query.include(Post.REPLYORIGINAL);
+            query.orderByDescending("createdAt");
+            posts = query.find();
+
+            for (Post post : posts) {
+                if (0 == post.getFrom()) {//original post
+                    AVRelation<Image> photos = post.getPhotos();
+                    AVQuery<Image> photoQuery = photos.getQuery();
+                    List<Image> images = photoQuery.find();
+                    post.trySetPhotoList(images);
+                } else {//repost
+                    AVQuery<Post> repostQuery = AVQuery.getQuery("Post");
+                    repostQuery.include(Post.AUTHOR);
+                    Post repost = repostQuery.get(post.getReplyOriginal().getObjectId());
+
+                    AVRelation<Image> repostPhotos = repost.getPhotos();
+                    AVQuery<Image> repostPhotoQuery = repostPhotos.getQuery();
+                    List<Image> repostImages = repostPhotoQuery.find();
+                    repost.trySetPhotoList(repostImages);
+
+                    post.trySetPostOriginal(repost);
+                }
+            }
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getAnyPublicPostsByTag debug, Failed", e);
             return null;
         }
         return posts;

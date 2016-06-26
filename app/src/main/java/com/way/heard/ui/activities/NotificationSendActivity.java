@@ -3,7 +3,6 @@ package com.way.heard.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,7 +21,7 @@ import com.way.heard.base.CONFIG;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class NotificationSendActivity extends AppCompatActivity {
+public class NotificationSendActivity extends BaseActivity {
     private static final String TAG = NotificationSendActivity.class.getName();
 
     private Toolbar toolbar;

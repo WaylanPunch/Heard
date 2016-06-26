@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cv_item_notification_container"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dip">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/iv_item_notification_normal_avatar"
+        android:layout_width="56dip"
+        android:layout_height="56dip"
+        android:layout_margin="8dip"
+        android:src="@drawable/ic_picture_default" />
+
+    <TextView
+        android:id="@+id/tv_item_notification_normal_username"
+        style="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="8dip"
+        android:layout_toRightOf="@+id/iv_item_notification_normal_avatar"
+        android:text=""
+        android:textColor="@color/colorPrimaryText" />
+
+    <TextView
+        android:id="@+id/tv_item_notification_normal_message"
+        style="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_notification_normal_username"
+        android:layout_marginLeft="8dip"
+        android:layout_toRightOf="@+id/iv_item_notification_normal_avatar"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tv_item_notification_normal_date"
+        style="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="8dip"
+        android:layout_marginTop="8dip"
+        android:text="" />
+
+    <ImageView
+        android:id="@+id/rl_item_notification_normal_divider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/iv_item_notification_normal_avatar"
-            android:layout_width="56dip"
-            android:layout_height="56dip"
-            android:layout_margin="8dip"
-            android:src="@drawable/ic_picture_default" />
-
-        <TextView
-            android:id="@+id/tv_item_notification_normal_username"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dip"
-            android:layout_marginTop="8dip"
-            android:layout_toRightOf="@+id/iv_item_notification_normal_avatar"
-            android:text=""
-            android:textColor="@color/colorPrimaryText" />
-
-        <TextView
-            android:id="@+id/tv_item_notification_normal_message"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_item_notification_normal_username"
-            android:layout_marginLeft="8dip"
-            android:layout_toRightOf="@+id/iv_item_notification_normal_avatar"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/tv_item_notification_normal_date"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="8dip"
-            android:layout_marginTop="8dip"
-            android:text="" />
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_item_notification_normal_avatar"
+        android:layout_marginLeft="@dimen/bullet_gap_width"
+        android:layout_marginRight="@dimen/bullet_gap_width"
+        android:background="@drawable/ic_divider_dots_vertical" />
+</RelativeLayout>

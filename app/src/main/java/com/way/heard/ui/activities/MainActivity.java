@@ -10,8 +10,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVAnalytics;
@@ -24,6 +28,7 @@ import com.way.heard.ui.fragments.MeFragment;
 import com.way.heard.ui.fragments.MessageFragment;
 import com.way.heard.ui.fragments.SettingFragment;
 import com.way.heard.ui.fragments.TopicFragment;
+import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -134,6 +139,10 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
     }
 
+    private ImageView ivHeaderAvatar;
+    private TextView tvHeaderUsername;
+    private TextView tvHeaderEmail;
+
     private void initView() {
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -149,6 +158,23 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        View headerLayout = navigationView.getHeaderView(0);
+        ivHeaderAvatar = (ImageView) headerLayout.findViewById(R.id.iv_header_avatar);
+        tvHeaderUsername = (TextView) headerLayout.findViewById(R.id.tv_header_username);
+        tvHeaderEmail = (TextView) headerLayout.findViewById(R.id.tv_header_email);
+        AVUser currentUser = AVUser.getCurrentUser();
+        if (currentUser != null) {
+            if (!TextUtils.isEmpty(currentUser.getString("avatar"))) {
+                GlideImageLoader.displayImage(MainActivity.this, currentUser.getString("avatar"), ivHeaderAvatar);
+            }
+            if (!TextUtils.isEmpty(currentUser.getUsername())) {
+                tvHeaderUsername.setText(currentUser.getUsername());
+            }
+            if (!TextUtils.isEmpty(currentUser.getEmail())) {
+                tvHeaderEmail.setText(currentUser.getEmail());
+            }
+        }
     }
 
     /*
@@ -324,7 +350,8 @@ public class MainActivity extends BaseActivity
             }
             switchContent(settingFragment, 5);
         } else if (id == R.id.nav_share) {
-
+            //CommentsActivity.go(MainActivity.this, null);
+            shareSocial();
         } else if (id == R.id.nav_send) {
             toFeedbank();
         }
@@ -332,6 +359,16 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void shareSocial() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+        intent.putExtra(Intent.EXTRA_TEXT, "发现一个好玩的应用，赶快来下载吧！http://fir.im/qs4a");
+        intent.putExtra(Intent.EXTRA_TITLE, "Heard - Waylan Punch");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(Intent.createChooser(intent, "请选择"));
     }
 
     private void toFeedbank() {

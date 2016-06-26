@@ -20,6 +20,12 @@
         app:showAsAction="always" />
 
     <!--<item-->
+        <!--android:id="@+id/action_test"-->
+        <!--android:icon="@drawable/ic_me"-->
+        <!--android:title="TEST"-->
+        <!--app:showAsAction="never" />-->
+
+    <!--<item-->
         <!--android:id="@+id/action_share"-->
         <!--android:icon="@drawable/ic_share"-->
         <!--android:orderInCategory="100"-->

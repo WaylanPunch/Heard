@@ -156,6 +156,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_margin="@dimen/bullet_gap_width"
+                            android:textColorHint="@color/colorHintText"
+                            android:hint="For Reset Password"
                             android:layout_toEndOf="@+id/tv_me_edit_email_tip"
                             android:layout_toStartOf="@+id/iv_me_edit_email_validation"
                             android:background="@null" />

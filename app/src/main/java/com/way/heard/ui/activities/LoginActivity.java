@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMException;
@@ -33,7 +35,6 @@ import com.way.heard.utils.LogUtil;
 import java.util.List;
 
 import cn.leancloud.chatkit.LCChatKit;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -69,6 +70,9 @@ public class LoginActivity extends BaseActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private TextView tv_signup;
+    private TextView tv_signin;
+    private TextView tv_reset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +91,7 @@ public class LoginActivity extends BaseActivity {
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                if (id == R.id.tv_login_sign_in || id == EditorInfo.IME_NULL) {
                     attemptLogin(SIGNINEVENT);
                     return true;
                 }
@@ -95,35 +99,13 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        //Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        //mEmailSignInButton.setOnClickListener(new OnClickListener() {
-        //@Override
-        //public void onClick(View view) {
-        //attemptLogin();
-        //}
-        //});
-
-//        SegmentedGroup segmentedButton = (SegmentedGroup) findViewById(R.id.sg_login_button);
-//        segmentedButton.setTintColor(getResources().getColor(R.color.colorAccent));
-//        segmentedButton.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId) {
-//                    case R.id.rb_login_signup:
-//                        attemptLogin(SIGNUPEVENT);
-//                        break;
-//                    default:
-//                        attemptLogin(SIGNINEVENT);
-//                        break;
-//                }
-//            }
-//        });
-        TextView tv_signup = (TextView) findViewById(R.id.tv_login_sign_up);
-        TextView tv_signin = (TextView) findViewById(R.id.tv_login_sign_in);
+        tv_signup = (TextView) findViewById(R.id.tv_login_sign_up);
+        tv_signin = (TextView) findViewById(R.id.tv_login_sign_in);
+        tv_reset = (TextView) findViewById(R.id.tv_login_reset_password);
         tv_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptLogin(SIGNUPEVENT);//Sign up
+                signUp();
             }
         });
         tv_signin.setOnClickListener(new View.OnClickListener() {
@@ -132,10 +114,28 @@ public class LoginActivity extends BaseActivity {
                 attemptLogin(SIGNINEVENT);//Sign in
             }
         });
-
+        tv_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPassword();
+            }
+        });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+
+    private void signUp() {
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void resetPassword() {
+        Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     private void goAction() {
         AVUser currentUser = AVUser.getCurrentUser();
@@ -282,25 +282,43 @@ public class LoginActivity extends BaseActivity {
                 mAuthTask = new UserLoginTask(username, password, buttonEvent);
                 mAuthTask.execute((Void) null);
             } else {
-                new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Failed to connect with internet?")
-                        .setContentText("Would you like to open the internet setting?")
-                        .setCancelText("No,cancel plx!")
-                        .setConfirmText("Yes,open it!")
-                        .showCancelButton(true)
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE)
+//                        .setTitleText("Failed to connect with internet?")
+//                        .setContentText("Would you like to open the internet setting?")
+//                        .setCancelText("No,cancel plx!")
+//                        .setConfirmText("Yes,open it!")
+//                        .showCancelButton(true)
+//                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                            @Override
+//                            public void onClick(SweetAlertDialog sDialog) {
+//                                // reuse previous dialog instance, keep widget user state, reset them if you need
+//                                sDialog.dismissWithAnimation();
+//                            }
+//                        })
+//                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                            @Override
+//                            public void onClick(SweetAlertDialog sDialog) {
+//                                sDialog.dismissWithAnimation();
+//                            }
+//                        })
+//                        .show();
+                new MaterialDialog.Builder(LoginActivity.this)
+                        .title("Failed to connect with internet?")
+                        .content("Would you like to open the internet setting?")
+                        .positiveText("OK")
+                        //.negativeText("CANCEL")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                // reuse previous dialog instance, keep widget user state, reset them if you need
-                                sDialog.dismissWithAnimation();
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
                             }
                         })
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                            }
-                        })
+//                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+//                            @Override
+//                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                                dialog.dismiss();
+//                            }
+//                        })
                         .show();
             }
         }

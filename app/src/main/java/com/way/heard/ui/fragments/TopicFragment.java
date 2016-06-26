@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.adapters.TopicAdapter;
 import com.way.heard.models.BannerModel;
+import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.ui.activities.TopicResultActivity;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
-import com.way.heard.services.LeanCloudBackgroundTask;
+import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +104,21 @@ public class TopicFragment extends Fragment {
 
 
         mAdapter = new TopicAdapter(getActivity());
+        mAdapter.setOnImageClickListener(new TopicAdapter.OnImageClickListener() {
+            @Override
+            public void onImageClick(int pos) {
+                if (mBannerModels != null && mBannerModels.size() > 0) {
+                    BannerModel item = mBannerModels.get(pos);
+                    if (item != null) {
+                        String tag = item.getTag().getContent();
+                        LogUtil.d(TAG, "onActivityCreated debug, onImageClick, Tag = " + tag);
+                        if (!TextUtils.isEmpty(tag)) {
+                            TopicResultActivity.go(getContext(), tag);
+                        }
+                    }
+                }
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         loadFirst();
 

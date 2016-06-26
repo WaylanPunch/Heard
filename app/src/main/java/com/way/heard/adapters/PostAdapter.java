@@ -1,7 +1,6 @@
 package com.way.heard.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -70,9 +69,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
         if (holder instanceof PostViewHolder)
-            ((PostViewHolder) holder).cvContainer.clearAnimation();
+            ((PostViewHolder) holder).itemview.clearAnimation();
         else if (holder instanceof RepostViewHolder)
-            ((RepostViewHolder) holder).cvContainer.clearAnimation();
+            ((RepostViewHolder) holder).itemview.clearAnimation();
     }
 
     @Override
@@ -221,7 +220,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     //RepostActivity.go(mContext, post, post.getReplyOriginal());
                 }
             });
-            setAnimation(holder.cvContainer, position);
+            setAnimation(holder.itemview, position);
         } else {
             RepostViewHolder holder = (RepostViewHolder) viewHolder;
             //2. Get Data From Item
@@ -356,7 +355,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     //RepostActivity.go(mContext, post, post.getReplyOriginal());
                 }
             });
-            setAnimation(holder.cvContainer, position);
+            setAnimation(holder.itemview, position);
         }
     }
 
@@ -375,7 +374,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cvContainer;
+        View itemview;
         ImageView ivAvatar;
         TextView tvUsername;
         TextView tvCreateAt;
@@ -388,7 +387,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public PostViewHolder(View contentView) {
             super(contentView);
-            cvContainer = (CardView) contentView.findViewById(R.id.cv_post2_item_container);
+            itemview = contentView;
+            //cvContainer = (CardView) contentView.findViewById(R.id.cv_post2_item_container);
             ivAvatar = (ImageView) contentView.findViewById(R.id.iv_post2_item_avatar);
             tvUsername = (TextView) contentView.findViewById(R.id.tv_post2_item_nickname);
             tvCreateAt = (TextView) contentView.findViewById(R.id.tv_post2_item_createat);
@@ -402,8 +402,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public static class RepostViewHolder extends RecyclerView.ViewHolder {
-
-        CardView cvContainer;
+        View itemview;
+        //CardView cvContainer;
         ImageView ivAvatar;
         TextView tvUsername;
         TextView tvCreateAt;
@@ -420,7 +420,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public RepostViewHolder(View contentView) {
             super(contentView);
-            cvContainer = (CardView) contentView.findViewById(R.id.cv_repost_item_container);
+            itemview = contentView;
+            //cvContainer = (CardView) contentView.findViewById(R.id.cv_repost_item_container);
             ivAvatar = (ImageView) contentView.findViewById(R.id.iv_repost_item_avatar);
             tvUsername = (TextView) contentView.findViewById(R.id.tv_repost_item_nickname);
             tvCreateAt = (TextView) contentView.findViewById(R.id.tv_repost_item_createat);

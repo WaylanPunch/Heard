@@ -192,8 +192,8 @@
                         android:paddingLeft="6dp"
                         android:paddingRight="6dp"
                         android:paddingTop="3dp"
-                        android:textAllCaps="true"
                         android:text="Unfollow"
+                        android:textAllCaps="true"
                         android:textColor="#ffffff"
                         android:textSize="12sp" />
                 </RelativeLayout>
@@ -226,16 +226,6 @@
                 android:layout_height="match_parent"
                 android:icon="@drawable/tab_selector" />
 
-            <!--<android.support.design.widget.TabItem-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="分享" />-->
-
-            <!--<android.support.design.widget.TabItem-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="收藏" />-->
-
             <android.support.design.widget.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -254,14 +244,14 @@
     <include layout="@layout/content_profile" />
 
     <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:background="@drawable/imageview_ripple_rounded_shape_mask"-->
-        <!--android:elevation="8dip"-->
-        <!--android:src="@drawable/ic_plus"-->
-         <!--/>-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|end"-->
+    <!--android:layout_margin="@dimen/fab_margin"-->
+    <!--android:background="@drawable/imageview_ripple_rounded_shape_mask"-->
+    <!--android:elevation="8dip"-->
+    <!--android:src="@drawable/ic_plus"-->
+    <!--/>-->
 
 </android.support.design.widget.CoordinatorLayout>

@@ -24,4 +24,6 @@
     <string name="imate_back">Back</string>
     <string name="edit_text_search">SEARCH</string>
     <string name="voice_cancel">Voice Cancel</string>
+    <string name="prompt_email">Email</string>
+    <string name="error_invalid_email">Invalid Email Format</string>
 </resources>

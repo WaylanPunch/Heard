@@ -1,7 +1,6 @@
 package com.way.heard.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +58,7 @@ public class PushMessageAdapter extends RecyclerView.Adapter<PushMessageAdapter.
 
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
-        holder.cvContainer.clearAnimation();
+        holder.itemview.clearAnimation();
     }
 
     @Override
@@ -87,7 +86,7 @@ public class PushMessageAdapter extends RecyclerView.Adapter<PushMessageAdapter.
 
         //3.Set Data
 
-        setAnimation(holder.cvContainer, position);
+        setAnimation(holder.itemview, position);
     }
 
     @Override
@@ -97,14 +96,16 @@ public class PushMessageAdapter extends RecyclerView.Adapter<PushMessageAdapter.
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cvContainer;
+        View itemview;
+        //CardView cvContainer;
         ImageView ivAvatar;
         TextView tvUsername;
         TextView tvMessage;
         TextView tvDate;
         public ViewHolder(View contentView) {
             super(contentView);
-            cvContainer = (CardView) contentView.findViewById(R.id.cv_item_notification_container);
+            itemview = contentView;
+            //cvContainer = (CardView) contentView.findViewById(R.id.cv_item_notification_container);
             ivAvatar = (ImageView) contentView.findViewById(R.id.iv_item_notification_normal_avatar);
             tvUsername = (TextView) contentView.findViewById(R.id.tv_item_notification_normal_username);
             tvMessage = (TextView) contentView.findViewById(R.id.tv_item_notification_normal_message);

@@ -1,55 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cv_item_follower_container"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dip">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/iv_item_follower_normal_avatar"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_margin="8dip"
+        android:src="@drawable/ic_picture_default" />
+
+    <TextView
+        android:id="@+id/tv_item_follower_normal_username"
+        style="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="8dip"
+        android:layout_toRightOf="@+id/iv_item_follower_normal_avatar"
+        android:text=""
+        android:textColor="@color/colorPrimaryText" />
+
+    <TextView
+        android:id="@+id/tv_item_follower_normal_signature"
+        style="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_follower_normal_username"
+        android:layout_marginLeft="8dip"
+        android:layout_toRightOf="@+id/iv_item_follower_normal_avatar"
+        android:text="" />
+
+    <Button
+        android:id="@+id/btn_item_follower_normal_follow"
+        android:layout_width="100dip"
+        android:layout_height="40dip"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dip"
+        android:background="@drawable/selector_btn_shape"
+        android:drawableLeft="@drawable/ic_plus"
+        android:gravity="center"
+        android:padding="4dip"
+        android:text="Followed"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/rl_item_follower_normal_divider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/iv_item_follower_normal_avatar"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:layout_margin="8dip"
-            android:src="@drawable/ic_picture_default" />
-
-        <TextView
-            android:id="@+id/tv_item_follower_normal_username"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dip"
-            android:layout_marginTop="8dip"
-            android:layout_toRightOf="@+id/iv_item_follower_normal_avatar"
-            android:text=""
-            android:textColor="@color/colorPrimaryText" />
-
-        <TextView
-            android:id="@+id/tv_item_follower_normal_signature"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_item_follower_normal_username"
-            android:layout_marginLeft="8dip"
-            android:layout_toRightOf="@+id/iv_item_follower_normal_avatar"
-            android:text="" />
-
-        <Button
-            android:id="@+id/btn_item_follower_normal_follow"
-            android:layout_width="100dip"
-            android:layout_height="40dip"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/ic_plus"
-            android:background="@drawable/selector_btn_shape"
-            android:layout_margin="8dip"
-            android:padding="4dip"
-            android:text="Followed"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_item_follower_normal_avatar"
+        android:layout_marginLeft="@dimen/bullet_gap_width"
+        android:layout_marginRight="@dimen/bullet_gap_width"
+        android:background="@drawable/ic_divider_dots_vertical" />
+</RelativeLayout>

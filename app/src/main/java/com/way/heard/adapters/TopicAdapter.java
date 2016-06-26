@@ -14,7 +14,6 @@ import com.way.heard.R;
 import com.way.heard.models.BannerModel;
 import com.way.heard.models.Image;
 import com.way.heard.utils.GlideImageLoader;
-import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,20 +87,26 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
             tags.add(tagStr);
         }
         //3.Set Data
-        LogUtil.d(TAG, "onBindViewHolder debug, Images Count = " + imgUrls.size());
-        LogUtil.d(TAG, "onBindViewHolder debug, Tags Count = " + tags.size());
-        initZoomStack(holder.bgaBanner, imgUrls, tags);
-
+        initZoomStack(holder.bgaBanner, imgUrls, tags, position);
         setAnimation(holder.rlContainer, position);
     }
 
-    private void initZoomStack(BGABanner banner, List<String> imgUrls, List<String> tags) {
+    private void initZoomStack(BGABanner banner, List<String> imgUrls, final List<String> tags, final int position) {
         int viewCOUNT = imgUrls.size();
         List<ImageView> mZoomStackViews = getViews(viewCOUNT);
         banner.setViews(mZoomStackViews);
         for (int i = 0; i < viewCOUNT; i++) {
             GlideImageLoader.displayImage(mContext, imgUrls.get(i), mZoomStackViews.get(i));
             //Glide.with(MainActivity.this).load(bannerModel.imgs.get(i)).placeholder(R.drawable.holder).error(R.drawable.holder).into(mZoomStackViews.get(i));
+            ImageView iv = mZoomStackViews.get(i);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onImageClickListener != null) {
+                        onImageClickListener.onImageClick(position);
+                    }
+                }
+            });
         }
         banner.setTips(tags);
     }

@@ -1,7 +1,6 @@
 package com.way.heard.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -58,7 +57,7 @@ public class ProfileFollowerAdapter extends RecyclerView.Adapter<ProfileFollower
 
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
-        holder.cvContainer.clearAnimation();
+        holder.itemview.clearAnimation();
     }
 
     @Override
@@ -101,7 +100,7 @@ public class ProfileFollowerAdapter extends RecyclerView.Adapter<ProfileFollower
                 }
             }
         });
-        setAnimation(holder.cvContainer, position);
+        setAnimation(holder.itemview, position);
     }
 
     @Override
@@ -111,7 +110,8 @@ public class ProfileFollowerAdapter extends RecyclerView.Adapter<ProfileFollower
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cvContainer;
+        View itemview;
+        //CardView cvContainer;
         ImageView ivAvatar;
         TextView tvUsername;
         TextView tvSignature;
@@ -119,7 +119,8 @@ public class ProfileFollowerAdapter extends RecyclerView.Adapter<ProfileFollower
 
         public ViewHolder(View contentView) {
             super(contentView);
-            cvContainer = (CardView) contentView.findViewById(R.id.cv_item_follower_container);
+            itemview = contentView;
+            //cvContainer = (CardView) contentView.findViewById(R.id.cv_item_follower_container);
             ivAvatar = (ImageView) contentView.findViewById(R.id.iv_item_follower_normal_avatar);
             tvUsername = (TextView) contentView.findViewById(R.id.tv_item_follower_normal_username);
             tvSignature = (TextView) contentView.findViewById(R.id.tv_item_follower_normal_signature);

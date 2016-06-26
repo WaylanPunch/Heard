@@ -3,7 +3,6 @@ package com.way.heard.ui.activities;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,7 +38,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SearchUserActivity extends AppCompatActivity {
+public class SearchUserActivity extends BaseActivity {
     private final static String TAG = SearchUserActivity.class.getName();
 
     private InitiateSearch initiateSearch;
