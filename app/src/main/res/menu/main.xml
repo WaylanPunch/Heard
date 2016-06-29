@@ -4,38 +4,42 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
+        android:orderInCategory="100"
         android:title="@string/action_search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_notification"
         android:icon="@drawable/ic_notification"
+        android:orderInCategory="101"
         android:title="@string/action_notification"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_me"
         android:icon="@drawable/ic_me"
+        android:orderInCategory="102"
         android:title="@string/action_me"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_scan"
+        android:icon="@drawable/ic_qrcode_scan"
+        android:orderInCategory="103"
+        android:title="@string/action_scan"
+        app:showAsAction="never" />
 
     <!--<item-->
-        <!--android:id="@+id/action_test"-->
-        <!--android:icon="@drawable/ic_me"-->
-        <!--android:title="TEST"-->
-        <!--app:showAsAction="never" />-->
+    <!--android:id="@+id/action_share"-->
+    <!--android:icon="@drawable/ic_share"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="@string/action_share"-->
+    <!--app:showAsAction="never" />-->
 
     <!--<item-->
-        <!--android:id="@+id/action_share"-->
-        <!--android:icon="@drawable/ic_share"-->
-        <!--android:orderInCategory="100"-->
-        <!--android:title="@string/action_share"-->
-        <!--app:showAsAction="never" />-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_developer"-->
-        <!--android:icon="@drawable/ic_me"-->
-        <!--android:orderInCategory="101"-->
-        <!--android:title="@string/action_developer"-->
-        <!--app:showAsAction="never" />-->
+    <!--android:id="@+id/action_developer"-->
+    <!--android:icon="@drawable/ic_me"-->
+    <!--android:orderInCategory="101"-->
+    <!--android:title="@string/action_developer"-->
+    <!--app:showAsAction="never" />-->
 </menu>

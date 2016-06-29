@@ -97,4 +97,8 @@ dependencies {
     compile 'com.github.stuxuhai:jpinyin:1.1.5'
     compile 'com.afollestad.material-dialogs:core:0.8.5.9'
     compile files('libs/androrm.jar')
+    compile 'cn.bingoogolapple:bga-qrcodecore:1.1.0@aar'
+    compile 'cn.bingoogolapple:bga-zbar:1.1.0@aar'
+    compile 'pub.devrel:easypermissions:0.1.7'
+    compile 'com.google.zxing:core:3.2.1'
 }

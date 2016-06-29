@@ -53,20 +53,10 @@
         android:id="@+id/iv_post2_item_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/bullet_gap_width"
         android:src="@drawable/ic_picture_default" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/tv_post2_item_tag"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="36dip"-->
-    <!--android:layout_margin="@dimen/bullet_gap_width"-->
-    <!--android:padding="@dimen/bullet_gap_width"-->
-    <!--android:background="@drawable/tag_background"-->
-    <!--android:drawableLeft="@drawable/ic_tag"-->
-    <!--android:gravity="center_vertical"-->
-    <!--android:minWidth="60dip"-->
-    <!--android:text="tag" />-->
 
     <com.way.heard.ui.views.TagCloudView
         android:id="@+id/tcv_post2_item_tags"

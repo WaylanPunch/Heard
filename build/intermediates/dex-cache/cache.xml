@@ -33,8 +33,15 @@
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.yancy.imageselector\imageselector\1.3.3\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="f789aa89116632f1dad4fbd024b186143aef97c2">
+        sha1="2d5057ca77013455b01456bf853fc261e9089674">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\com.yancy.imageselector-imageselector-1.3.3_fbed60ff835a46c3b80c29cd4fe57a82c2bb2ea3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.bingoogolapple\bga-qrcodecore\1.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d6ca7d9db25605c0fc94cdaf6d3a93c42b81e0f5">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.bingoogolapple-bga-qrcodecore-1.1.0_3af6ec36ba8dac1114d8ef15b54b93d99dea8107.jar" />
     </item>
     <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
@@ -84,6 +91,13 @@
         revision="23.0.2"
         sha1="966da5b6a8bfdef0bfc660e349f8765dde5cb6f3">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.finalteam-toolsfinal-1.1.5_e08c5e2fd7f8f97f8e4ce32dc045144ca01d8d3c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\pub.devrel\easypermissions\0.1.7\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="840a3dc7e0f038738fc354160a9ef7ce535d04ff">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\pub.devrel-easypermissions-0.1.7_f718144b6db16c7fb6821a5fdc3fa17d5b6b4710.jar" />
     </item>
     <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
@@ -163,6 +177,13 @@
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\androrm_38e43b8bd2a2b211f406eb637868fed78ecc4b9f.jar" />
     </item>
     <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.bingoogolapple\bga-zbar\1.1.0\jars\libs\zbar.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3a3c1950100edba31c0234d8c3785b52d26a09bf">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\zbar_252e42399c1b957c3bb7a8f2c5e683c8906dd9ba.jar" />
+    </item>
+    <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
@@ -208,7 +229,7 @@
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\Heard\leancloudchatkit\unspecified\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="08a2bf7aa847cdc754dc9a521dbd44dafc3a41a3">
+        sha1="26e4c8c91a7e797d0cb0e37e1932d36b20e70d32">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\Heard-leancloudchatkit-unspecified_952989d69862b50545774c5fef9b47bb7a3c39ec.jar" />
     </item>
     <item
@@ -231,6 +252,13 @@
         revision="23.0.2"
         sha1="7086c00a30a6de0ee3b963ec2c3702d37f1de11d">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\okio-1.6.0-leancloud_e7672f2fb82729679e3776a1db9c5e75b90bfa69.jar" />
+    </item>
+    <item
+        jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\cn.bingoogolapple\bga-zbar\1.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7802c78ea406d2952778c912cccfc8d6f81efe47">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\cn.bingoogolapple-bga-zbar-1.1.0_91bca03d47674f4087c589fb0b31ac4d99afdec4.jar" />
     </item>
     <item
         jar="C:\Program Files\Android\Android Studio\gradle\m2repository\com\google\code\gson\gson\2.2.4\gson-2.2.4.jar"
@@ -266,6 +294,13 @@
         revision="23.0.2"
         sha1="b2e07c7789af93de587a1d0c9441fb0e74fd16e0">
         <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\Java-WebSocket-1.3.1-leancloud_c175fa40ab9aa2f0a9e87787a13e862a9286555a.jar" />
+    </item>
+    <item
+        jar="C:\Users\pc\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.2.1\2287494d4f5f9f3a9a2bb6980e3f32053721b315\core-3.2.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2287494d4f5f9f3a9a2bb6980e3f32053721b315">
+        <dex dex="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\pre-dexed\debug\core-3.2.1_e69bd2755e765414e31d78818243c6c633f7ef32.jar" />
     </item>
     <item
         jar="C:\Users\Workspace\AndroidStudio\Heard\app\build\intermediates\exploded-aar\com.timehop.stickyheadersrecyclerview\library\0.4.3\jars\classes.jar"

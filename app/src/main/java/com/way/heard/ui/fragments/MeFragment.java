@@ -21,6 +21,7 @@ import com.way.heard.R;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.activities.MeEditActivity;
+import com.way.heard.ui.activities.QRCodeActivity;
 import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.LogUtil;
 
@@ -111,7 +112,7 @@ public class MeFragment extends Fragment {
             if (!TextUtils.isEmpty(displayname)) {
                 tvDisplayName.setText(displayname);
             }
-            String username = currentUser.getUsername();
+            final String username = currentUser.getUsername();
             if (!TextUtils.isEmpty(username)) {
                 tvUsername.setText(username);
             }
@@ -135,10 +136,13 @@ public class MeFragment extends Fragment {
             if (!TextUtils.isEmpty(city)) {
                 tvCityValue.setText(city);
             }
-//            String qrcode = currentUser.getString("avatar");
-//            if (!TextUtils.isEmpty(avatar)) {
-//                GlideImageLoader.displayImage(getContext(), avatar, ivAvatar);
-//            }
+
+            ivQRCodeValue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    QRCodeActivity.go(getContext(), AVUser.getCurrentUser().getObjectId(), username);
+                }
+            });
 
             tvEdit.setOnClickListener(new View.OnClickListener() {
                 @Override

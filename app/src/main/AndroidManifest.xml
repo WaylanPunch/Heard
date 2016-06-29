@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".base.HeardApp"
@@ -142,12 +143,17 @@
         <activity android:name=".ui.activities.ResetPasswordActivity" />
         <activity android:name=".ui.activities.SignUpActivity" />
         <activity
-            android:name=".ui.activities.CommentsActivity"
+            android:name=".ui.activities.ScanActivity"
             android:label="@string/title_activity_comments"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activities.TopicResultActivity"
             android:label="@string/title_activity_topic_result"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.activities.QRCodeActivity" />
+        <activity
+            android:name=".ui.activities.ProfileScanActivity"
+            android:label="@string/title_activity_profile_scan"
             android:theme="@style/AppTheme"></activity>
     </application>
 

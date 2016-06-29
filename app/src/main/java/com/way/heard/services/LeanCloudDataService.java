@@ -267,6 +267,19 @@ public class LeanCloudDataService {
         return followers;
     }
 
+    public static AVUser getUserByObjectId(String userObjectId) {
+        AVUser user = null;
+        try {
+            AVQuery<AVUser> query = AVUser.getQuery();
+            query.whereEqualTo("objectId", userObjectId);
+            user = query.getFirst();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getUserByObjectId debug, Failed", e);
+            return null;
+        }
+        return user;
+    }
+
     public static boolean loginWithUsername(String username, String password) {
         try {
             LogUtil.d(TAG, "loginWithUsername");

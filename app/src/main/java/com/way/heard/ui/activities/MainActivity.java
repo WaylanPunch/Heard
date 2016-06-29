@@ -295,9 +295,10 @@ public class MainActivity extends BaseActivity
             ProfileActivity.go(MainActivity.this, AVUser.getCurrentUser());
             return true;
         }
-//        else if (id == R.id.action_share) {
-//            return true;
-//        }
+        else if (id == R.id.action_scan) {
+            ScanActivity.go(MainActivity.this);
+            return true;
+        }
 //        else if (id == R.id.action_developer) {
 //            Intent intent = new Intent(MainActivity.this,TestActivity.class);
 //            startActivity(intent);
@@ -350,7 +351,7 @@ public class MainActivity extends BaseActivity
             }
             switchContent(settingFragment, 5);
         } else if (id == R.id.nav_share) {
-            //CommentsActivity.go(MainActivity.this, null);
+            //ScanActivity.go(MainActivity.this, null);
             shareSocial();
         } else if (id == R.id.nav_send) {
             toFeedbank();

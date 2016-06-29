@@ -26,4 +26,5 @@
     <string name="voice_cancel">Voice Cancel</string>
     <string name="prompt_email">Email</string>
     <string name="error_invalid_email">Invalid Email Format</string>
+    <string name="action_scan">Scan</string>
 </resources>

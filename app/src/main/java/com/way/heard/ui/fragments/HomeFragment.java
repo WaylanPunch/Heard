@@ -204,6 +204,9 @@ public class HomeFragment extends Fragment {
             @Override
             protected void doInBack() throws AVException {
                 List<Post> data = LeanCloudDataService.getAnyPublicPostsByPage((pageIndex - 1) * pageSize, pageSize);
+                if (data == null) {
+                    data = new ArrayList<Post>();
+                }
                 if (mPosts == null) {
                     mPosts = new ArrayList<Post>();
                 }

@@ -160,4 +160,6 @@
     <string name="error_invalid_email">Invalid Email Format</string>
     <string name="title_activity_comments">CommentsActivity</string>
     <string name="title_activity_topic_result">TopicResultActivity</string>
+    <string name="action_scan">Scan</string>
+    <string name="title_activity_profile_scan">ProfileScanActivity</string>
 </resources>
