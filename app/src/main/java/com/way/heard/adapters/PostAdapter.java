@@ -95,7 +95,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return;
 
         if (0 == post.getFrom()) {
-            PostViewHolder holder = (PostViewHolder) viewHolder;
+            final PostViewHolder holder = (PostViewHolder) viewHolder;
             //2. Get Data From Item
             String strAvatarUrl = post.getAuthor().getString("avatar");
             String strUsername = post.getAuthor().getUsername();
@@ -143,6 +143,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         }
                     }
                 });
+                //CustomImageSizeModel customImageRequest = new CustomImageSizeModelFutureStudio(strImageUrl);
                 GlideImageLoader.displayImage(mContext, strImageUrl, holder.ivPhoto);
             } else {
                 holder.ivPhoto.setVisibility(View.GONE);
@@ -278,6 +279,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         }
                     }
                 });
+                //CustomImageSizeModel customImageRequest = new CustomImageSizeModelFutureStudio(strImageUrlOriginal);
                 GlideImageLoader.displayImage(mContext, strImageUrlOriginal, holder.ivPhotoOriginal);
             } else {
                 holder.ivPhotoOriginal.setVisibility(View.GONE);

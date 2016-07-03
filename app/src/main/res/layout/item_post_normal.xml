@@ -53,6 +53,7 @@
         android:id="@+id/iv_post2_item_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="200dip"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/bullet_gap_width"
         android:src="@drawable/ic_picture_default" />

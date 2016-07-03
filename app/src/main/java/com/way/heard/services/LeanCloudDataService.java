@@ -811,6 +811,38 @@ public class LeanCloudDataService {
         return followers;
     }
 
+    public static boolean isMyFollower(String userObjectId) {
+        boolean isMyFollower = false;
+        try {
+            AVQuery<AVUser> followerQuery = AVUser.followerQuery(AVUser.getCurrentUser().getObjectId(), AVUser.class);
+            followerQuery.whereEqualTo("follower", AVObject.createWithoutData("_User", userObjectId));
+            int count = followerQuery.count();
+            if (count > 0) {
+                isMyFollower = true;
+            }
+        } catch (AVException e) {
+            LogUtil.e(TAG, "isMyFollower error", e);
+            isMyFollower = false;
+        }
+        return isMyFollower;
+    }
+
+    public static boolean isMyFollowee(String userObjectId) {
+        boolean isMyFollowee = false;
+        try {
+            AVQuery<AVUser> followeeQuery = AVUser.followeeQuery(AVUser.getCurrentUser().getObjectId(), AVUser.class);
+            followeeQuery.whereEqualTo("followee", AVObject.createWithoutData("_User", userObjectId));
+            int count = followeeQuery.count();
+            if (count > 0) {
+                isMyFollowee = true;
+            }
+        } catch (AVException e) {
+            LogUtil.e(TAG, "isMyFollowee error", e);
+            isMyFollowee = false;
+        }
+        return isMyFollowee;
+    }
+
 
     public static int getPostCountByUser(String userObjectId) {
         int COUNT = 0;

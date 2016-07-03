@@ -3,11 +3,16 @@ package com.way.heard.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +28,7 @@ import com.way.heard.models.Comment;
 import com.way.heard.models.Post;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.ui.views.HidingScrollBottomListener;
 import com.way.heard.ui.views.RecycleViewDivider;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
@@ -155,6 +161,7 @@ public class PostDisplayActivity extends BaseActivity {
         mAdapter.setOnCommentItemReplyListener(new CommentAdapter.OnCommentItemReplyListener() {
             @Override
             public void onCommentItemReply(int position) {
+                showViews();
                 Comment item = mAdapter.getComments().get(position);
                 etCommentContent.setText("");
                 etCommentContent.setHint("Reply to @" + item.getAuthor().getUsername() + ":");
@@ -165,6 +172,7 @@ public class PostDisplayActivity extends BaseActivity {
         mAdapter.setOnCommentItemClickListener(new CommentAdapter.OnCommentItemClickListener() {
             @Override
             public void onCommentItemClick(int position) {
+                showViews();
                 etCommentContent.setText("");
                 etCommentContent.setHint("Anything you want to say...");
                 replyToUser = null;
@@ -175,7 +183,31 @@ public class PostDisplayActivity extends BaseActivity {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecycleViewDivider(PostDisplayActivity.this, LinearLayoutManager.VERTICAL));
         //mRecyclerView.addItemDecoration(new RecycleViewDivider(PostDisplayActivity.this, LinearLayoutManager.VERTICAL, R.drawable.ic_divider_dots_vertical));
+        mRecyclerView.addOnScrollListener(new HidingScrollBottomListener() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        });
         loadFirst();
+    }
+
+    private void hideViews() {
+        toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) llCommentContainer.getLayoutParams();
+        int fabBottomMargin = lp.bottomMargin;
+        llCommentContainer.animate().translationY(llCommentContainer.getHeight() + fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
+    }
+
+    private void showViews() {
+        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+        llCommentContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     public void loadFirst() {
@@ -278,7 +310,7 @@ public class PostDisplayActivity extends BaseActivity {
         }.execute();
     }
 
-    /*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -290,8 +322,12 @@ public class PostDisplayActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_publish:
-                showCommentContainer();
+            case R.id.action_reply:
+                showViews();
+                etCommentContent.setText("");
+                etCommentContent.setHint("Anything you want to say...");
+                replyToUser = null;
+                replyForComment = null;
                 break;
             default:
                 break;
@@ -299,6 +335,7 @@ public class PostDisplayActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
     private void showCommentContainer() {
         if (llCommentContainer.getVisibility() == View.GONE) {
             llCommentContainer.setVisibility(View.VISIBLE);

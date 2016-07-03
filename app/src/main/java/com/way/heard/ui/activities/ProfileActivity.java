@@ -21,12 +21,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.way.heard.R;
 import com.way.heard.adapters.ProfileViewPagerAdapter;
+import com.way.heard.services.LeanCloudBackgroundTask;
+import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.services.LeanCloudUserService;
 import com.way.heard.ui.fragments.FolloweeFragment;
 import com.way.heard.ui.fragments.FollowerFragment;
 import com.way.heard.ui.fragments.ProfilePostFragment;
@@ -45,12 +49,21 @@ public class ProfileActivity extends BaseActivity {
 
     public final static String USER_DETAIL = "UserDetail";
 
+    private AppBarLayout app_bar_layout;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private Toolbar toolbar;
     private LinearLayout head_layout;
     private TabLayout toolbar_tab;
     private ViewPager main_vp_container;
+    private TextView tvFollow;
+
     private List<Fragment> fragments;
     private String[] tabTitles;
     private AVUser currentUser;
+    private int mShareCount;
+    private int mLikeCount;
+    private int mCommentCount;
+    private boolean mIsMyFollowee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +75,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void initToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -86,7 +99,7 @@ public class ProfileActivity extends BaseActivity {
 
 
     private void initToolBatLayout() {
-        AppBarLayout app_bar_layout = (AppBarLayout) findViewById(R.id.abl_profile_app_bar_layout);
+        app_bar_layout = (AppBarLayout) findViewById(R.id.abl_profile_app_bar_layout);
         head_layout = (LinearLayout) findViewById(R.id.ll_profile_head_layout);
 
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_profile_toolbarlayout);
@@ -95,7 +108,7 @@ public class ProfileActivity extends BaseActivity {
         head_layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
 
         //使用CollapsingToolbarLayout必须把title设置到CollapsingToolbarLayout上，设置到Toolbar上则不会显示
-        final CollapsingToolbarLayout mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.ctl_profile_toolbar_layout);
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.ctl_profile_toolbar_layout);
 //        mCollapsingToolbarLayout.setContentScrim(new BitmapDrawable(BlurUtil.fastblur(this, bitmap, 180)));
         mCollapsingToolbarLayout.setContentScrim(new BitmapDrawable(bitmap));
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -121,7 +134,8 @@ public class ProfileActivity extends BaseActivity {
         //toolbar_tab.set
         //tablayout和viewpager建立联系为什么不用下面这个方法呢？自己去研究一下，可能收获更多
         //toolbar_tab.setupWithViewPager(main_vp_container);
-        initUserDetail(mCollapsingToolbarLayout);
+        //initUserDetail(mCollapsingToolbarLayout);
+        getDataFromCloud();
     }
 
     private void initFragements() {
@@ -135,8 +149,104 @@ public class ProfileActivity extends BaseActivity {
         fragments.add(fragment3);
     }
 
+    private void getDataFromCloud() {
+        new LeanCloudBackgroundTask(ProfileActivity.this) {
+
+            @Override
+            protected void onPre() {
+                //loading.start();
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                //String currentuserId = AVUser.getCurrentUser().getObjectId();
+                mShareCount = LeanCloudDataService.getRepostCountByUser(currentUser.getObjectId());
+                mLikeCount = LeanCloudDataService.getLikeCountByUser(currentUser.getObjectId());
+                mCommentCount = LeanCloudDataService.getCommentCountByUser(currentUser.getObjectId());
+                mIsMyFollowee = LeanCloudDataService.isMyFollowee(currentUser.getObjectId());
+//                mPostCount = LeanCloudDataService.getPostCountByUser(currentuserId);
+//                mFolloweeCount = LeanCloudDataService.getFolloweeCountByUser(currentuserId);
+//                mFollowerCount = LeanCloudDataService.getFollowerCountByUser(currentuserId);
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                if (e != null) {
+                    Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                initUserDetail(mCollapsingToolbarLayout);
+            }
+
+            @Override
+            protected void onCancel() {
+                //loading.stop();
+            }
+        }.execute();
+    }
 
     private void initUserDetail(View container) {
+        ((TextView) container.findViewById(R.id.tv_profile_sharecount)).setText(mShareCount + "");
+        ((TextView) container.findViewById(R.id.tv_profile_likecount)).setText(mLikeCount + "");
+        ((TextView) container.findViewById(R.id.tv_profile_commentcount)).setText(mCommentCount + "");
+
+        tvFollow = ((TextView) container.findViewById(R.id.tv_profile_follow));
+        if (mIsMyFollowee) {
+            tvFollow.setText("UNFOLLOW");
+        } else {
+            tvFollow.setText("FOLLOW");
+        }
+        tvFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mIsMyFollowee) {//already followed
+                    LeanCloudUserService.unfollowUser(AVUser.getCurrentUser(), currentUser.getObjectId(), new LeanCloudUserService.LeanCloudUserServiceListener() {
+                        @Override
+                        public void onSuccess() {
+                            mIsMyFollowee = false;
+                            tvFollow.setText("FOLLOW");
+                            Toast.makeText(ProfileActivity.this, "Unfollowed", Toast.LENGTH_SHORT).show();
+                            LogUtil.d(TAG, "unfollowUser debug, unfollow succeeded.");
+                        }
+
+                        @Override
+                        public void onErrorMatter(String msg) {
+                            Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            LogUtil.e(TAG, "unfollowUser error, " + msg);
+                        }
+
+                        @Override
+                        public void onErrorNoMatter(String msg) {
+
+                        }
+                    });
+                } else {//unfollow
+                    LeanCloudUserService.followUser(AVUser.getCurrentUser(), currentUser.getObjectId(), new LeanCloudUserService.LeanCloudUserServiceListener() {
+                        @Override
+                        public void onSuccess() {
+                            mIsMyFollowee = true;
+                            tvFollow.setText("UNFOLLOW");
+                            Toast.makeText(ProfileActivity.this, "Followed", Toast.LENGTH_SHORT).show();
+                            LogUtil.d(TAG, "followUser debug, follow succeeded.");
+                        }
+
+                        @Override
+                        public void onErrorMatter(String msg) {
+                            Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            LogUtil.e(TAG, "followUser error, " + msg);
+                        }
+
+                        @Override
+                        public void onErrorNoMatter(String msg) {
+                            mIsMyFollowee = true;
+                            tvFollow.setText("UNFOLLOW");
+                            Toast.makeText(ProfileActivity.this, "Already Followed", Toast.LENGTH_SHORT).show();
+                            LogUtil.d(TAG, "followUser debug, Already followed.");
+                        }
+                    });
+                }
+            }
+        });
+
         if (!TextUtils.isEmpty(currentUser.getString("displayname"))) {
             ((TextView) container.findViewById(R.id.tv_profile_displayname)).setText(currentUser.getString("displayname"));
         }

@@ -14,6 +14,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,10 +24,14 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.way.heard.R;
 import com.way.heard.adapters.ProfileViewPagerAdapter;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.services.LeanCloudDataService;
+import com.way.heard.services.LeanCloudUserService;
 import com.way.heard.ui.fragments.FolloweeFragment;
 import com.way.heard.ui.fragments.FollowerFragment;
 import com.way.heard.ui.fragments.ProfilePostFragment;
@@ -34,6 +40,10 @@ import com.way.heard.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.leancloud.chatkit.LCChatKit;
+import cn.leancloud.chatkit.activity.LCIMConversationActivity;
+import cn.leancloud.chatkit.utils.LCIMConstants;
 
 public class ProfileScanActivity extends AppCompatActivity {
     private final static String TAG = ProfileScanActivity.class.getName();
@@ -46,6 +56,8 @@ public class ProfileScanActivity extends AppCompatActivity {
     private LinearLayout head_layout;
     private TabLayout toolbar_tab;
     private ViewPager main_vp_container;
+    private TextView tvFollow;
+
     private List<Fragment> fragments;
     private String[] tabTitles;
     //private AVUser currentUser;
@@ -53,6 +65,10 @@ public class ProfileScanActivity extends AppCompatActivity {
     private String userobjectid;
     private String username;
     private AVUser user;
+    private int mShareCount;
+    private int mLikeCount;
+    private int mCommentCount;
+    private boolean mIsMyFollowee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +157,70 @@ public class ProfileScanActivity extends AppCompatActivity {
     }
 
 
+
     private void initUserDetail(View container) {
+        ((TextView) container.findViewById(R.id.tv_profile_sharecount)).setText(mShareCount + "");
+        ((TextView) container.findViewById(R.id.tv_profile_likecount)).setText(mLikeCount + "");
+        ((TextView) container.findViewById(R.id.tv_profile_commentcount)).setText(mCommentCount + "");
+
+        tvFollow = ((TextView) container.findViewById(R.id.tv_profile_follow));
+        if (mIsMyFollowee) {
+            tvFollow.setText("UNFOLLOW");
+        } else {
+            tvFollow.setText("FOLLOW");
+        }
+        tvFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mIsMyFollowee) {//already followed
+                    LeanCloudUserService.unfollowUser(AVUser.getCurrentUser(), userobjectid, new LeanCloudUserService.LeanCloudUserServiceListener() {
+                        @Override
+                        public void onSuccess() {
+                            mIsMyFollowee = false;
+                            tvFollow.setText("FOLLOW");
+                            Toast.makeText(ProfileScanActivity.this, "Unfollowed", Toast.LENGTH_SHORT).show();
+                            LogUtil.d(TAG, "unfollowUser debug, unfollow succeeded.");
+                        }
+
+                        @Override
+                        public void onErrorMatter(String msg) {
+                            Toast.makeText(ProfileScanActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            LogUtil.e(TAG, "unfollowUser error, " + msg);
+                        }
+
+                        @Override
+                        public void onErrorNoMatter(String msg) {
+
+                        }
+                    });
+                } else {//unfollow
+                    LeanCloudUserService.followUser(AVUser.getCurrentUser(), userobjectid, new LeanCloudUserService.LeanCloudUserServiceListener() {
+                        @Override
+                        public void onSuccess() {
+                            mIsMyFollowee = true;
+                            tvFollow.setText("UNFOLLOW");
+                            Toast.makeText(ProfileScanActivity.this, "Followed", Toast.LENGTH_SHORT).show();
+                            LogUtil.d(TAG, "followUser debug, follow succeeded.");
+                        }
+
+                        @Override
+                        public void onErrorMatter(String msg) {
+                            Toast.makeText(ProfileScanActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            LogUtil.e(TAG, "followUser error, " + msg);
+                        }
+
+                        @Override
+                        public void onErrorNoMatter(String msg) {
+                            mIsMyFollowee = true;
+                            tvFollow.setText("UNFOLLOW");
+                            Toast.makeText(ProfileScanActivity.this, "Already Followed", Toast.LENGTH_SHORT).show();
+                            LogUtil.d(TAG, "followUser debug, Already followed.");
+                        }
+                    });
+                }
+            }
+        });
+
         if (user != null) {
             if (!TextUtils.isEmpty(user.getString("displayname"))) {
                 ((TextView) container.findViewById(R.id.tv_profile_displayname)).setText(user.getString("displayname"));
@@ -169,6 +248,10 @@ public class ProfileScanActivity extends AppCompatActivity {
             @Override
             protected void doInBack() throws AVException {
                 user = LeanCloudDataService.getUserByObjectId(objectid);
+                mShareCount = LeanCloudDataService.getRepostCountByUser(objectid);
+                mLikeCount = LeanCloudDataService.getLikeCountByUser(objectid);
+                mCommentCount = LeanCloudDataService.getCommentCountByUser(objectid);
+                mIsMyFollowee = LeanCloudDataService.isMyFollowee(objectid);
             }
 
             @Override
@@ -185,6 +268,32 @@ public class ProfileScanActivity extends AppCompatActivity {
             }
         };
         task.execute();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_profile_scan, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_chat) {
+            LCChatKit.getInstance().open(AVUser.getCurrentUser().getUsername(), new AVIMClientCallback() {
+                @Override
+                public void done(AVIMClient avimClient, AVIMException e) {
+                    if (e != null) {
+                        Toast.makeText(ProfileScanActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    Intent intent = new Intent(ProfileScanActivity.this, LCIMConversationActivity.class);
+                    intent.putExtra(LCIMConstants.PEER_ID, username);
+                    startActivity(intent);
+                }
+            });
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static void go(Context context, String userdetail) {

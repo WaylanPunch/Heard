@@ -88,7 +88,7 @@ public class GlideImageLoader {
                     //.override(width, height)
                     //.diskCacheStrategy(DiskCacheStrategy.NONE) //不缓存到SD卡
                     //.skipMemoryCache(true)
-                    //.fitCenter()
+                    .fitCenter()
                     .into(new ImageViewTarget<GlideDrawable>(imageView) {
                         @Override
                         protected void setResource(GlideDrawable resource) {
@@ -109,6 +109,8 @@ public class GlideImageLoader {
             LogUtil.e(TAG, "displayImageFromUrl error", e);
         }
     }
+
+
 
     public static void clearMemoryCache() {
     }

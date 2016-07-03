@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textColor="@color/text_color"
+            android:textColor="@color/colorSecondaryText"
             android:textSize="16sp" />
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/food_name"
             android:singleLine="true"
-            android:textColor="@color/text_color"
+            android:textColor="@color/colorSecondaryText"
             android:textSize="14sp" />
 
     </LinearLayout>

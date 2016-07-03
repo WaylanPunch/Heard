@@ -2,7 +2,6 @@ package com.way.heard.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 /**
  * Created by pc on 2016/4/26.
@@ -21,12 +20,7 @@ public abstract class NetAsyncTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        try {
-            showProgress(true);
-        } catch (Exception e) {
-            Log.e(TAG, "onPreExecute error", e);
-        }
-
+        onPre();
     }
 
     @Override
@@ -34,8 +28,6 @@ public abstract class NetAsyncTask extends AsyncTask<Void, Void, Void> {
         try {
             doInBack();
         } catch (Exception e) {
-            Log.e(TAG, "doInBackground error", e);
-            e.printStackTrace();
             exception = e;
         }
         return null;
@@ -44,14 +36,21 @@ public abstract class NetAsyncTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        //showProgress(false);
         onPost(exception);
     }
 
-    protected abstract void showProgress(boolean isDone);
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        onCancel();
+    }
+
+    protected abstract void onPre();
 
     protected abstract void doInBack() throws Exception;
 
     protected abstract void onPost(Exception e);
+
+    protected abstract void onCancel();
 }
 

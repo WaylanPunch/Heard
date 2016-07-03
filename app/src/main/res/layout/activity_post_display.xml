@@ -7,28 +7,44 @@
     android:fitsSystemWindows="true"
     tools:context="com.way.heard.ui.activities.PostDisplayActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     <include layout="@layout/content_post_display" />
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@android:drawable/ic_dialog_email" />-->
+    <LinearLayout
+        android:id="@+id/ll_post_display_commentcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="72dip"
+        android:layout_gravity="bottom"
+        android:background="#f6f6f6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:visibility="visible">
+
+        <FrameLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/et_post_display_commentcontent"
+                style="@style/lcim_input_bar_edittext_style"
+                android:hint="Anything you want to say..." />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/iv_post_display_commentsend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dip"
+            android:scaleType="center"
+            android:src="@drawable/ic_send_gray" />
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
