@@ -101,8 +101,18 @@
                 android:text="EXIT"
                 android:textAllCaps="true"
                 android:textColor="@color/colorWhite" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@android:drawable/ic_dialog_email" />
         </LinearLayout>
 
         <include layout="@layout/common_loading"></include>
+
+
     </FrameLayout>
 </ScrollView>

@@ -86,7 +86,9 @@
             android:id="@+id/iv_repost_item_photo_original"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
             android:minHeight="200dip"
+            android:maxHeight="400dip"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/bullet_gap_width"
             android:src="@drawable/ic_picture_default" />

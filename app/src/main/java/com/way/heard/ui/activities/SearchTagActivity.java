@@ -239,7 +239,7 @@ public class SearchTagActivity extends BaseActivity {
     }
 
     private void searchAllTags(final String query, final int page_num) {
-
+        LogUtil.d(TAG,"searchAllTags debug");
         backgroundTask = new LeanCloudBackgroundTask(SearchTagActivity.this) {
             @Override
             protected void onPre() {
@@ -265,6 +265,7 @@ public class SearchTagActivity extends BaseActivity {
 
             @Override
             protected void onPost(AVException e) {
+                LogUtil.d(TAG,"searchAllTags debug, onPost, SearchItem Count = " + mSearchItem.size());
                 loading.stop();
                 searchAdapter.notifyDataSetChanged();
                 if (e == null) {

@@ -103,7 +103,7 @@ public class UserPostActivity extends BaseActivity {
         mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
             @Override
             public void loadMore() {
-                loadNextPage();
+                loadNextPage(false);
             }
         });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccentLight,
@@ -113,7 +113,7 @@ public class UserPostActivity extends BaseActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadFirst();
+                loadFirst(false);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -134,27 +134,29 @@ public class UserPostActivity extends BaseActivity {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        loadFirst();
+        loadFirst(true);
     }
 
-    public void loadFirst() {
+    public void loadFirst(boolean isFirstTime) {
         pageIndex = 1;
         LogUtil.d(TAG, "loadFirst debug, Page Index = " + pageIndex);
-        loadDataByNetworkType();
+        loadDataByNetworkType(isFirstTime);
     }
 
-    public void loadNextPage() {
+    public void loadNextPage(boolean isFirstTime) {
         pageIndex++;
         LogUtil.d(TAG, "loadNextPage debug, Page Index = " + pageIndex);
-        loadDataByNetworkType();
+        loadDataByNetworkType(isFirstTime);
     }
 
-    private void loadDataByNetworkType() {
+    private void loadDataByNetworkType(final boolean isFirstTime) {
         new LeanCloudBackgroundTask(context) {
 
             @Override
             protected void onPre() {
-                loading.start();
+                if(isFirstTime) {
+                    loading.start();
+                }
                 mSwipeRefreshLayout.setRefreshing(true);
             }
 
@@ -182,7 +184,9 @@ public class UserPostActivity extends BaseActivity {
             protected void onPost(AVException e) {
                 mAdapter.setPosts(mPosts);
                 mAdapter.notifyDataSetChanged();
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -190,7 +194,9 @@ public class UserPostActivity extends BaseActivity {
 
             @Override
             protected void onCancel() {
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }

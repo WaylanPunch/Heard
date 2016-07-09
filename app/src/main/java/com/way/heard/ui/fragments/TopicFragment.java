@@ -96,7 +96,7 @@ public class TopicFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadFirst();
+                loadFirst(false);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -120,20 +120,22 @@ public class TopicFragment extends Fragment {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        loadFirst();
+        loadFirst(true);
 
     }
 
-    public void loadFirst() {
-        loadDataByNetworkType();
+    public void loadFirst(boolean isFirstTime) {
+        loadDataByNetworkType(isFirstTime);
     }
 
-    private void loadDataByNetworkType() {
+    private void loadDataByNetworkType(final boolean isFirstTime) {
         new LeanCloudBackgroundTask(context) {
 
             @Override
             protected void onPre() {
-                loading.start();
+                if(isFirstTime) {
+                    loading.start();
+                }
                 mSwipeRefreshLayout.setRefreshing(true);
             }
 
@@ -152,7 +154,9 @@ public class TopicFragment extends Fragment {
             protected void onPost(AVException e) {
                 mAdapter.setBannerModels(mBannerModels);
                 mAdapter.notifyDataSetChanged();
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -160,7 +164,9 @@ public class TopicFragment extends Fragment {
 
             @Override
             protected void onCancel() {
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }

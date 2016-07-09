@@ -52,4 +52,13 @@ public class Util {
             return getDate(new Date(timestamp));
         }
     }
+
+    public static boolean compare(String source, String other) {
+        if (source == null) {
+            return other == null;
+        } else {
+            return source.equals(other);
+        }
+
+    }
 }

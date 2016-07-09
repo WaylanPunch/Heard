@@ -91,7 +91,7 @@ public class FolloweeFragment extends Fragment {
             mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
                 @Override
                 public void loadMore() {
-                    loadNextPage();
+                    loadNextPage(false);
                 }
             });
             mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccentLight,
@@ -101,7 +101,7 @@ public class FolloweeFragment extends Fragment {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    loadFirst();
+                    loadFirst(false);
                 }
             });
             mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -110,30 +110,32 @@ public class FolloweeFragment extends Fragment {
 
             mAdapter = new ProfileFolloweeAdapter(context);
             mRecyclerView.setAdapter(mAdapter);
-            loadFirst();
+            loadFirst(true);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void loadFirst() {
+    public void loadFirst(boolean isFirstTime) {
         pageIndex = 1;
         LogUtil.d(TAG, "loadFirst debug, Page Index = " + pageIndex);
-        loadUsersByQueryType();
+        loadUsersByQueryType(isFirstTime);
     }
 
-    public void loadNextPage() {
+    public void loadNextPage(boolean isFirstTime) {
         pageIndex++;
         LogUtil.d(TAG, "loadNextPage debug, Page Index = " + pageIndex);
-        loadUsersByQueryType();
+        loadUsersByQueryType(isFirstTime);
     }
 
-    private void loadUsersByQueryType() {
+    private void loadUsersByQueryType(final boolean isFirstTime) {
         new LeanCloudBackgroundTask(context) {
 
             @Override
             protected void onPre() {
-                loading.start();
+                if(isFirstTime) {
+                    loading.start();
+                }
                 mSwipeRefreshLayout.setRefreshing(true);
             }
 
@@ -156,7 +158,9 @@ public class FolloweeFragment extends Fragment {
             protected void onPost(AVException e) {
                 mAdapter.setUsers(mUsers);
                 mAdapter.notifyDataSetChanged();
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -164,7 +168,9 @@ public class FolloweeFragment extends Fragment {
 
             @Override
             protected void onCancel() {
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }

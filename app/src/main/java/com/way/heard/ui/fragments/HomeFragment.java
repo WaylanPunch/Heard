@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
             mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
                 @Override
                 public void loadMore() {
-                    loadNextPage();
+                    loadNextPage(false);
                 }
             });
             mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccentLight,
@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    loadFirst();
+                    loadFirst(false);
                 }
             });
             mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -173,31 +173,33 @@ public class HomeFragment extends Fragment {
             });
             mRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
             mRecyclerView.setAdapter(mAdapter);
-            loadFirst();
+            loadFirst(true);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             LogUtil.e(TAG, "onActivityCreated error", e);
         }
     }
 
-    public void loadFirst() {
+    public void loadFirst(boolean isFirstTime) {
         pageIndex = 1;
         LogUtil.d(TAG, "loadFirst debug, Page Index = " + pageIndex);
-        loadDataByNetworkType();
+        loadDataByNetworkType(isFirstTime);
     }
 
-    public void loadNextPage() {
+    public void loadNextPage(boolean isFirstTime) {
         pageIndex++;
         LogUtil.d(TAG, "loadNextPage debug, Page Index = " + pageIndex);
-        loadDataByNetworkType();
+        loadDataByNetworkType(isFirstTime);
     }
 
-    private void loadDataByNetworkType() {
+    private void loadDataByNetworkType(final boolean isFirstTime) {
         new LeanCloudBackgroundTask(context) {
 
             @Override
             protected void onPre() {
-                loading.start();
+                if(isFirstTime) {
+                    loading.start();
+                }
                 mSwipeRefreshLayout.setRefreshing(true);
             }
 
@@ -222,7 +224,9 @@ public class HomeFragment extends Fragment {
             protected void onPost(AVException e) {
                 mAdapter.setPosts(mPosts);
                 mAdapter.notifyDataSetChanged();
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -230,7 +234,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             protected void onCancel() {
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -244,7 +250,7 @@ public class HomeFragment extends Fragment {
         LogUtil.d(TAG, "onActivityResult debug, Request Code = " + requestCode + ", Result Code = " + resultCode);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == POST_PUBLISH_REQUEST) {
-                loadFirst();
+                loadFirst(false);
             } else if (requestCode == ImageDisplayActivity.IMAGE_DISPLAY_REQUEST) {
                 try {
 //                    Bundle bundle = data.getExtras();
@@ -260,7 +266,7 @@ public class HomeFragment extends Fragment {
                     LogUtil.e(TAG, "onActivityResult error", e);
                 }
             } else if (requestCode == POST_REPOST_REQUEST) {
-                loadFirst();
+                loadFirst(false);
             }
         }
     }

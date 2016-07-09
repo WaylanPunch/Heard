@@ -141,7 +141,7 @@ public class PostDisplayActivity extends BaseActivity {
         mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
             @Override
             public void loadMore() {
-                loadNextPage();
+                loadNextPage(false);
             }
         });
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -151,7 +151,7 @@ public class PostDisplayActivity extends BaseActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadFirst();
+                loadFirst(false);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -194,7 +194,7 @@ public class PostDisplayActivity extends BaseActivity {
                 showViews();
             }
         });
-        loadFirst();
+        loadFirst(true);
     }
 
     private void hideViews() {
@@ -210,24 +210,26 @@ public class PostDisplayActivity extends BaseActivity {
         llCommentContainer.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
-    public void loadFirst() {
+    public void loadFirst(boolean isFirstTime) {
         pageIndex = 1;
         LogUtil.d(TAG, "loadFirst debug, Page Index = " + pageIndex);
-        loadDataByNetworkType();
+        loadDataByNetworkType(isFirstTime);
     }
 
-    public void loadNextPage() {
+    public void loadNextPage(boolean isFirstTime) {
         pageIndex++;
         LogUtil.d(TAG, "loadNextPage debug, Page Index = " + pageIndex);
-        loadDataByNetworkType();
+        loadDataByNetworkType(isFirstTime);
     }
 
-    private void loadDataByNetworkType() {
+    private void loadDataByNetworkType(final boolean isFirstTime) {
         new LeanCloudBackgroundTask(context) {
 
             @Override
             protected void onPre() {
-                loading.start();
+                if(isFirstTime) {
+                    loading.start();
+                }
                 mSwipeRefreshLayout.setRefreshing(true);
             }
 
@@ -249,7 +251,9 @@ public class PostDisplayActivity extends BaseActivity {
             protected void onPost(AVException e) {
                 mAdapter.setComments(mComments);
                 mAdapter.notifyDataSetChanged();
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -257,7 +261,9 @@ public class PostDisplayActivity extends BaseActivity {
 
             @Override
             protected void onCancel() {
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }

@@ -150,6 +150,11 @@
             android:name=".ui.activities.ProfileScanActivity"
             android:label="@string/title_activity_profile_scan"
             android:theme="@style/AppTheme"></activity>
+
+        <uses-library android:name="android.test.runner"/>
     </application>
 
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.way.heard"
+        android:label="test"/>
 </manifest>

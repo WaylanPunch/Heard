@@ -78,7 +78,7 @@ public class ContactFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshMembers();
+                refreshMembers(true);
             }
         });
 
@@ -88,7 +88,7 @@ public class ContactFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        refreshMembers();
+        refreshMembers(false);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class ContactFragment extends Fragment {
 //        return contactFragment;
 //    }
 
-    private void refreshMembers() {
+    private void refreshMembers(final boolean isFirstTime) {
         LogUtil.d(TAG, "refreshMembers debug");
         List<LCChatKitUser> allfriends = CustomUserProvider.getInstance().getAllUsers();
         if (allfriends != null && allfriends.size() > 0) {
@@ -121,7 +121,9 @@ public class ContactFragment extends Fragment {
 
                 @Override
                 protected void onPre() {
-                    loading.start();
+                    if(isFirstTime) {
+                        loading.start();
+                    }
                 }
 
                 @Override
@@ -143,7 +145,9 @@ public class ContactFragment extends Fragment {
 
                 @Override
                 protected void onPost(AVException e) {
-                    loading.stop();
+                    if(isFirstTime) {
+                        loading.stop();
+                    }
                     refreshLayout.setRefreshing(false);
                     if (e == null) {
                         CustomUserProvider.getInstance().setAllUsers(partUsers);
@@ -156,7 +160,9 @@ public class ContactFragment extends Fragment {
 
                 @Override
                 protected void onCancel() {
-                    loading.stop();
+                    if(isFirstTime) {
+                        loading.stop();
+                    }
                     if (refreshLayout.isRefreshing()) {
                         refreshLayout.setRefreshing(false);
                     }

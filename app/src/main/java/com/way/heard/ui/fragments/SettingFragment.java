@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.way.heard.base.HeardApp;
 import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.activities.AboutActivity;
 import com.way.heard.ui.activities.LoginActivity;
+import com.way.heard.ui.activities.TestActivity;
 import com.way.heard.utils.FileUtil;
 import com.way.heard.utils.LogUtil;
 
@@ -26,18 +28,19 @@ import com.way.heard.utils.LogUtil;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingFragment extends Fragment{
+public class SettingFragment extends Fragment {
     private final static String TAG = SettingFragment.class.getName();
 
     public static final String SETTING = "Setting";
     private static boolean isLogin = false;
 
-//    private LinearLayout ll_LoginContainer;
+    //    private LinearLayout ll_LoginContainer;
 //    private ImageView iv_LoginIcon;
     private TextView tv_LoginTip;
     private TextView tv_CacheTip;
     private TextView tv_CacheValue;
     private TextView tv_AboutTip;
+    private FloatingActionButton fab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class SettingFragment extends Fragment{
         tv_CacheTip = (TextView) view.findViewById(R.id.tv_setting_cache_tip);
         tv_CacheValue = (TextView) view.findViewById(R.id.tv_setting_cache_value);
         tv_AboutTip = (TextView) view.findViewById(R.id.tv_setting_about_tip);
-
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
     }
 
     @Override
@@ -70,15 +73,16 @@ public class SettingFragment extends Fragment{
         initCache();
         initAbout();
         initLoginButton();
+        initFab();
     }
 
     private void initCache() {
-        String cacheValue="0KB";
+        String cacheValue = "0KB";
         try {
             cacheValue = FileUtil.getTotalCacheSize(HeardApp.getContext());
         } catch (Exception e) {
-            cacheValue="0B";
-            LogUtil.e(TAG,"onActivityCreated error",e);
+            cacheValue = "0B";
+            LogUtil.e(TAG, "onActivityCreated error", e);
         }
         tv_CacheValue.setText(cacheValue);
         tv_CacheTip.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +121,29 @@ public class SettingFragment extends Fragment{
         });
     }
 
+    private void initFab() {
+        AVUser user = AVUser.getCurrentUser();
+        if (user != null) {
+            String username = user.getUsername();
+            if (username.equalsIgnoreCase("test") || username.equalsIgnoreCase("admin")) {
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), TestActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                fab.setVisibility(View.GONE);
+            }
+        } else {
+            fab.setVisibility(View.GONE);
+        }
+
+    }
+
     public SettingFragment() {
         // Required empty public constructor
     }
@@ -144,7 +171,7 @@ public class SettingFragment extends Fragment{
         tv_LoginTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isLogin){
+                if (isLogin) {
                     LeanCloudDataService.logout();
                 }
                 LoginActivity.go(getContext());

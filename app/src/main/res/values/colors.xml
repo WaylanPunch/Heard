@@ -2,9 +2,9 @@
 <resources>
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorAccentDark">#F00050</color>
-    <color name="colorAccentLight">#FF6699</color>
+    <color name="colorAccent">#2196F3</color>
+    <color name="colorAccentDark">#1976D2</color>
+    <color name="colorAccentLight">#2196F3</color>
     <color name="colorWhite">@android:color/white</color>
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorPrimaryText">#212121</color>

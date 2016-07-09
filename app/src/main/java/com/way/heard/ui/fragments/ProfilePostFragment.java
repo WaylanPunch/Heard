@@ -94,7 +94,7 @@ public class ProfilePostFragment extends Fragment {
             mRecyclerView.setLoadMoreListener(new LoadMoreListener() {
                 @Override
                 public void loadMore() {
-                    loadNextPage();
+                    loadNextPage(false);
                 }
             });
             mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccentLight,
@@ -104,7 +104,7 @@ public class ProfilePostFragment extends Fragment {
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    loadFirst();
+                    loadFirst(false);
                 }
             });
             mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -162,30 +162,32 @@ public class ProfilePostFragment extends Fragment {
                 }
             });
             mRecyclerView.setAdapter(mAdapter);
-            loadFirst();
+            loadFirst(true);
         } catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void loadFirst() {
+    public void loadFirst(boolean isFirstTime) {
         pageIndex = 1;
         LogUtil.d(TAG, "loadFirst debug, Page Index = " + pageIndex);
-        loadDataByNetworkType();
+        loadDataByNetworkType(isFirstTime);
     }
 
-    public void loadNextPage() {
+    public void loadNextPage(boolean isFirstTime) {
         pageIndex++;
         LogUtil.d(TAG, "loadNextPage debug, Page Index = " + pageIndex);
-        loadDataByNetworkType();
+        loadDataByNetworkType(isFirstTime);
     }
 
-    private void loadDataByNetworkType() {
+    private void loadDataByNetworkType(final boolean isFirstTime) {
         new LeanCloudBackgroundTask(context) {
 
             @Override
             protected void onPre() {
-                loading.start();
+                if(isFirstTime) {
+                    loading.start();
+                }
                 mSwipeRefreshLayout.setRefreshing(true);
             }
 
@@ -207,7 +209,9 @@ public class ProfilePostFragment extends Fragment {
             protected void onPost(AVException e) {
                 mAdapter.setPosts(mPosts);
                 mAdapter.notifyDataSetChanged();
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -215,7 +219,9 @@ public class ProfilePostFragment extends Fragment {
 
             @Override
             protected void onCancel() {
-                loading.stop();
+                if(isFirstTime) {
+                    loading.stop();
+                }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -244,7 +250,7 @@ public class ProfilePostFragment extends Fragment {
                     LogUtil.e(TAG, "onActivityResult error", e);
                 }
             } else if (requestCode == POST_REPOST_REQUEST) {
-                loadFirst();
+                loadFirst(false);
             }
         }
     }
