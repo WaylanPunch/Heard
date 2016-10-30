@@ -2,19 +2,25 @@ package com.way.heard.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVException;
+import com.luseen.autolinklibrary.AutoLinkMode;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.adapters.PostAdapter;
@@ -129,6 +135,33 @@ public class HomeFragment extends Fragment {
 
 
             mAdapter = new PostAdapter(getContext());
+            mAdapter.setOnDeleteClickListener(new PostAdapter.OnDeleteClickListener() {
+                @Override
+                public void onDeleteClick(final int pos) {
+                    LogUtil.d(TAG, "onDeleteClick debug, Position = " + pos);
+                    new MaterialDialog.Builder(getContext())
+                            .title("Delete")
+                            .content("Delete This Post?")
+                            .positiveText("OK")
+                            .negativeText("CANCEL")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    Post post = mPosts.get(pos);
+                                    if (post != null) {
+                                        String objectid = post.getObjectId();
+                                        deletePostAndComment(pos, objectid);
+                                    }
+                                }
+                            })
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                }
+            });
             mAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
                 @Override
                 public void onImageClick(int pos) {
@@ -171,6 +204,12 @@ public class HomeFragment extends Fragment {
                     }
                 }
             });
+            mAdapter.setOnAutoLinkTextViewClickListener(new PostAdapter.OnAutoLinkTextViewClickListener() {
+                @Override
+                public void onAutoLinkTextViewClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                }
+            });
             mRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
             mRecyclerView.setAdapter(mAdapter);
             loadFirst(true);
@@ -197,7 +236,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             protected void onPre() {
-                if(isFirstTime) {
+                if (isFirstTime) {
                     loading.start();
                 }
                 mSwipeRefreshLayout.setRefreshing(true);
@@ -222,24 +261,64 @@ public class HomeFragment extends Fragment {
 
             @Override
             protected void onPost(AVException e) {
-                mAdapter.setPosts(mPosts);
-                mAdapter.notifyDataSetChanged();
-                if(isFirstTime) {
+                if (isFirstTime) {
+                    loading.stop();
+                }
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+                if (e == null) {
+                    mAdapter.setPosts(mPosts);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected void onCancel() {
+                if (isFirstTime) {
                     loading.stop();
                 }
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
+        }.execute();
+    }
+
+    private void deletePostAndComment(final int pos, final String objectid) {
+        new LeanCloudBackgroundTask(context) {
+            boolean isOK;
+
+            @Override
+            protected void onPre() {
+
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                isOK = LeanCloudDataService.deletePostByObjectID(objectid);
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                if (e == null) {
+                    if (isOK) {
+                        mPosts.remove(pos);
+                        mAdapter.setPosts(mPosts);
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(context, "You're not able to delete!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
             @Override
             protected void onCancel() {
-                if(isFirstTime) {
-                    loading.stop();
-                }
-                if (mSwipeRefreshLayout.isRefreshing()) {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
+
             }
         }.execute();
     }
@@ -269,5 +348,19 @@ public class HomeFragment extends Fragment {
                 loadFirst(false);
             }
         }
+    }
+
+    private void showDialog(String title, String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message)
+                .setTitle(title)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }

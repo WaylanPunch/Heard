@@ -3,11 +3,15 @@ package com.way.heard.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
@@ -121,6 +125,33 @@ public class UserPostActivity extends BaseActivity {
 
 
         mAdapter = new PostAdapter(context);
+        mAdapter.setOnDeleteClickListener(new PostAdapter.OnDeleteClickListener() {
+            @Override
+            public void onDeleteClick(final int pos) {
+                LogUtil.d(TAG, "onDeleteClick debug, Position = " + pos);
+                new MaterialDialog.Builder(UserPostActivity.this)
+                        .title("Delete")
+                        .content("Delete This Post?")
+                        .positiveText("OK")
+                        .negativeText("CANCEL")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Post post = mPosts.get(pos);
+                                if (post != null) {
+                                    String objectid = post.getObjectId();
+                                    deletePostAndComment(pos, objectid);
+                                }
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
         mAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
             @Override
             public void onImageClick(int pos) {
@@ -200,6 +231,42 @@ public class UserPostActivity extends BaseActivity {
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
+            }
+        }.execute();
+    }
+
+    private void deletePostAndComment(final int pos, final String objectid) {
+        new LeanCloudBackgroundTask(context) {
+            boolean isOK;
+
+            @Override
+            protected void onPre() {
+
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                isOK = LeanCloudDataService.deletePostByObjectID(objectid);
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                if (e == null) {
+                    if (isOK) {
+                        mPosts.remove(pos);
+                        mAdapter.setPosts(mPosts);
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(context, "You're not able to delete!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected void onCancel() {
+
             }
         }.execute();
     }

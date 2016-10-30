@@ -1,6 +1,7 @@
 package com.way.heard.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
+import com.luseen.autolinklibrary.AutoLinkMode;
+import com.luseen.autolinklibrary.AutoLinkOnClickListener;
+import com.luseen.autolinklibrary.AutoLinkTextView;
 import com.way.heard.R;
 import com.way.heard.models.Comment;
 import com.way.heard.ui.activities.UserDisplayActivity;
@@ -34,6 +38,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private LayoutInflater mLayoutInflater;
     private OnCommentItemReplyListener onCommentItemReplyListener;
     private OnCommentItemClickListener onCommentItemClickListener;
+    private OnAutoLinkTextViewClickListener onAutoLinkTextViewClickListener;
 
     public List<Comment> getComments() {
         return mDataList;
@@ -49,6 +54,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setOnCommentItemReplyListener(OnCommentItemReplyListener onCommentItemReplyListener) {
         this.onCommentItemReplyListener = onCommentItemReplyListener;
+    }
+
+    public void setOnAutoLinkTextViewClickListener(OnAutoLinkTextViewClickListener onAutoLinkTextViewClickListener) {
+        this.onAutoLinkTextViewClickListener = onAutoLinkTextViewClickListener;
     }
 
     public CommentAdapter(Context mContext, List<Comment> mDataList) {
@@ -122,14 +131,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         //2.3. CreateAt
         holder.tvCreateAt.setText(Util.millisecs2DateString(longCreateAt));
         //2.4. Content
-        holder.tvContent.setText(strContent);
+        holder.altv_comment_content.setAutoLinkText(strContent);
         //2.5. SubContent
         if (TextUtils.isEmpty(strReplyTo)) {
-            holder.rlSubLayout.setVisibility(View.GONE);
+            holder.altv_comment_sub_username.setVisibility(View.GONE);
+            holder.altv_comment_sub_content.setVisibility(View.GONE);
         } else {
-            holder.rlSubLayout.setVisibility(View.VISIBLE);
-            holder.tvSubUsername.setText("@" + strReplyTo + ":");
-            holder.tvSubContent.setText(strReplyFor);
+            holder.altv_comment_sub_username.setVisibility(View.VISIBLE);
+            holder.altv_comment_sub_content.setVisibility(View.VISIBLE);
+            holder.altv_comment_sub_username.setAutoLinkText("@" + strReplyTo);
+            holder.altv_comment_sub_content.setAutoLinkText(strReplyFor);
         }
         //2.6. Likes
         final AVUser currentUser = AVUser.getCurrentUser();
@@ -189,8 +200,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onCommentItemReply(int position);
     }
 
-    public interface OnCommentItemClickListener{
+    public interface OnCommentItemClickListener {
         void onCommentItemClick(int position);
+    }
+
+    public interface OnAutoLinkTextViewClickListener {
+        void onAutoLinkTextViewClick(AutoLinkMode autoLinkMode, String matchedText);
     }
 
     void bindGroupItem(Comment entity, GroupItemHolder holder, int position) {
@@ -233,10 +248,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageView ivAvatar;
         TextView tvUsername;
         TextView tvCreateAt;
-        RelativeLayout rlSubLayout;
-        TextView tvSubUsername;
-        TextView tvSubContent;
-        TextView tvContent;
+        //        RelativeLayout rlSubLayout;
+//        TextView tvSubUsername;
+//        TextView tvSubContent;
+//        TextView tvContent;
+
+        AutoLinkTextView altv_comment_content;
+        AutoLinkTextView altv_comment_sub_username;
+        AutoLinkTextView altv_comment_sub_content;
         ImageView ivReply;
         ImageView ivLike;
 
@@ -245,16 +264,72 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ivAvatar = (ImageView) itemView.findViewById(R.id.iv_comment_avatar);
             tvUsername = (TextView) itemView.findViewById(R.id.tv_comment_username);
             tvCreateAt = (TextView) itemView.findViewById(R.id.tv_comment_createat);
-            rlSubLayout = (RelativeLayout) itemView.findViewById(R.id.rl_comment_sub_layout);
-            tvSubUsername = (TextView) itemView.findViewById(R.id.tv_comment_subusername);
-            tvSubContent = (TextView) itemView.findViewById(R.id.tv_comment_subcontent);
-            tvContent = (TextView) itemView.findViewById(R.id.tv_comment_content);
+//            rlSubLayout = (RelativeLayout) itemView.findViewById(R.id.rl_comment_sub_layout);
+//            tvSubUsername = (TextView) itemView.findViewById(R.id.tv_comment_subusername);
+//            tvSubContent = (TextView) itemView.findViewById(R.id.tv_comment_subcontent);
+//            tvContent = (TextView) itemView.findViewById(R.id.tv_comment_content);
+            altv_comment_content = (AutoLinkTextView) itemView.findViewById(R.id.altv_comment_content);
+            altv_comment_sub_username = (AutoLinkTextView) itemView.findViewById(R.id.altv_comment_sub_username);
+            altv_comment_sub_content = (AutoLinkTextView) itemView.findViewById(R.id.altv_comment_sub_content);
+
             ivReply = (ImageView) itemView.findViewById(R.id.iv_comment_reply);
             ivLike = (ImageView) itemView.findViewById(R.id.iv_comment_like);
+
+            altv_comment_content.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_comment_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+            altv_comment_content.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+            altv_comment_content.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+            altv_comment_content.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+            altv_comment_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    //showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                }
+            });
+
+            altv_comment_sub_username.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_comment_sub_username.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+            altv_comment_sub_username.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+            altv_comment_sub_username.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+            altv_comment_sub_username.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+            altv_comment_sub_username.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    //showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                }
+            });
+
+            altv_comment_sub_content.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_comment_sub_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+            altv_comment_sub_content.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+            altv_comment_sub_content.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+            altv_comment_sub_content.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+            altv_comment_sub_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    //showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                }
+            });
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(onCommentItemClickListener!=null){
+                    if (onCommentItemClickListener != null) {
                         onCommentItemClickListener.onCommentItemClick(getPosition());
                     }
                 }

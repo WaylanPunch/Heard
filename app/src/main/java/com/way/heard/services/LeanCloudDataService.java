@@ -26,6 +26,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.avos.avoscloud.AVObject.createWithoutData;
+
 /**
  * Created by pc on 2016/4/26.
  */
@@ -432,7 +434,7 @@ public class LeanCloudDataService {
             if (limit > 0) {
                 AVQuery<Post> query = AVQuery.getQuery("Post");
                 query.whereEqualTo(Post.TYPE, 1);// public post
-                query.whereEqualTo(Post.AUTHOR, AVObject.createWithoutData("_User", userObjectId));
+                query.whereEqualTo(Post.AUTHOR, createWithoutData("_User", userObjectId));
                 query.skip(skip);
                 query.limit(limit);
                 query.include(Post.AUTHOR);
@@ -472,7 +474,7 @@ public class LeanCloudDataService {
         try {
             if (limit > 0) {
                 AVQuery<Post> query = AVQuery.getQuery("Post");
-                query.whereEqualTo("author", AVObject.createWithoutData("_User", userObjectId));
+                query.whereEqualTo("author", createWithoutData("_User", userObjectId));
                 query.skip(skip);
                 query.limit(limit);
                 query.include(Post.AUTHOR);
@@ -815,7 +817,7 @@ public class LeanCloudDataService {
         boolean isMyFollower = false;
         try {
             AVQuery<AVUser> followerQuery = AVUser.followerQuery(AVUser.getCurrentUser().getObjectId(), AVUser.class);
-            followerQuery.whereEqualTo("follower", AVObject.createWithoutData("_User", userObjectId));
+            followerQuery.whereEqualTo("follower", createWithoutData("_User", userObjectId));
             int count = followerQuery.count();
             if (count > 0) {
                 isMyFollower = true;
@@ -831,7 +833,7 @@ public class LeanCloudDataService {
         boolean isMyFollowee = false;
         try {
             AVQuery<AVUser> followeeQuery = AVUser.followeeQuery(AVUser.getCurrentUser().getObjectId(), AVUser.class);
-            followeeQuery.whereEqualTo("followee", AVObject.createWithoutData("_User", userObjectId));
+            followeeQuery.whereEqualTo("followee", createWithoutData("_User", userObjectId));
             int count = followeeQuery.count();
             if (count > 0) {
                 isMyFollowee = true;
@@ -848,7 +850,7 @@ public class LeanCloudDataService {
         int COUNT = 0;
         try {
             AVQuery<Post> query = AVQuery.getQuery("Post");
-            query.whereEqualTo(Post.AUTHOR, AVObject.createWithoutData("_User", userObjectId));
+            query.whereEqualTo(Post.AUTHOR, createWithoutData("_User", userObjectId));
             COUNT = query.count();
         } catch (AVException e) {
             LogUtil.e(TAG, "getPostCountByUser error", e);
@@ -861,7 +863,7 @@ public class LeanCloudDataService {
         int COUNT = 0;
         try {
             AVQuery<Post> query = AVQuery.getQuery("Post");
-            query.whereEqualTo(Post.AUTHOR, AVObject.createWithoutData("_User", userObjectId));
+            query.whereEqualTo(Post.AUTHOR, createWithoutData("_User", userObjectId));
             query.whereEqualTo(Post.FROM, 1);
             COUNT = query.count();
         } catch (AVException e) {
@@ -888,7 +890,7 @@ public class LeanCloudDataService {
         int COUNT = 0;
         try {
             AVQuery<Comment> query = AVQuery.getQuery("Comment");
-            query.whereEqualTo(Comment.AUTHOR, AVObject.createWithoutData("_User", userObjectId));
+            query.whereEqualTo(Comment.AUTHOR, createWithoutData("_User", userObjectId));
             COUNT = query.count();
         } catch (AVException e) {
             LogUtil.e(TAG, "getCommentCountByUser error", e);
@@ -1023,6 +1025,29 @@ public class LeanCloudDataService {
             return null;
         }
         return posts;
+    }
+
+    public static boolean deletePostByObjectID(String objectId) {
+        boolean isOK = false;
+        try {
+            AVObject post = AVObject.createWithoutData("Post", objectId);
+            post.delete();
+            AVQuery<Post> querypost = new AVQuery<>("Post");
+            querypost.whereEqualTo("objectId", objectId);
+            List<Post> posts = querypost.find();
+            Post.deleteAll(posts);
+
+            AVQuery<Comment> querycomment = new AVQuery<>("Comment");
+            querycomment.whereEqualTo(Comment.POSTOBJECTID, objectId);
+            List<Comment> comments = querycomment.find();
+            Comment.deleteAll(comments);
+
+            isOK = true;
+        } catch (AVException e) {
+            LogUtil.e(TAG, "deletePostByObjectID error", e);
+            isOK = false;
+        }
+        return isOK;
     }
 
 }

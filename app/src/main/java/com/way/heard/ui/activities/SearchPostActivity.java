@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVException;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
@@ -42,6 +45,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.tencent.bugly.crashreport.inner.InnerAPI.context;
 
 public class SearchPostActivity extends BaseActivity {
     private final static String TAG = SearchPostActivity.class.getName();
@@ -97,6 +102,33 @@ public class SearchPostActivity extends BaseActivity {
     private void initAdapter(){
         searchPostAdapter = new PostAdapter(SearchPostActivity.this);
         searchPostAdapter.setPosts(searchPosts);
+        searchPostAdapter.setOnDeleteClickListener(new PostAdapter.OnDeleteClickListener() {
+            @Override
+            public void onDeleteClick(final int pos) {
+                LogUtil.d(TAG, "onDeleteClick debug, Position = " + pos);
+                new MaterialDialog.Builder(SearchPostActivity.this)
+                        .title("Delete")
+                        .content("Delete This Post?")
+                        .positiveText("OK")
+                        .negativeText("CANCEL")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Post post = searchPosts.get(pos);
+                                if (post != null) {
+                                    String objectid = post.getObjectId();
+                                    deletePostAndComment(pos, objectid);
+                                }
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
         searchPostAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
             @Override
             public void onImageClick(int pos) {
@@ -335,6 +367,42 @@ public class SearchPostActivity extends BaseActivity {
         };
 
         backgroundTask.execute();
+    }
+
+    private void deletePostAndComment(final int pos, final String objectid) {
+        new LeanCloudBackgroundTask(context) {
+            boolean isOK;
+
+            @Override
+            protected void onPre() {
+
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                isOK = LeanCloudDataService.deletePostByObjectID(objectid);
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                if (e == null) {
+                    if (isOK) {
+                        searchPosts.remove(pos);
+                        searchPostAdapter.setPosts(searchPosts);
+                        searchPostAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(context, "You're not able to delete!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected void onCancel() {
+
+            }
+        }.execute();
     }
 
     @Override

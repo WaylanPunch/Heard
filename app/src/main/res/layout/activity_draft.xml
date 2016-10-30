@@ -121,7 +121,7 @@
         android:layout_marginLeft="8dip"
         android:layout_marginRight="8dip"
         android:layout_below="@+id/hsv_draft_tool_container"
-        android:background="@drawable/ic_divider_dots_vertical">
+        android:background="@drawable/ic_divider_line">
     </View>
 
     <FrameLayout

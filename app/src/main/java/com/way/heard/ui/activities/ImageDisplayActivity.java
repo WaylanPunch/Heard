@@ -16,6 +16,7 @@ import com.avos.avoscloud.AVUser;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.models.Image;
+import com.way.heard.services.DownLoadImageService;
 import com.way.heard.services.LeanCloudBackgroundTask;
 import com.way.heard.utils.GlideImageLoader;
 import com.way.heard.utils.LogUtil;
@@ -84,7 +85,8 @@ public class ImageDisplayActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //new SaveTask(ImageDisplayActivity.this).execute();
-                saveImageToStorage();
+                //saveImageToStorage();
+                saveImageToStorage2();
             }
         });
         tvLike.setOnClickListener(new View.OnClickListener() {
@@ -205,6 +207,16 @@ public class ImageDisplayActivity extends BaseActivity {
             Toast.makeText(ImageDisplayActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             LogUtil.e(TAG, "saveImageToStorage error", e);
         }
+    }
+
+    private void saveImageToStorage2() {
+        Intent startIntent = new Intent(ImageDisplayActivity.this, DownLoadImageService.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("FILE_URL", photo.getUrl());
+        bundle.putString("FILE_NAME", getFileFullName(photo.getUrl()) + ".jpg");
+        //startIntent.setClass(MainActivity.this, DownLoadAPKService.class);
+        startIntent.putExtras(bundle);
+        startService(startIntent);
     }
 
     public String getFileName(String pathandname) {

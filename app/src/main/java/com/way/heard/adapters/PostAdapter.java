@@ -1,6 +1,7 @@
 package com.way.heard.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
+import com.luseen.autolinklibrary.AutoLinkMode;
+import com.luseen.autolinklibrary.AutoLinkOnClickListener;
+import com.luseen.autolinklibrary.AutoLinkTextView;
 import com.way.heard.R;
 import com.way.heard.models.Image;
 import com.way.heard.models.Post;
@@ -39,6 +43,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Post> mPosts;
     private OnImageClickListener onImageClickListener;
     private OnRepostClickListener onRepostClickListener;
+    private OnDeleteClickListener onDeleteClickListener;
+    private OnAutoLinkTextViewClickListener onAutoLinkTextViewClickListener;
+
 
     public void setOnImageClickListener(OnImageClickListener onImageClickListener1) {
         this.onImageClickListener = onImageClickListener1;
@@ -46,6 +53,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setOnRepostClickListener(OnRepostClickListener onRepostClickListener1) {
         this.onRepostClickListener = onRepostClickListener1;
+    }
+
+    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener1) {
+        this.onDeleteClickListener = onDeleteClickListener1;
+    }
+
+    public void setOnAutoLinkTextViewClickListener(OnAutoLinkTextViewClickListener onAutoLinkTextViewClickListener) {
+        this.onAutoLinkTextViewClickListener = onAutoLinkTextViewClickListener;
     }
 
     public void setPosts(List<Post> mPosts) {
@@ -123,12 +138,27 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.tvUsername.setText(strUsername);
             //3.3.CreateAt
             holder.tvCreateAt.setText(Util.millisecs2DateString(longCreateAt));
+            //3.3.DeleteButton
+            if (strUsername.equalsIgnoreCase(AVUser.getCurrentUser().getUsername())) {
+                holder.ivDelete.setVisibility(View.VISIBLE);
+                holder.ivDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onDeleteClickListener != null) {
+                            onDeleteClickListener.onDeleteClick(position);
+                        }
+                    }
+                });
+            } else {
+                holder.ivDelete.setVisibility(View.GONE);
+            }
+
             //3.4.Content
             if (!TextUtils.isEmpty(strContent)) {
-                holder.tvContent.setVisibility(View.VISIBLE);
-                holder.tvContent.setText(strContent);
+                holder.altv_post2_item_content.setVisibility(View.VISIBLE);
+                holder.altv_post2_item_content.setAutoLinkText(strContent);
             } else {
-                holder.tvContent.setVisibility(View.GONE);
+                holder.altv_post2_item_content.setVisibility(View.GONE);
             }
             //3.5.Photo
             if (!TextUtils.isEmpty(strImageUrl)) {
@@ -246,12 +276,26 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.tvUsername.setText(strUsername);
             //3.3.CreateAt
             holder.tvCreateAt.setText(Util.millisecs2DateString(longCreateAt));
+            //3.3.DeleteButton
+            if (strUsername.equalsIgnoreCase(AVUser.getCurrentUser().getUsername())) {
+                holder.ivDelete.setVisibility(View.VISIBLE);
+                holder.ivDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onDeleteClickListener != null) {
+                            onDeleteClickListener.onDeleteClick(position);
+                        }
+                    }
+                });
+            } else {
+                holder.ivDelete.setVisibility(View.GONE);
+            }
             //3.4.Content
             if (!TextUtils.isEmpty(strContent)) {
-                holder.tvContent.setVisibility(View.VISIBLE);
-                holder.tvContent.setText(strContent);
+                holder.altv_repost_item_content.setVisibility(View.VISIBLE);
+                holder.altv_repost_item_content.setAutoLinkText(strContent);
             } else {
-                holder.tvContent.setVisibility(View.GONE);
+                holder.altv_repost_item_content.setVisibility(View.GONE);
             }
 
             //Original Post Data
@@ -265,8 +309,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             List<String> strTagsOriginal = postOriginal.getTags();
 
-            holder.tvUsernameOriginal.setText(strUsernameOriginal);
-            holder.tvContentOriginal.setText(strContentOriginal);
+            holder.altv_repost_item_nickname_original.setAutoLinkText("@" + strUsernameOriginal);
+            if (TextUtils.isEmpty(strContentOriginal)) {
+                holder.altv_repost_item_content_original.setVisibility(View.GONE);
+            } else {
+                holder.altv_repost_item_content_original.setVisibility(View.VISIBLE);
+                holder.altv_repost_item_content_original.setAutoLinkText(strContentOriginal);
+            }
+
             //3.5.Photo
             if (!TextUtils.isEmpty(strImageUrlOriginal)) {
                 holder.ivPhotoOriginal.setVisibility(View.VISIBLE);
@@ -374,13 +424,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return TYPE_REPOST;
     }
 
-    public static class PostViewHolder extends RecyclerView.ViewHolder {
+    public class PostViewHolder extends RecyclerView.ViewHolder {
 
         View itemview;
         ImageView ivAvatar;
         TextView tvUsername;
         TextView tvCreateAt;
-        TextView tvContent;
+        //TextView tvContent;
+        AutoLinkTextView altv_post2_item_content;
+        ImageView ivDelete;
+
         ImageView ivPhoto;
         TagCloudView tcvTags;
         ImageView ivLikesButton;
@@ -394,25 +447,52 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ivAvatar = (ImageView) contentView.findViewById(R.id.iv_post2_item_avatar);
             tvUsername = (TextView) contentView.findViewById(R.id.tv_post2_item_nickname);
             tvCreateAt = (TextView) contentView.findViewById(R.id.tv_post2_item_createat);
-            tvContent = (TextView) contentView.findViewById(R.id.tv_post2_item_content);
+            //tvContent = (TextView) contentView.findViewById(R.id.tv_post2_item_content);
+            altv_post2_item_content = (AutoLinkTextView) contentView.findViewById(R.id.altv_post2_item_content);
+            ivDelete = (ImageView) contentView.findViewById(R.id.iv_post2_item_delete);
+
             ivPhoto = (ImageView) contentView.findViewById(R.id.iv_post2_item_photo);
             tcvTags = (TagCloudView) contentView.findViewById(R.id.tcv_post2_item_tags);
             ivLikesButton = (ImageView) contentView.findViewById(R.id.iv_post2_item_likes_button);
             ivCommentsButton = (ImageView) contentView.findViewById(R.id.iv_post2_item_comments_button);
             ivRepostButton = (ImageView) contentView.findViewById(R.id.iv_post2_item_repost_button);
+
+            altv_post2_item_content.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_post2_item_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+            altv_post2_item_content.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+            altv_post2_item_content.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+            altv_post2_item_content.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+            altv_post2_item_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    if (onAutoLinkTextViewClickListener != null) {
+                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                    }
+                }
+            });
         }
     }
 
-    public static class RepostViewHolder extends RecyclerView.ViewHolder {
+    public class RepostViewHolder extends RecyclerView.ViewHolder {
         View itemview;
         //CardView cvContainer;
         ImageView ivAvatar;
         TextView tvUsername;
         TextView tvCreateAt;
-        TextView tvContent;
+        //TextView tvContent;
+        AutoLinkTextView altv_repost_item_content;
+        ImageView ivDelete;
 
-        TextView tvUsernameOriginal;
-        TextView tvContentOriginal;
+        //        TextView tvUsernameOriginal;
+//        TextView tvContentOriginal;
+        AutoLinkTextView altv_repost_item_nickname_original;
+        AutoLinkTextView altv_repost_item_content_original;
+
         ImageView ivPhotoOriginal;
         TagCloudView tcvTagsOriginal;
 
@@ -427,17 +507,80 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ivAvatar = (ImageView) contentView.findViewById(R.id.iv_repost_item_avatar);
             tvUsername = (TextView) contentView.findViewById(R.id.tv_repost_item_nickname);
             tvCreateAt = (TextView) contentView.findViewById(R.id.tv_repost_item_createat);
-            tvContent = (TextView) contentView.findViewById(R.id.tv_repost_item_content);
+            //tvContent = (TextView) contentView.findViewById(R.id.tv_repost_item_content);
+            altv_repost_item_content = (AutoLinkTextView) contentView.findViewById(R.id.altv_repost_item_content);
+            ivDelete = (ImageView) contentView.findViewById(R.id.iv_repost_item_delete);
 
-            tvUsernameOriginal = (TextView) contentView.findViewById(R.id.tv_repost_item_nickname_original);
-            tvContentOriginal = (TextView) contentView.findViewById(R.id.tv_repost_item_content_original);
+//            tvUsernameOriginal = (TextView) contentView.findViewById(R.id.tv_repost_item_nickname_original);
+//            tvContentOriginal = (TextView) contentView.findViewById(R.id.tv_repost_item_content_original);
+            altv_repost_item_nickname_original = (AutoLinkTextView) contentView.findViewById(R.id.altv_repost_item_nickname_original);
+            altv_repost_item_content_original = (AutoLinkTextView) contentView.findViewById(R.id.altv_repost_item_content_original);
             ivPhotoOriginal = (ImageView) contentView.findViewById(R.id.iv_repost_item_photo_original);
             tcvTagsOriginal = (TagCloudView) contentView.findViewById(R.id.tcv_repost_item_tags_original);
 
             ivLikesButton = (ImageView) contentView.findViewById(R.id.iv_repost_item_likes_button);
             ivCommentsButton = (ImageView) contentView.findViewById(R.id.iv_repost_item_comments_button);
             ivRepostButton = (ImageView) contentView.findViewById(R.id.iv_repost_item_repost_button);
+
+            altv_repost_item_content.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_repost_item_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+            altv_repost_item_content.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+            altv_repost_item_content.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+            altv_repost_item_content.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+            altv_repost_item_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    if (onAutoLinkTextViewClickListener != null) {
+                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                    }
+                }
+            });
+            altv_repost_item_nickname_original.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_repost_item_nickname_original.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+            altv_repost_item_nickname_original.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+            altv_repost_item_nickname_original.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+            altv_repost_item_nickname_original.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+            altv_repost_item_nickname_original.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    if (onAutoLinkTextViewClickListener != null) {
+                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                    }
+                }
+            });
+            altv_repost_item_content_original.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_repost_item_content_original.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+            altv_repost_item_content_original.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+            altv_repost_item_content_original.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+            altv_repost_item_content_original.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+            altv_repost_item_content_original.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    if (onAutoLinkTextViewClickListener != null) {
+                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnDeleteClickListener {
+        void onDeleteClick(int pos);
     }
 
     public interface OnImageClickListener {
@@ -446,5 +589,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface OnRepostClickListener {
         void onRepostClick(int pos);
+    }
+
+    public interface OnAutoLinkTextViewClickListener {
+        void onAutoLinkTextViewClick(AutoLinkMode autoLinkMode, String matchedText);
     }
 }

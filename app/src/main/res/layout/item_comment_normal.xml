@@ -27,11 +27,10 @@
             android:layout_marginBottom="@dimen/bullet_gap_width"
             android:layout_marginTop="@dimen/bullet_gap_width"
             android:ellipsize="end"
-            android:maxLength="20"
             android:singleLine="true"
-            android:text="Waylan Punch"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="15.0sp" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_comment_createat"
@@ -42,71 +41,90 @@
             android:layout_marginRight="@dimen/bullet_gap_width"
             android:text="2 mins ago"
             android:textColor="@color/colorSecondaryText"
-            android:textSize="13.0sp" />
+            android:textSize="16sp" />
 
-        <RelativeLayout
-            android:id="@+id/rl_comment_sub_layout"
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_comment_sub_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/tv_comment_username"-->
+        <!--android:layout_marginBottom="@dimen/bullet_gap_width"-->
+        <!--android:layout_marginRight="@dimen/bullet_gap_width"-->
+        <!--android:background="@color/colorBackgroundDefault">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_comment_subusername"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:text="DylanPunch:"-->
+        <!--android:textColor="@color/colorSecondaryText"-->
+        <!--android:textSize="16sp"-->
+        <!--android:textStyle="italic" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_comment_subcontent"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/tv_comment_subusername"-->
+        <!--android:text="shjsdfsf"-->
+        <!--android:textColor="@color/colorSecondaryText"-->
+        <!--android:textSize="16sp"-->
+        <!--android:textStyle="italic" />-->
+        <!--</RelativeLayout>-->
+
+        <com.luseen.autolinklibrary.AutoLinkTextView
+            android:id="@+id/altv_comment_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/tv_comment_username"
-            android:layout_marginBottom="@dimen/bullet_gap_width"
-            android:layout_marginRight="@dimen/bullet_gap_width"
-            android:background="@color/colorBackgroundDefault">
+            android:lineSpacingExtra="4dp"
+            android:textColor="@android:color/tertiary_text_dark"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_comment_subusername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:text="DylanPunch:"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="14sp"
-                android:textStyle="italic" />
-
-            <TextView
-                android:id="@+id/tv_comment_subcontent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_comment_subusername"
-                android:text="shjsdfsf"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="12sp"
-                android:textStyle="italic" />
-        </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/tv_comment_content"
-            android:layout_width="fill_parent"
+        <com.luseen.autolinklibrary.AutoLinkTextView
+            android:id="@+id/altv_comment_sub_username"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/rl_comment_sub_layout"
+            android:layout_below="@+id/altv_comment_content"
             android:layout_marginBottom="@dimen/bullet_gap_width"
             android:layout_marginRight="@dimen/bullet_gap_width"
             android:lineSpacingExtra="4dp"
-            android:text="aaa"
-            android:textColor="@color/colorSecondaryText"
-            android:textSize="14sp" />
+            android:textColor="@android:color/tertiary_text_dark"
+            android:textSize="16sp" />
+
+        <com.luseen.autolinklibrary.AutoLinkTextView
+            android:id="@+id/altv_comment_sub_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/altv_comment_sub_username"
+            android:layout_marginBottom="@dimen/bullet_gap_width"
+            android:layout_marginRight="@dimen/bullet_gap_width"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@android:color/tertiary_text_dark"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_comment_like"
-            android:layout_width="24dip"
-            android:layout_height="24dip"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tv_comment_content"
+            android:layout_below="@+id/altv_comment_sub_content"
             android:layout_marginBottom="@dimen/bullet_gap_width"
             android:layout_marginRight="@dimen/bullet_gap_width"
             android:src="@drawable/ic_thumb_up" />
 
         <ImageView
             android:id="@+id/iv_comment_reply"
-            android:layout_width="24dip"
-            android:layout_height="24dip"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/tv_comment_content"
+            android:layout_below="@+id/altv_comment_sub_content"
             android:src="@drawable/ic_comment_gray" />
     </RelativeLayout>
 
@@ -117,6 +135,6 @@
         android:layout_below="@+id/rl_comment_container"
         android:layout_marginLeft="@dimen/bullet_gap_width"
         android:layout_marginRight="@dimen/bullet_gap_width"
-        android:background="@drawable/ic_divider_dots_vertical" />
+        android:background="@drawable/ic_divider_line" />
 </RelativeLayout>
 

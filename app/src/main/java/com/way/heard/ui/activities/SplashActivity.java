@@ -1,11 +1,14 @@
 package com.way.heard.ui.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.way.heard.R;
 import com.way.heard.base.HeardApp;
 import com.way.heard.utils.PreferencesUtil;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
+import rx.functions.Action1;
 
 public class SplashActivity extends BaseActivity {
 
@@ -21,8 +25,25 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        //下载需要写SD卡权限, targetSdkVersion>=23 需要动态申请权限
+        RxPermissions.getInstance(this)
+                // 申请权限
+                .request(new String[]{Manifest.permission_group.STORAGE,Manifest.permission_group.CAMERA,Manifest.permission_group.PHONE})
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean granted) {
+                        if (granted) {
+                            //请求成功
+                            //Toast.makeText(SplashActivity.this, "请求权限成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // 请求失败
+                            Toast.makeText(SplashActivity.this, "请求权限失败", Toast.LENGTH_SHORT).show();
+                            //finish();
+                        }
+                        isFirstTimeInstallation();
+                    }
+                });
 
-        isFirstTimeInstallation();
     }
 
     private void isFirstTimeInstallation() {

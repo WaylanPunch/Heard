@@ -163,4 +163,5 @@
     <string name="action_scan">Scan</string>
     <string name="title_activity_profile_scan">ProfileScanActivity</string>
     <string name="action_reply">REPLY</string>
+    <string name="text_new_line_sign">\n</string>
 </resources>

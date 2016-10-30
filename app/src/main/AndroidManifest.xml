@@ -152,6 +152,24 @@
             android:theme="@style/AppTheme"></activity>
 
         <uses-library android:name="android.test.runner"/>
+
+        <service android:name=".services.DownLoadAPKService">
+
+        </service>
+        <service android:name=".services.DownLoadImageService">
+
+        </service>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.way.heard.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <!--元数据-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"

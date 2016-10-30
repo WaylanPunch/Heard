@@ -19,7 +19,6 @@
             android:id="@+id/alrv_post_display_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:scrollbars="vertical">
 
         </com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView>

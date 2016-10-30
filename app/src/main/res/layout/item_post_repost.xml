@@ -19,15 +19,17 @@
 
         <TextView
             android:id="@+id/tv_repost_item_nickname"
-            style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/bullet_gap_width"
             android:layout_marginTop="@dimen/bullet_gap_width"
             android:layout_toRightOf="@+id/iv_repost_item_avatar"
-            android:text="Nickname"
-            android:textColor="@color/colorSecondaryText" />
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_repost_item_createat"
@@ -37,19 +39,29 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/bullet_gap_width"
-            android:text="1 hour ago" />
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_repost_item_delete"
+            android:layout_width="24dip"
+            android:layout_height="24dip"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_close_gray"
+            android:visibility="gone" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_repost_item_content"
+    <com.luseen.autolinklibrary.AutoLinkTextView
+        android:id="@+id/altv_repost_item_content"
         style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/bullet_gap_width"
         android:layout_marginLeft="@dimen/bullet_gap_width"
         android:layout_marginRight="@dimen/bullet_gap_width"
-        android:text="111"
-        android:textColor="@color/colorSecondaryText" />
+        android:lineSpacingExtra="4dp"
+        android:textColor="@android:color/tertiary_text_dark"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:id="@+id/ll_repost_item_container_original"
@@ -58,8 +70,8 @@
         android:background="@color/colorHintTextLight"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_repost_item_nickname_original"
+        <com.luseen.autolinklibrary.AutoLinkTextView
+            android:id="@+id/altv_repost_item_nickname_original"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,11 +79,12 @@
             android:layout_marginLeft="@dimen/bullet_gap_width"
             android:layout_marginRight="@dimen/bullet_gap_width"
             android:layout_marginTop="@dimen/bullet_gap_width"
-            android:text="Nickname"
-            android:textColor="@color/colorSecondaryText" />
+            android:lineSpacingExtra="4dp"
+            android:textColor="@android:color/tertiary_text_dark"
+            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tv_repost_item_content_original"
+        <com.luseen.autolinklibrary.AutoLinkTextView
+            android:id="@+id/altv_repost_item_content_original"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,18 +92,19 @@
             android:layout_marginLeft="@dimen/bullet_gap_width"
             android:layout_marginRight="@dimen/bullet_gap_width"
             android:layout_marginTop="@dimen/bullet_gap_width"
-            android:text="2222"
-            android:textColor="@color/colorThirdText" />
+            android:lineSpacingExtra="4dp"
+            android:textColor="@android:color/tertiary_text_dark"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_repost_item_photo_original"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:minHeight="200dip"
-            android:maxHeight="400dip"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/bullet_gap_width"
+            android:maxHeight="400dip"
+            android:minHeight="200dip"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_picture_default" />
 
         <com.way.heard.ui.views.TagCloudView
@@ -157,5 +171,5 @@
         android:layout_below="@+id/rl_repost_item_bottom_container"
         android:layout_marginLeft="@dimen/bullet_gap_width"
         android:layout_marginRight="@dimen/bullet_gap_width"
-        android:background="@drawable/ic_divider_dots_vertical" />
+        android:background="@drawable/ic_divider_line" />
 </LinearLayout>

@@ -38,5 +38,5 @@
         android:layout_below="@+id/iv_item_follower_normal_avatar"
         android:layout_marginLeft="@dimen/bullet_gap_width"
         android:layout_marginRight="@dimen/bullet_gap_width"
-        android:background="@drawable/ic_divider_dots_vertical" />
+        android:background="@drawable/ic_divider_line" />
 </RelativeLayout>

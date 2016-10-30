@@ -235,7 +235,7 @@
                         android:layout_height="1dip"
                         android:layout_marginLeft="8dip"
                         android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
+                        android:background="@drawable/ic_divider_line"></View>
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -268,7 +268,7 @@
                         android:layout_height="1dip"
                         android:layout_marginLeft="8dip"
                         android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
+                        android:background="@drawable/ic_divider_line"></View>
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -345,7 +345,7 @@
                         android:layout_height="1dip"
                         android:layout_marginLeft="8dip"
                         android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
+                        android:background="@drawable/ic_divider_line"></View>
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -378,7 +378,7 @@
                         android:layout_height="1dip"
                         android:layout_marginLeft="8dip"
                         android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
+                        android:background="@drawable/ic_divider_line"></View>
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -411,7 +411,7 @@
                         android:layout_height="1dip"
                         android:layout_marginLeft="8dip"
                         android:layout_marginRight="8dip"
-                        android:background="@drawable/ic_divider_dots_vertical"></View>
+                        android:background="@drawable/ic_divider_line"></View>
 
                     <FrameLayout
                         android:layout_width="match_parent"

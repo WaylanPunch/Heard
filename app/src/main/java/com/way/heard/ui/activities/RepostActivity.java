@@ -1,7 +1,10 @@
 package com.way.heard.ui.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -14,6 +17,9 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
+import com.luseen.autolinklibrary.AutoLinkMode;
+import com.luseen.autolinklibrary.AutoLinkOnClickListener;
+import com.luseen.autolinklibrary.AutoLinkTextView;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.models.Image;
@@ -38,8 +44,8 @@ public class RepostActivity extends BaseActivity {
     private Context context;
     private EditText etContent;
     private ImageView ivOrinPhoto;
-    private TextView tvOrinUsername;
-    private TextView tvOrinContetnt;
+    private AutoLinkTextView altv_repost_original_username;
+    private AutoLinkTextView altv_repost_original_content;
     private RotateLoading loading;
 
     private int repostFrom;
@@ -97,8 +103,8 @@ public class RepostActivity extends BaseActivity {
         loading = (RotateLoading) findViewById(R.id.loading);
         etContent = (EditText) findViewById(R.id.et_repost_content);
         ivOrinPhoto = (ImageView) findViewById(R.id.iv_repost_original_photo);
-        tvOrinUsername = (TextView) findViewById(R.id.tv_repost_original_username);
-        tvOrinContetnt = (TextView) findViewById(R.id.tv_repost_original_content);
+        altv_repost_original_username = (AutoLinkTextView) findViewById(R.id.altv_repost_original_username);
+        altv_repost_original_content = (AutoLinkTextView) findViewById(R.id.altv_repost_original_content);
     }
 
     private void initData() {
@@ -119,8 +125,40 @@ public class RepostActivity extends BaseActivity {
             }
             LogUtil.d(TAG, "initData debug, Photo Url = " + photoUrl);
             String content = originalPost.getContent();
-            tvOrinUsername.setText(username);
-            tvOrinContetnt.setText(content);
+            altv_repost_original_username.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_repost_original_username.setHashtagModeColor(ContextCompat.getColor(context, R.color.colorTextHashTag));
+            altv_repost_original_username.setPhoneModeColor(ContextCompat.getColor(context, R.color.colorTextPhone));
+            altv_repost_original_username.setCustomModeColor(ContextCompat.getColor(context, R.color.colorTextCustom));
+            altv_repost_original_username.setMentionModeColor(ContextCompat.getColor(context, R.color.colorTextMention));
+            altv_repost_original_username.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                }
+            });
+            altv_repost_original_username.setAutoLinkText("@" + username);
+            altv_repost_original_content.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            altv_repost_original_content.setHashtagModeColor(ContextCompat.getColor(context, R.color.colorTextHashTag));
+            altv_repost_original_content.setPhoneModeColor(ContextCompat.getColor(context, R.color.colorTextPhone));
+            altv_repost_original_content.setCustomModeColor(ContextCompat.getColor(context, R.color.colorTextCustom));
+            altv_repost_original_content.setMentionModeColor(ContextCompat.getColor(context, R.color.colorTextMention));
+            altv_repost_original_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                }
+            });
+            altv_repost_original_content.setAutoLinkText(content);
             if (!TextUtils.isEmpty(photoUrl)) {
                 GlideImageLoader.displayImage(context, photoUrl, ivOrinPhoto);
             }
@@ -212,4 +250,18 @@ public class RepostActivity extends BaseActivity {
 
     }
     */
+
+    private void showDialog(String title, String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message)
+                .setTitle(title)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

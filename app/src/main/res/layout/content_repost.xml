@@ -20,17 +20,17 @@
             android:id="@+id/et_repost_content"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
-            android:minHeight="120dip"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/bullet_gap_width"
             android:layout_marginTop="@dimen/bullet_gap_width"
             android:background="@null"
-            android:hint="Anything you want to say"
-            android:textColorHint="@color/colorHintText"
             android:gravity="start|top"
-            android:text="" />
+            android:hint="Anything you want to say"
+            android:minHeight="120dip"
+            android:text=""
+            android:textColorHint="@color/colorHintText" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,29 +52,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_repost_original_username"
-                    style="?android:textAppearanceMedium"
+                <com.luseen.autolinklibrary.AutoLinkTextView
+                    android:id="@+id/altv_repost_original_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/bullet_gap_width"
                     android:gravity="start|center_vertical"
-                    android:text="111"
+                    android:lineSpacingExtra="4dp"
                     android:padding="4dip"
-                    android:textColor="@color/colorSecondaryText" />
+                    android:textColor="@android:color/tertiary_text_dark"
+                    android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_repost_original_content"
-                    style="?android:textAppearanceMedium"
+                <com.luseen.autolinklibrary.AutoLinkTextView
+                    android:id="@+id/altv_repost_original_content"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/bullet_gap_width"
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
-                    android:padding="4dip"
+                    android:lineSpacingExtra="4dp"
                     android:maxLines="2"
-                    android:text="222"
-                    android:textColor="@color/colorThirdText" />
+                    android:padding="4dip"
+                    android:textColor="@android:color/tertiary_text_dark"
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
                 android:layout_margin="@dimen/bullet_gap_width"
-                android:background="@drawable/ic_divider_dots_vertical"
+                android:background="@drawable/ic_divider_line"
                 android:visibility="visible"></View>
 
             <LinearLayout
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
                 android:layout_margin="@dimen/bullet_gap_width"
-                android:background="@drawable/ic_divider_dots_vertical"
+                android:background="@drawable/ic_divider_line"
                 android:visibility="visible"></View>
 
 

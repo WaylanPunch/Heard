@@ -17,4 +17,10 @@
     <color name="colorBackgroundDefault">#DDDDDD</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="colorTextHashTag">#9C27B0</color>
+    <color name="colorTextPhone">#FFC107</color>
+    <color name="colorTextUrl">#64dd17</color>
+    <color name="colorTextMention">#1DA1F2</color>
+    <color name="colorTextCustom">#1DA1F2</color>
 </resources>

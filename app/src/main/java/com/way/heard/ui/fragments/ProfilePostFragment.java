@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVException;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
@@ -112,6 +115,35 @@ public class ProfilePostFragment extends Fragment {
 
 
             mAdapter = new PostAdapter(getContext());
+            mAdapter.setOnDeleteClickListener(new PostAdapter.OnDeleteClickListener() {
+                @Override
+                public void onDeleteClick(final int pos) {
+                    LogUtil.d(TAG, "onDeleteClick debug, Position = " + pos);
+                    new MaterialDialog.Builder(getContext())
+                            .title("Delete")
+                            .content("Delete This Post?")
+                            .positiveText("OK")
+                            .negativeText("CANCEL")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    Post post = mPosts.get(pos);
+                                    if (post != null) {
+                                        String objectid = post.getObjectId();
+                                        deletePostAndComment(pos, objectid);
+                                    }
+                                }
+                            })
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+
+                }
+            });
+
             mAdapter.setOnImageClickListener(new PostAdapter.OnImageClickListener() {
                 @Override
                 public void onImageClick(int pos) {
@@ -185,7 +217,7 @@ public class ProfilePostFragment extends Fragment {
 
             @Override
             protected void onPre() {
-                if(isFirstTime) {
+                if (isFirstTime) {
                     loading.start();
                 }
                 mSwipeRefreshLayout.setRefreshing(true);
@@ -209,7 +241,7 @@ public class ProfilePostFragment extends Fragment {
             protected void onPost(AVException e) {
                 mAdapter.setPosts(mPosts);
                 mAdapter.notifyDataSetChanged();
-                if(isFirstTime) {
+                if (isFirstTime) {
                     loading.stop();
                 }
                 if (mSwipeRefreshLayout.isRefreshing()) {
@@ -219,7 +251,7 @@ public class ProfilePostFragment extends Fragment {
 
             @Override
             protected void onCancel() {
-                if(isFirstTime) {
+                if (isFirstTime) {
                     loading.stop();
                 }
                 if (mSwipeRefreshLayout.isRefreshing()) {
@@ -227,6 +259,42 @@ public class ProfilePostFragment extends Fragment {
                 }
             }
 
+        }.execute();
+    }
+
+    private void deletePostAndComment(final int pos, final String objectid) {
+        new LeanCloudBackgroundTask(context) {
+            boolean isOK;
+
+            @Override
+            protected void onPre() {
+
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                isOK = LeanCloudDataService.deletePostByObjectID(objectid);
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                if (e == null) {
+                    if (isOK) {
+                        mPosts.remove(pos);
+                        mAdapter.setPosts(mPosts);
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(context, "You're not able to delete!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected void onCancel() {
+
+            }
         }.execute();
     }
 
