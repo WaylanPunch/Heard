@@ -938,6 +938,17 @@ public class LeanCloudDataService {
         return users;
     }
 
+    public static AVUser getUserByUsername(String username) {
+        try {
+            AVQuery<AVUser> query = AVUser.getQuery();
+            query.whereContains("username", username);
+            return query.getFirst();
+        } catch (AVException e) {
+            LogUtil.e(TAG, "getUserByUsername error", e);
+            return null;
+        }
+    }
+
     public static List<Tag> getAnyTagByContentFuzy(String content) {
         List<Tag> tags;
         try {

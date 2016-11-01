@@ -279,6 +279,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     AutoLinkMode.MODE_HASHTAG,
                     AutoLinkMode.MODE_PHONE,
                     AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_EMAIL,
                     AutoLinkMode.MODE_MENTION,
                     AutoLinkMode.MODE_CUSTOM);
             altv_comment_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
@@ -296,6 +297,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     AutoLinkMode.MODE_HASHTAG,
                     AutoLinkMode.MODE_PHONE,
                     AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_EMAIL,
                     AutoLinkMode.MODE_MENTION,
                     AutoLinkMode.MODE_CUSTOM);
             altv_comment_sub_username.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
@@ -313,6 +315,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     AutoLinkMode.MODE_HASHTAG,
                     AutoLinkMode.MODE_PHONE,
                     AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_EMAIL,
                     AutoLinkMode.MODE_MENTION,
                     AutoLinkMode.MODE_CUSTOM);
             altv_comment_sub_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));

@@ -1,15 +1,24 @@
 package com.way.heard.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.test.suitebuilder.annotation.Suppress;
 import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import rx.functions.Action1;
 
 /**
  * Created by pc on 2016/4/26.
@@ -58,6 +67,98 @@ public class Util {
             return other == null;
         } else {
             return source.equals(other);
+        }
+
+    }
+
+
+    public static void startCallPhone(final Context context, final String phoneNumber) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //下载需要写SD卡权限, targetSdkVersion>=23 需要动态申请权限
+            RxPermissions.getInstance(context)
+                    // 申请权限
+                    .request(new String[]{Manifest.permission.CALL_PHONE})
+                    .subscribe(new Action1<Boolean>() {
+                        @Override
+                        public void call(Boolean granted) {
+                            if (granted) {
+                                //请求成功
+                                //用intent启动拨打电话
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            } else {
+                                // 请求失败
+                                Toast.makeText(context, "请求权限失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+
+    }
+
+    public static void startSendEmail(final Context context, final String email) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //下载需要写SD卡权限, targetSdkVersion>=23 需要动态申请权限
+            RxPermissions.getInstance(context)
+                    // 申请权限
+                    .request(new String[]{Manifest.permission.INTERNET})
+                    .subscribe(new Action1<Boolean>() {
+                        @Override
+                        public void call(Boolean granted) {
+                            if (granted) {
+                                //请求成功
+                                Intent data = new Intent(Intent.ACTION_SENDTO);
+                                data.setData(Uri.parse("mailto:" + email));
+                                data.putExtra(Intent.EXTRA_SUBJECT, "这是标题");
+                                data.putExtra(Intent.EXTRA_TEXT, "这是内容");
+                                context.startActivity(data);
+                            } else {
+                                // 请求失败
+                                Toast.makeText(context, "请求权限失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Intent data = new Intent(Intent.ACTION_SENDTO);
+            data.setData(Uri.parse("mailto:" + email));
+            data.putExtra(Intent.EXTRA_SUBJECT, "这是标题");
+            data.putExtra(Intent.EXTRA_TEXT, "这是内容");
+            context.startActivity(data);
+        }
+
+    }
+
+    public static void startAccessUrl(final Context context, final String url) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //下载需要写SD卡权限, targetSdkVersion>=23 需要动态申请权限
+            RxPermissions.getInstance(context)
+                    // 申请权限
+                    .request(new String[]{Manifest.permission.INTERNET})
+                    .subscribe(new Action1<Boolean>() {
+                        @Override
+                        public void call(Boolean granted) {
+                            if (granted) {
+                                //请求成功
+                                Intent intent = new Intent();
+                                intent.setData(Uri.parse(url));//Url 就是你要打开的网址
+                                intent.setAction(Intent.ACTION_VIEW);
+                                context.startActivity(intent);
+                            } else {
+                                // 请求失败
+                                Toast.makeText(context, "请求权限失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Intent intent = new Intent();
+            intent.setData(Uri.parse(url));//Url 就是你要打开的网址
+            intent.setAction(Intent.ACTION_VIEW);
+            context.startActivity(intent);
         }
 
     }

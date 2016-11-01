@@ -136,6 +136,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
             //3.2.Username
             holder.tvUsername.setText(strUsername);
+            holder.tvUsername.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProfileActivity.go(mContext, post.getAuthor());
+                }
+            });
             //3.3.CreateAt
             holder.tvCreateAt.setText(Util.millisecs2DateString(longCreateAt));
             //3.3.DeleteButton
@@ -155,8 +161,28 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             //3.4.Content
             if (!TextUtils.isEmpty(strContent)) {
+                holder.altv_post2_item_content.addAutoLinkMode(
+                        AutoLinkMode.MODE_HASHTAG,
+                        AutoLinkMode.MODE_PHONE,
+                        AutoLinkMode.MODE_URL,
+                        AutoLinkMode.MODE_EMAIL,
+                        AutoLinkMode.MODE_MENTION,
+                        AutoLinkMode.MODE_CUSTOM);
+                holder.altv_post2_item_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+                holder.altv_post2_item_content.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+                holder.altv_post2_item_content.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+                holder.altv_post2_item_content.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+                holder.altv_post2_item_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                    @Override
+                    public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                        if (onAutoLinkTextViewClickListener != null) {
+                            onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                        }
+                    }
+                });
                 holder.altv_post2_item_content.setVisibility(View.VISIBLE);
                 holder.altv_post2_item_content.setAutoLinkText(strContent);
+
             } else {
                 holder.altv_post2_item_content.setVisibility(View.GONE);
             }
@@ -292,8 +318,28 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             //3.4.Content
             if (!TextUtils.isEmpty(strContent)) {
+                holder.altv_repost_item_content.addAutoLinkMode(
+                        AutoLinkMode.MODE_HASHTAG,
+                        AutoLinkMode.MODE_PHONE,
+                        AutoLinkMode.MODE_URL,
+                        AutoLinkMode.MODE_EMAIL,
+                        AutoLinkMode.MODE_MENTION,
+                        AutoLinkMode.MODE_CUSTOM);
+                holder.altv_repost_item_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+                holder.altv_repost_item_content.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+                holder.altv_repost_item_content.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+                holder.altv_repost_item_content.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+                holder.altv_repost_item_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                    @Override
+                    public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                        if (onAutoLinkTextViewClickListener != null) {
+                            onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                        }
+                    }
+                });
                 holder.altv_repost_item_content.setVisibility(View.VISIBLE);
                 holder.altv_repost_item_content.setAutoLinkText(strContent);
+
             } else {
                 holder.altv_repost_item_content.setVisibility(View.GONE);
             }
@@ -309,12 +355,52 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             List<String> strTagsOriginal = postOriginal.getTags();
 
+            holder.altv_repost_item_nickname_original.addAutoLinkMode(
+                    AutoLinkMode.MODE_HASHTAG,
+                    AutoLinkMode.MODE_PHONE,
+                    AutoLinkMode.MODE_URL,
+                    AutoLinkMode.MODE_EMAIL,
+                    AutoLinkMode.MODE_MENTION,
+                    AutoLinkMode.MODE_CUSTOM);
+            holder.altv_repost_item_nickname_original.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+            holder.altv_repost_item_nickname_original.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+            holder.altv_repost_item_nickname_original.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+            holder.altv_repost_item_nickname_original.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+            holder.altv_repost_item_nickname_original.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                @Override
+                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                    if (onAutoLinkTextViewClickListener != null) {
+                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                    }
+                }
+            });
             holder.altv_repost_item_nickname_original.setAutoLinkText("@" + strUsernameOriginal);
+
             if (TextUtils.isEmpty(strContentOriginal)) {
                 holder.altv_repost_item_content_original.setVisibility(View.GONE);
             } else {
+                holder.altv_repost_item_content_original.addAutoLinkMode(
+                        AutoLinkMode.MODE_HASHTAG,
+                        AutoLinkMode.MODE_PHONE,
+                        AutoLinkMode.MODE_URL,
+                        AutoLinkMode.MODE_EMAIL,
+                        AutoLinkMode.MODE_MENTION,
+                        AutoLinkMode.MODE_CUSTOM);
+                holder.altv_repost_item_content_original.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
+                holder.altv_repost_item_content_original.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
+                holder.altv_repost_item_content_original.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
+                holder.altv_repost_item_content_original.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
+                holder.altv_repost_item_content_original.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
+                    @Override
+                    public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
+                        if (onAutoLinkTextViewClickListener != null) {
+                            onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                        }
+                    }
+                });
                 holder.altv_repost_item_content_original.setVisibility(View.VISIBLE);
                 holder.altv_repost_item_content_original.setAutoLinkText(strContentOriginal);
+
             }
 
             //3.5.Photo
@@ -457,24 +543,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ivCommentsButton = (ImageView) contentView.findViewById(R.id.iv_post2_item_comments_button);
             ivRepostButton = (ImageView) contentView.findViewById(R.id.iv_post2_item_repost_button);
 
-            altv_post2_item_content.addAutoLinkMode(
-                    AutoLinkMode.MODE_HASHTAG,
-                    AutoLinkMode.MODE_PHONE,
-                    AutoLinkMode.MODE_URL,
-                    AutoLinkMode.MODE_MENTION,
-                    AutoLinkMode.MODE_CUSTOM);
-            altv_post2_item_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
-            altv_post2_item_content.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
-            altv_post2_item_content.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
-            altv_post2_item_content.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
-            altv_post2_item_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
-                @Override
-                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
-                    if (onAutoLinkTextViewClickListener != null) {
-                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
-                    }
-                }
-            });
+
         }
     }
 
@@ -522,60 +591,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ivCommentsButton = (ImageView) contentView.findViewById(R.id.iv_repost_item_comments_button);
             ivRepostButton = (ImageView) contentView.findViewById(R.id.iv_repost_item_repost_button);
 
-            altv_repost_item_content.addAutoLinkMode(
-                    AutoLinkMode.MODE_HASHTAG,
-                    AutoLinkMode.MODE_PHONE,
-                    AutoLinkMode.MODE_URL,
-                    AutoLinkMode.MODE_MENTION,
-                    AutoLinkMode.MODE_CUSTOM);
-            altv_repost_item_content.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
-            altv_repost_item_content.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
-            altv_repost_item_content.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
-            altv_repost_item_content.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
-            altv_repost_item_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
-                @Override
-                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
-                    if (onAutoLinkTextViewClickListener != null) {
-                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
-                    }
-                }
-            });
-            altv_repost_item_nickname_original.addAutoLinkMode(
-                    AutoLinkMode.MODE_HASHTAG,
-                    AutoLinkMode.MODE_PHONE,
-                    AutoLinkMode.MODE_URL,
-                    AutoLinkMode.MODE_MENTION,
-                    AutoLinkMode.MODE_CUSTOM);
-            altv_repost_item_nickname_original.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
-            altv_repost_item_nickname_original.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
-            altv_repost_item_nickname_original.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
-            altv_repost_item_nickname_original.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
-            altv_repost_item_nickname_original.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
-                @Override
-                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
-                    if (onAutoLinkTextViewClickListener != null) {
-                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
-                    }
-                }
-            });
-            altv_repost_item_content_original.addAutoLinkMode(
-                    AutoLinkMode.MODE_HASHTAG,
-                    AutoLinkMode.MODE_PHONE,
-                    AutoLinkMode.MODE_URL,
-                    AutoLinkMode.MODE_MENTION,
-                    AutoLinkMode.MODE_CUSTOM);
-            altv_repost_item_content_original.setHashtagModeColor(ContextCompat.getColor(mContext, R.color.colorTextHashTag));
-            altv_repost_item_content_original.setPhoneModeColor(ContextCompat.getColor(mContext, R.color.colorTextPhone));
-            altv_repost_item_content_original.setCustomModeColor(ContextCompat.getColor(mContext, R.color.colorTextCustom));
-            altv_repost_item_content_original.setMentionModeColor(ContextCompat.getColor(mContext, R.color.colorTextMention));
-            altv_repost_item_content_original.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
-                @Override
-                public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
-                    if (onAutoLinkTextViewClickListener != null) {
-                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
-                    }
-                }
-            });
         }
     }
 
