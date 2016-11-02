@@ -14,6 +14,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
+import com.luseen.autolinklibrary.AutoLinkMode;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.adapters.PostAdapter;
@@ -24,6 +25,7 @@ import com.way.heard.services.LeanCloudDataService;
 import com.way.heard.ui.views.autoloadrecyclerview.AutoLoadRecyclerView;
 import com.way.heard.ui.views.autoloadrecyclerview.LoadMoreListener;
 import com.way.heard.utils.LogUtil;
+import com.way.heard.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,6 +166,27 @@ public class UserPostActivity extends BaseActivity {
                 startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
             }
         });
+        mAdapter.setOnAutoLinkTextViewClickListener(new PostAdapter.OnAutoLinkTextViewClickListener() {
+            @Override
+            public void onAutoLinkTextViewClick(AutoLinkMode autoLinkMode, String matchedText) {
+                if (autoLinkMode == AutoLinkMode.MODE_CUSTOM) {
+
+                } else if (autoLinkMode == AutoLinkMode.MODE_EMAIL) {
+                    Util.startSendEmail(context, matchedText);
+                } else if (autoLinkMode == AutoLinkMode.MODE_HASHTAG) {
+
+                } else if (autoLinkMode == AutoLinkMode.MODE_MENTION) {
+                    if (matchedText.startsWith("@")) {
+//                            showDialog(matchedText.substring(1), "Mode is: " + autoLinkMode.toString());
+                        findUserByUsername(matchedText.substring(1));
+                    }
+                } else if (autoLinkMode == AutoLinkMode.MODE_PHONE) {
+                    Util.startCallPhone(context, matchedText);
+                } else if (autoLinkMode == AutoLinkMode.MODE_URL) {
+                    Util.startAccessUrl(context, matchedText);
+                }
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         loadFirst(true);
     }
@@ -258,6 +281,41 @@ public class UserPostActivity extends BaseActivity {
                         mAdapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(context, "You're not able to delete!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected void onCancel() {
+
+            }
+        }.execute();
+    }
+
+    private void findUserByUsername(final String usrname) {
+        new LeanCloudBackgroundTask(context) {
+
+            AVUser user;
+
+            @Override
+            protected void onPre() {
+
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                user = LeanCloudDataService.getUserByUsername(usrname);
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                if (e == null) {
+                    if (null != user) {
+                        ProfileActivity.go(context, user);
+                    } else {
+                        Toast.makeText(context, "There Is No Such User!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
+import com.luseen.autolinklibrary.AutoLinkMode;
 import com.victor.loading.rotate.RotateLoading;
 import com.way.heard.R;
 import com.way.heard.adapters.PostAdapter;
@@ -39,6 +41,7 @@ import com.way.heard.utils.InitiateSearch;
 import com.way.heard.utils.LogQuickSearchData.LogQuickSearch;
 import com.way.heard.utils.LogQuickSearchData.LogQuickSearchAdapter;
 import com.way.heard.utils.LogUtil;
+import com.way.heard.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,6 +55,7 @@ public class SearchPostActivity extends BaseActivity {
     private final static String TAG = SearchPostActivity.class.getName();
     public static final int POST_REPOST_REQUEST = 1010;
 
+    private Context context;
     private InitiateSearch initiateSearch;
     private View line_divider;
     private RelativeLayout view_search;
@@ -71,7 +75,7 @@ public class SearchPostActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_post);
-
+        context = SearchPostActivity.this;
         initView();
     }
 
@@ -99,14 +103,14 @@ public class SearchPostActivity extends BaseActivity {
         isAdapterEmpty();
     }
 
-    private void initAdapter(){
-        searchPostAdapter = new PostAdapter(SearchPostActivity.this);
+    private void initAdapter() {
+        searchPostAdapter = new PostAdapter(context);
         searchPostAdapter.setPosts(searchPosts);
         searchPostAdapter.setOnDeleteClickListener(new PostAdapter.OnDeleteClickListener() {
             @Override
             public void onDeleteClick(final int pos) {
                 LogUtil.d(TAG, "onDeleteClick debug, Position = " + pos);
-                new MaterialDialog.Builder(SearchPostActivity.this)
+                new MaterialDialog.Builder(context)
                         .title("Delete")
                         .content("Delete This Post?")
                         .positiveText("OK")
@@ -136,14 +140,14 @@ public class SearchPostActivity extends BaseActivity {
                 Post post = searchPosts.get(pos);
                 if (0 == post.getFrom()) {
                     Image image = post.tryGetPhotoList().get(0);
-                    Intent intent = new Intent(SearchPostActivity.this, ImageDisplayActivity.class);
+                    Intent intent = new Intent(context, ImageDisplayActivity.class);
                     intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
                     intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
                     startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
                 } else {
                     Post postOriginal = post.tryGetPostOriginal();
                     Image image = postOriginal.tryGetPhotoList().get(0);
-                    Intent intent = new Intent(SearchPostActivity.this, ImageDisplayActivity.class);
+                    Intent intent = new Intent(context, ImageDisplayActivity.class);
                     intent.putExtra(ImageDisplayActivity.IMAGE_POST_INDEX, pos);
                     intent.putExtra(ImageDisplayActivity.IMAGE_DETAIL, image);
                     startActivityForResult(intent, ImageDisplayActivity.IMAGE_DISPLAY_REQUEST);
@@ -156,19 +160,41 @@ public class SearchPostActivity extends BaseActivity {
                 LogUtil.d(TAG, "onRepostClick debug, Position = " + pos);
                 Post post = searchPosts.get(pos);
                 if (0 == post.getFrom()) {
-                    Intent intent = new Intent(SearchPostActivity.this, RepostActivity.class);
+                    Intent intent = new Intent(context, RepostActivity.class);
                     intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
                     intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post);
                     intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPhotoList());
                     startActivityForResult(intent, POST_REPOST_REQUEST);
                 } else {
-                    Intent intent = new Intent(SearchPostActivity.this, RepostActivity.class);
+                    Intent intent = new Intent(context, RepostActivity.class);
                     intent.putExtra(RepostActivity.REPOST_FROM, post.getFrom());
                     intent.putExtra(RepostActivity.REPOST_DETAIL, post);
                     intent.putExtra(RepostActivity.POST_ORIGINAL_DETAIL, post.tryGetPostOriginal());
                     intent.putExtra(RepostActivity.PHOTO_ORIGINAL_LIST, (ArrayList) post.tryGetPostOriginal().tryGetPhotoList());
                     startActivityForResult(intent, POST_REPOST_REQUEST);
                 }
+            }
+        });
+        searchPostAdapter.setOnAutoLinkTextViewClickListener(new PostAdapter.OnAutoLinkTextViewClickListener() {
+            @Override
+            public void onAutoLinkTextViewClick(AutoLinkMode autoLinkMode, String matchedText) {
+                if (autoLinkMode == AutoLinkMode.MODE_CUSTOM) {
+
+                } else if (autoLinkMode == AutoLinkMode.MODE_EMAIL) {
+                    Util.startSendEmail(context, matchedText);
+                } else if (autoLinkMode == AutoLinkMode.MODE_HASHTAG) {
+
+                } else if (autoLinkMode == AutoLinkMode.MODE_MENTION) {
+                    if (matchedText.startsWith("@")) {
+//                            showDialog(matchedText.substring(1), "Mode is: " + autoLinkMode.toString());
+                        findUserByUsername(matchedText.substring(1));
+                    }
+                } else if (autoLinkMode == AutoLinkMode.MODE_PHONE) {
+                    Util.startCallPhone(context, matchedText);
+                } else if (autoLinkMode == AutoLinkMode.MODE_URL) {
+                    Util.startAccessUrl(context, matchedText);
+                }
+
             }
         });
         listContainer.setAdapter(searchPostAdapter);
@@ -192,12 +218,12 @@ public class SearchPostActivity extends BaseActivity {
             }
         });
         listContainer.setHasFixedSize(false);
-        listContainer.setLayoutManager(new LinearLayoutManager(SearchPostActivity.this));
+        listContainer.setLayoutManager(new LinearLayoutManager(context));
 //        listContainer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                AVUser user = searchUserAdapter.getItem(position);
-//                ProfileActivity.go(SearchPostActivity.this, user);
+//                ProfileActivity.go(context, user);
 //            }
 //        });
 
@@ -210,12 +236,12 @@ public class SearchPostActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (edit_text_search.getText().toString().length() == 0) {
-                    logQuickSearchAdapter = new LogQuickSearchAdapter(SearchPostActivity.this, 0, LogQuickSearch.all());
+                    logQuickSearchAdapter = new LogQuickSearchAdapter(context, 0, LogQuickSearch.all());
                     listView.setAdapter(logQuickSearchAdapter);
                     clearSearch.setImageResource(R.drawable.ic_microphone_gray);
                     isAdapterEmpty();
                 } else {
-                    logQuickSearchAdapter = new LogQuickSearchAdapter(SearchPostActivity.this, 0, LogQuickSearch.FilterByName(edit_text_search.getText().toString()));
+                    logQuickSearchAdapter = new LogQuickSearchAdapter(context, 0, LogQuickSearch.FilterByName(edit_text_search.getText().toString()));
                     listView.setAdapter(logQuickSearchAdapter);
                     clearSearch.setImageResource(R.drawable.ic_close_gray);
                     isAdapterEmpty();
@@ -237,7 +263,7 @@ public class SearchPostActivity extends BaseActivity {
                     edit_text_search.setText("");
                     listView.setVisibility(View.VISIBLE);
                     clearItems();
-                    ((InputMethodManager) SearchPostActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                     isAdapterEmpty();
                 }
             }
@@ -248,7 +274,7 @@ public class SearchPostActivity extends BaseActivity {
         image_search_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initiateSearch.handleNoToolBar(SearchPostActivity.this, card_search, view_search, listView, edit_text_search, line_divider);
+                initiateSearch.handleNoToolBar(context, card_search, view_search, listView, edit_text_search, line_divider);
                 listContainer.setVisibility(View.GONE);
 
                 clearItems();
@@ -306,7 +332,7 @@ public class SearchPostActivity extends BaseActivity {
 
     private void getSearchResult(final String query) {
         LogUtil.d(TAG, "getSearchResult debug");
-        backgroundTask = new LeanCloudBackgroundTask(SearchPostActivity.this) {
+        backgroundTask = new LeanCloudBackgroundTask(context) {
 
             @Override
             protected void onPre() {
@@ -356,7 +382,7 @@ public class SearchPostActivity extends BaseActivity {
                     }
                 } else {
                     listContainer.setVisibility(View.GONE);
-                    Toast.makeText(SearchPostActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -392,6 +418,41 @@ public class SearchPostActivity extends BaseActivity {
                         searchPostAdapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(context, "You're not able to delete!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected void onCancel() {
+
+            }
+        }.execute();
+    }
+
+    private void findUserByUsername(final String usrname) {
+        new LeanCloudBackgroundTask(context) {
+
+            AVUser user;
+
+            @Override
+            protected void onPre() {
+
+            }
+
+            @Override
+            protected void doInBack() throws AVException {
+                user = LeanCloudDataService.getUserByUsername(usrname);
+            }
+
+            @Override
+            protected void onPost(AVException e) {
+                if (e == null) {
+                    if (null != user) {
+                        ProfileActivity.go(context, user);
+                    } else {
+                        Toast.makeText(context, "There Is No Such User!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
