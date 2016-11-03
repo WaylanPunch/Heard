@@ -1,137 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginLeft="@dimen/card_margin_normal"
+    android:layout_marginRight="@dimen/card_margin_normal"
+    android:layout_marginTop="@dimen/card_margin_normal">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/iv_post2_item_avatar"
+                android:layout_width="60dip"
+                android:layout_height="60dip"
+                android:layout_margin="@dimen/bullet_gap_width"
+                android:src="@drawable/ic_picture_default" />
+
+            <TextView
+                android:id="@+id/tv_post2_item_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/bullet_gap_width"
+                android:layout_marginTop="@dimen/bullet_gap_width"
+                android:layout_toRightOf="@+id/iv_post2_item_avatar"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_post2_item_createat"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/bullet_gap_width"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_post2_item_delete"
+                android:layout_width="16dip"
+                android:layout_height="16dip"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_close_gray"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <com.luseen.autolinklibrary.AutoLinkTextView
+            android:id="@+id/altv_post2_item_content"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/bullet_gap_width"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@android:color/tertiary_text_dark"
+            android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/iv_post2_item_avatar"
-            android:layout_width="60dip"
-            android:layout_height="60dip"
+            android:id="@+id/iv_post2_item_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/bullet_gap_width"
+            android:maxHeight="400dip"
+            android:minHeight="200dip"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_picture_default" />
 
-        <TextView
-            android:id="@+id/tv_post2_item_nickname"
-            android:layout_width="wrap_content"
+        <com.way.heard.ui.views.TagCloudView
+            android:id="@+id/tcv_post2_item_tags"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="@dimen/bullet_gap_width"
-            android:layout_marginTop="@dimen/bullet_gap_width"
-            android:layout_toRightOf="@+id/iv_post2_item_avatar"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_post2_item_createat"
-            style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/bullet_gap_width"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/iv_post2_item_delete"
-            android:layout_width="16dip"
-            android:layout_height="16dip"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/ic_close_gray"
-            android:visibility="gone" />
-    </RelativeLayout>
-
-    <com.luseen.autolinklibrary.AutoLinkTextView
-        android:id="@+id/altv_post2_item_content"
-        style="?android:textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/bullet_gap_width"
-        android:lineSpacingExtra="4dp"
-        android:textColor="@android:color/tertiary_text_dark"
-        android:textSize="16sp" />
-
-    <ImageView
-        android:id="@+id/iv_post2_item_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/bullet_gap_width"
-        android:maxHeight="400dip"
-        android:minHeight="200dip"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_picture_default" />
-
-
-    <com.way.heard.ui.views.TagCloudView
-        android:id="@+id/tcv_post2_item_tags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/v_writing_divider1"
-        android:layout_margin="@dimen/bullet_gap_width"
-        app:tcvBorder="8dp"
-        app:tcvCanTagClick="true"
-        app:tcvItemBorderHorizontal="8dp"
-        app:tcvItemBorderVertical="6dp"
-        app:tcvShowRightImg="false"
-        app:tcvSingleLine="true"
-        app:tcvTextColor="@color/colorWhite"></com.way.heard.ui.views.TagCloudView>
-
-    <RelativeLayout
-        android:id="@+id/rl_post2_item_bottom_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/iv_post2_item_repost_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="16dip"
-            android:layout_height="16dip"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/bullet_gap_width"
-            android:layout_marginLeft="@dimen/bullet_gap_width"
-            android:layout_marginTop="@dimen/bullet_gap_width"
-            android:src="@drawable/ic_share_gray" />
+            android:layout_below="@+id/v_writing_divider1"
+            android:layout_margin="@dimen/bullet_gap_width"
+            app:tcvBorder="8dp"
+            app:tcvCanTagClick="true"
+            app:tcvItemBorderHorizontal="8dp"
+            app:tcvItemBorderVertical="6dp"
+            app:tcvShowRightImg="false"
+            app:tcvSingleLine="true"
+            app:tcvTextColor="@color/colorWhite"></com.way.heard.ui.views.TagCloudView>
 
-        <ImageView
-            android:id="@+id/iv_post2_item_comments_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="16dip"
-            android:layout_height="16dip"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/bullet_gap_width"
-            android:layout_marginTop="@dimen/bullet_gap_width"
-            android:src="@drawable/ic_comment_gray" />
+        <RelativeLayout
+            android:id="@+id/rl_post2_item_bottom_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_post2_item_likes_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="16dip"
-            android:layout_height="16dip"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="@dimen/bullet_gap_width"
-            android:layout_marginRight="@dimen/bullet_gap_width"
-            android:layout_marginTop="@dimen/bullet_gap_width"
-            android:src="@drawable/ic_thumb_up" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_post2_item_repost_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="16dip"
+                android:layout_height="16dip"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="@dimen/bullet_gap_width"
+                android:layout_marginLeft="@dimen/bullet_gap_width"
+                android:layout_marginTop="@dimen/bullet_gap_width"
+                android:src="@drawable/ic_share_gray" />
 
-    <ImageView
-        android:id="@+id/rl_post2_item_divider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_post2_item_bottom_container"
-        android:layout_marginLeft="@dimen/bullet_gap_width"
-        android:layout_marginRight="@dimen/bullet_gap_width"
-        android:background="@drawable/ic_divider_line" />
-</LinearLayout>
+            <ImageView
+                android:id="@+id/iv_post2_item_comments_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="16dip"
+                android:layout_height="16dip"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/bullet_gap_width"
+                android:layout_marginTop="@dimen/bullet_gap_width"
+                android:src="@drawable/ic_comment_gray" />
+
+            <ImageView
+                android:id="@+id/iv_post2_item_likes_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="16dip"
+                android:layout_height="16dip"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/bullet_gap_width"
+                android:layout_marginRight="@dimen/bullet_gap_width"
+                android:layout_marginTop="@dimen/bullet_gap_width"
+                android:src="@drawable/ic_thumb_up" />
+        </RelativeLayout>
+
+        <!--<ImageView-->
+        <!--android:id="@+id/rl_post2_item_divider"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/rl_post2_item_bottom_container"-->
+        <!--android:layout_marginLeft="@dimen/bullet_gap_width"-->
+        <!--android:layout_marginRight="@dimen/bullet_gap_width"-->
+        <!--android:background="@drawable/ic_divider_line" />-->
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

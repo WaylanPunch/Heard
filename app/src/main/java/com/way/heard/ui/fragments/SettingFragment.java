@@ -40,7 +40,7 @@ public class SettingFragment extends Fragment {
     private TextView tv_CacheTip;
     private TextView tv_CacheValue;
     private TextView tv_AboutTip;
-    private FloatingActionButton fab;
+    //private FloatingActionButton fab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class SettingFragment extends Fragment {
         tv_CacheTip = (TextView) view.findViewById(R.id.tv_setting_cache_tip);
         tv_CacheValue = (TextView) view.findViewById(R.id.tv_setting_cache_value);
         tv_AboutTip = (TextView) view.findViewById(R.id.tv_setting_about_tip);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        //fab = (FloatingActionButton) view.findViewById(R.id.fab);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class SettingFragment extends Fragment {
         initCache();
         initAbout();
         initLoginButton();
-        initFab();
+        //initFab();
     }
 
     private void initCache() {
@@ -121,28 +121,28 @@ public class SettingFragment extends Fragment {
         });
     }
 
-    private void initFab() {
-        AVUser user = AVUser.getCurrentUser();
-        if (user != null) {
-            String username = user.getUsername();
-            if (username.equalsIgnoreCase("test") || username.equalsIgnoreCase("admin")) {
-                fab.setVisibility(View.VISIBLE);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setClass(getActivity(), TestActivity.class);
-                        startActivity(intent);
-                    }
-                });
-            } else {
-                fab.setVisibility(View.GONE);
-            }
-        } else {
-            fab.setVisibility(View.GONE);
-        }
-
-    }
+//    private void initFab() {
+//        AVUser user = AVUser.getCurrentUser();
+//        if (user != null) {
+//            String username = user.getUsername();
+//            if (username.equalsIgnoreCase("test") || username.equalsIgnoreCase("admin")) {
+//                fab.setVisibility(View.VISIBLE);
+//                fab.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent();
+//                        intent.setClass(getActivity(), TestActivity.class);
+//                        startActivity(intent);
+//                    }
+//                });
+//            } else {
+//                fab.setVisibility(View.GONE);
+//            }
+//        } else {
+//            fab.setVisibility(View.GONE);
+//        }
+//
+//    }
 
     public SettingFragment() {
         // Required empty public constructor

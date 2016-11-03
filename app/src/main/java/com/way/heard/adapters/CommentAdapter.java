@@ -289,7 +289,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             altv_comment_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
                 @Override
                 public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
-                    //showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                    if (onAutoLinkTextViewClickListener != null) {
+                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                    }
                 }
             });
 
@@ -307,7 +309,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             altv_comment_sub_username.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
                 @Override
                 public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
-                    //showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                    if (onAutoLinkTextViewClickListener != null) {
+                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                    }
                 }
             });
 
@@ -325,7 +329,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             altv_comment_sub_content.setAutoLinkOnClickListener(new AutoLinkOnClickListener() {
                 @Override
                 public void onAutoLinkTextClick(AutoLinkMode autoLinkMode, String matchedText) {
-                    //showDialog(matchedText, "Mode is: " + autoLinkMode.toString());
+                    if (onAutoLinkTextViewClickListener != null) {
+                        onAutoLinkTextViewClickListener.onAutoLinkTextViewClick(autoLinkMode, matchedText);
+                    }
                 }
             });
 

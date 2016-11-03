@@ -48,7 +48,7 @@ public class PostActivity extends BaseActivity {
     private TextView tvLocation;
     private RotateLoading loading;
 
-    private static Bitmap bitmap;
+    private Bitmap bitmap;
     //private static boolean hasTag = false;
 
     @Override
@@ -147,6 +147,9 @@ public class PostActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (null != bitmap) {
+            bitmap = null;
+        }
         setResult(RESULT_CANCELED);
         finish();
     }
@@ -180,6 +183,9 @@ public class PostActivity extends BaseActivity {
     }
 
     private void turnBack() {
+        if (null != bitmap) {
+            bitmap = null;
+        }
         setResult(RESULT_OK);
         finish();
     }
