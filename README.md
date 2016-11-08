@@ -98,9 +98,56 @@
 *默认支持Hashtag，Mention，Link，Phone number和Email格式，支持通过正则表达式regex创建自定义格式；支持设置文本颜色，支持设置点击样式。*
 
 
+## 3.项目结构
+
+- adapters 存放适配器
+- base 存放全局类
+- models 数据模型
+- services 数据操作类
+- ui 存放activity和fragment
+ - activities
+ - fragments
+ - views 自定义控件
+- utils 工具类
+
+## 4.APP界面
+
+### 4.1.Splash
 
 
 
+### 4.2.Index
 
+![Index](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-004746.png)
 
+### 4.3.Login
 
+![Login](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-004635.png)
+
+### 4.4.Menu
+
+![Menu](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-005152.png)
+
+### 4.5.Home
+
+![Home](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-005146.png)
+
+### 4.6.Find
+
+![Find](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-005309.png)
+
+### 4.7.Topic
+
+![Topic](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-005243.png)
+
+### 4.8.Message
+
+![Message](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-005211.png)
+
+### 4.9.Me
+
+![Me](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-005254.png)
+
+### 4.10.Setting
+
+![Setting](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-005301.png)
