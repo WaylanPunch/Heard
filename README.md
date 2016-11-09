@@ -100,6 +100,8 @@
 
 ## 3.项目结构
 
+---
+
 - adapters 存放适配器
 - base 存放全局类
 - models 数据模型
@@ -111,6 +113,8 @@
 - utils 工具类
 
 ## 4.APP界面
+
+---
 
 ### 4.1.Splash
 
@@ -151,3 +155,120 @@
 ### 4.10.Setting
 
 ![Setting](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/Screenshot_20161108-005301.png)
+
+## 5.代码混肴
+
+---
+
+APK文件很容易被反编译出来，代码都会被别人看到，因此我们需要在编译过程中对代码进行一定程度的代码混淆，使得别人不能反编译不出你的代码。下面介绍下具体混淆过程：
+新建一个项目，Android Studio 默认关闭代码混淆开关，在 build.gradle 文件中，如下图所示的 minifyEnabled 开关，因此如果需要混淆代码，需将false改为true，然后在文件 proguard-rules.pro 添加具体混淆规则。
+
+	release {
+    	minifyEnabled true
+    	proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+
+proguard-rules.pro 文件内容：
+
+	# Add project specific ProGuard rules here.
+	# By default, the flags in this file are appended to flags specified
+	# in C:\Users\pc\AppData\Local\Android\sdk/tools/proguard/proguard-android.txt
+	# You can edit the include path and order by changing the proguardFiles
+	# directive in build.gradle.
+	#
+	# For more details, see
+	#   http://developer.android.com/guide/developing/tools/proguard.html
+	
+	# Add any project specific keep options here:
+	
+	# If your project uses WebView with JS, uncomment the following
+	# and specify the fully qualified class name to the JavaScript interface
+	# class:
+	#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+	#   public *;
+	#}
+	
+	# GalleryFinal
+	-keep class cn.finalteam.galleryfinal.widget.*{*;}
+	-keep class cn.finalteam.galleryfinal.widget.crop.*{*;}
+	-keep class cn.finalteam.galleryfinal.widget.zoonview.*{*;}
+	-keep public class * implements com.bumptech.glide.module.GlideModule
+	-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+	  **[] $VALUES;
+	  public *;
+	}
+	
+	# LeanCloud
+	-keepattributes Signature
+	-dontwarn com.jcraft.jzlib.**
+	-keep class com.jcraft.jzlib.**  { *;}
+	
+	-dontwarn sun.misc.**
+	-keep class sun.misc.** { *;}
+	
+	-dontwarn com.alibaba.fastjson.**
+	-keep class com.alibaba.fastjson.** { *;}
+	
+	-dontwarn sun.security.**
+	-keep class sun.security.** { *; }
+	
+	-dontwarn com.google.**
+	-keep class com.google.** { *;}
+	
+	-dontwarn com.avos.**
+	-keep class com.avos.** { *;}
+	
+	-keep public class android.net.http.SslError
+	-keep public class android.webkit.WebViewClient
+	
+	-dontwarn android.webkit.WebView
+	-dontwarn android.net.http.SslError
+	-dontwarn android.webkit.WebViewClient
+	
+	-dontwarn android.support.**
+	
+	-dontwarn org.apache.**
+	-keep class org.apache.** { *;}
+	
+	-dontwarn org.jivesoftware.smack.**
+	-keep class org.jivesoftware.smack.** { *;}
+	
+	-dontwarn com.loopj.**
+	-keep class com.loopj.** { *;}
+	
+	-dontwarn com.squareup.okhttp.**
+	-keep class com.squareup.okhttp.** { *;}
+	-keep interface com.squareup.okhttp.** { *; }
+	
+	-dontwarn okio.**
+	
+	-dontwarn org.xbill.**
+	-keep class org.xbill.** { *;}
+	
+	-keepattributes *Annotation*
+	
+	# Bugly
+	-dontwarn com.tencent.bugly.**
+	-keep public class com.tencent.bugly.**{*;}
+	
+	# prettytime
+	# -keep class org.ocpsoft.prettytime.i18n.**
+	
+	# QRCode
+	-keep class net.sourceforge.zbar.** { *; }
+	-keep interface net.sourceforge.zbar.** { *; }
+	-dontwarn net.sourceforge.zbar.**
+
+## 6.打包上传
+
+---
+
+各个平台的审核标准可能不尽相同，但是对于个人开发者，各个平台都不是很友好，很多限制。本项目作为开源项目，因此我将文件上传到[fir.im](http://fir.im/)内测托管平台，详细地址为[http://fir.im/qs4a](http://fir.im/qs4a)。
+
+## 7.最后
+
+---
+
+作为第一个个人应用，都是花费下班或者周末时间完成，既是为了填充个人的空闲时间，也是为了学习新技术新框架，是自己保持不断更新的状态。但是其中肯定有许多不足之处，希望自己在将来的项目中可以有效避免。
+
+![Sea](https://raw.githubusercontent.com/WaylanPunch/Heard/master/Screenshot/initpintu.jpg)
